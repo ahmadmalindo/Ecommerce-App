@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src/",
+    "paths": {
+      "assets": ["./src/assets/*"],
+      "components": ["./src/components/*"],
+      "constants": ["./src/constants/*"],
+      "helper": ["./src/helper/*"],
+      "middlewares": ["./src/middlewares/*"],
+      "navigations": ["./src/navigations/*"],
+      "scences": ["./src/scences/*"],
+      "utils": ["./src/utils/*"],
+      "styles": ["./src/styles/*"]
+    }
+  }
+}

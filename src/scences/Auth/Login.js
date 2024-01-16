@@ -1,0 +1,199 @@
+import { useFocusEffect } from "@react-navigation/native"
+import { Button, Container, Gap, Header, Input } from "components/global"
+import { storage } from "helper"
+import React, { useState } from "react"
+import { Image, InteractionManager, ScrollView, StyleSheet, Text, View } from "react-native"
+import normalize from "react-native-normalize"
+import mySalon from "utils/MySalonUtils"
+import { colors } from "utils/colors"
+import { stylesFonts } from "utils/fonts"
+import MMKVStorage from "react-native-mmkv-storage"
+import { Nontification } from "helper"
+
+function Login({ navigation }) {
+
+    const storage = new MMKVStorage.Loader().initialize()
+
+    const [isLoading, setIsloading] = useState(false)
+
+    const [input, setInput] = useState({
+        numberPhone: "081366886666",
+        password: "567928",
+        isOpen: true
+    })
+ 
+    const getAuthentification = async () => {
+        let params = {
+            NamaUser: 'LAYANA',
+            pwdUser: 'qsv5hVTQFE6QYOf',
+            grant_type: "password"
+        }
+
+        const res = await mySalon.Authentification(params)
+
+        if (res.status === 200) {
+            storage.setString("token",res.access_token)
+        }
+    }
+
+    const handleLogin = async () => {
+        setIsloading(true)
+
+        let params = {
+            hpUser: input.numberPhone,
+            pwdUser: input.password,
+            perangkatID:'567928'
+        }
+
+        const res = await mySalon.Login(params)
+
+        setIsloading(false)
+
+        if (res.status === 200) {
+            getDashboardMember()
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
+
+    const getDashboardMember = async () => {
+        setIsloading(true)
+
+        let params = {
+            hpUser: input.numberPhone
+        }
+
+        const res = await mySalon.DashboardMember(params)
+
+        setIsloading(false)
+
+        if (res.status === 200) {
+            if (res.TanggalLahir !== null) {
+                storage.setBool('isLogin', true)
+                storage.setString('storePhoneNumber', params.hpUser)
+                navigation.navigate('DashboardNavigation')
+            }
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
+
+
+    useFocusEffect(
+        React.useCallback(() => {
+          const task = InteractionManager.runAfterInteractions(() => {
+            getAuthentification()
+          });
+      
+          return () => task.cancel();
+        }, [navigation])
+      );
+
+    return (
+        <Container backgroundColor={'white'}>
+            <ScrollView>
+                <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
+                    <Header onPress={() => navigation.goBack()}/>
+                    <Gap marginBottom={normalize(32)}/>
+                    <SectionTittle/>
+                    <Gap marginBottom={normalize(24)}/>
+                    <SectionFormInput
+                        input={input}
+                        setInput={setInput}
+                    />
+                    <Gap marginBottom={normalize(24)}/>
+                    <SectionButton
+                        isLoading={isLoading}
+                        onPressLogin={() => handleLogin()}
+                        onPressForgot={() => navigation.navigate("ForgotPassword")}
+                    />
+                </View>
+            </ScrollView>
+        </Container>
+    )
+}
+
+function SectionTittle () {
+    return (
+        <>
+            <Text style={stylesFonts.Body_1_Bold}>Selamat datang kembali. Silahkan masuk ke Akun Anda</Text>
+            <Gap marginBottom={normalize(8)}/>
+            <Text style={[stylesFonts.Subtittle_2_Regular, {color: colors.grey}]}>Lengkapi data Anda</Text>
+        </>
+    )
+}
+
+function SectionFormInput ({
+    input,
+    setInput
+}) {
+    return (
+        <>
+            <Input
+                tittle={'No. Telepon'}
+                placeholder={'62878123...'}
+                left
+                costumIcon={<Image source={require('assets/images/ic_electronicdevices.png')} style={styles.icon}/>}
+                keyboardType={'numeric'}
+                value={input.numberPhone}
+                onChangeText={(val) => setInput({
+                    ...input,
+                    numberPhone: val
+                })}
+            />
+            <Gap marginBottom={normalize(16)}/>
+            <Input
+                tittle={'Kata Sandi'}
+                placeholder={'Masukkan kata sandi'}
+                password
+                secureTextEntry={input.isOpen}
+                onPress={() => setInput({
+                    ...input,
+                    isOpen: !input.isOpen
+                })}
+                value={input.password}
+                onChangeText={(val) => setInput({
+                    ...input,
+                    password: val
+                })}
+            />
+        </>
+    )
+}
+
+function SectionButton({
+    onPressLogin,
+    onPressForgot,
+    isLoading
+}) {
+
+    return (
+        <>
+            <Button
+                isLoading={isLoading}
+                tittle={"Masuk"}
+                onPress={() => onPressLogin()}
+            />
+            <Gap marginBottom={normalize(8)}/>
+            <Button
+                any_color
+                border
+                customColor="white"
+                customColorText={colors.primary}
+                tittle={"Lupa Kata Sandi"}
+                onPress={() => onPressForgot()}
+            />
+        </>
+    )
+}
+
+export default Login
+
+const styles = StyleSheet.create({
+    icon: {
+        width: normalize(24),
+        height: normalize(24)
+    }
+})

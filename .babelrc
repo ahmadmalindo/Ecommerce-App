@@ -1,0 +1,32 @@
+{
+    "plugins": [
+        [
+            "module-resolver",
+            {
+                "root": ["./src/"],
+                "extension": [
+                    ".ios.ts",
+                    ".android.ts",
+                    ".ts",
+                    ".ios.tsx",
+                    ".android.tsx",
+                    ".tsx",
+                    ".jsx",
+                    ".js",
+                    ".json"
+                ],
+                "alias": {
+                    "assets": "./src/assets",
+                    "components": "./src/components",
+                    "constants": "./src/constants",
+                    "helper": "./src/helper",
+                    "middlewares": "./src/middlewares",
+                    "navigations": "./src/navigations",
+                    "scences": "./src/scences",
+                    "utils": "./src/utils",
+                    "styles": "./src/styles"
+                }
+            }
+        ]
+    ]
+}
