@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native"
-import { CardTransaction, Container, Gap, HeaderProfile, HeaderSection, Input } from "components/global"
+import { CardTransaction, Container, Gap, HeaderProfile, HeaderSection, Input, ModalInbox } from "components/global"
 import { Nontification } from "helper"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
@@ -15,6 +15,8 @@ function Inbox({ navigation }) {
     const [inputSearch, setInputSearch] = useState("")
     const [dataMember, setDataMember] = useState([])
     const [dataInbox, setDataInbox] = useState([])
+    const [modal, setModal] = useState(false)
+    const [selectInbox, setSelectInbox] = useState("")
 
     const storePhoneNumber = storage.getString("storePhoneNumber")
 
@@ -88,12 +90,23 @@ function Inbox({ navigation }) {
                                     desc={item?.Deskripsi}
                                     time={jam[3]}
                                     item={item}
+                                    onPress={() => {
+                                        console.log(item);
+                                        setSelectInbox(item)
+                                        setModal(true)
+                                    }}
                                 />
                             )
                         })}
                     />
                 </View>
             </ScrollView>
+            <ModalInbox
+                isVisible={modal}
+                onBackdropPress={() => setModal(false)}
+                tittle={selectInbox?.Judul}
+                detail_message={selectInbox?.Deskripsi}
+            />
         </Container>
     )
 }

@@ -36,6 +36,12 @@ export const stylesFonts = StyleSheet.create({
         fontFamily: fonts.semi_bold,
         color: colors.black,
     },
+    Heading_3: {
+        fontSize: normalize(22),
+        lineHeight: 30,
+        fontFamily: fonts.semi_bold,
+        color: colors.black,
+    },
     Subtittle_1_Regular: {
         fontSize: normalize(18),
         lineHeight: 26,

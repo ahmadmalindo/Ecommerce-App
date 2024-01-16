@@ -1,9 +1,10 @@
-import { Button, Container, Gap, Header, Input } from "components/global"
+import { Button, Container, Gap, Header, Input, ModalPickPhoto } from "components/global"
 import { Nontification } from "helper"
 import React, { useState } from "react"
 import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import normalize from "react-native-normalize"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
+import * as ImagePicker from 'expo-image-picker';
 
 function EditProfile({ navigation }) {
 
@@ -11,6 +12,37 @@ function EditProfile({ navigation }) {
         fullname: "",
         numberPhone: ""
     })
+    const [modal, setModal] = useState(false)
+
+    const takeImage = async () => {
+        let result = await ImagePicker.launchCameraAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.canceled) {
+            setModal(false)
+        }
+    };
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: false,
+          aspect: [4, 3],
+          quality: 1,
+        });
+    
+        console.log(result);
+    
+        if (!result.canceled) {
+            setModal(false)
+        }
+    };
 
     return (
         <Container backgroundColor={'white'}>
@@ -24,6 +56,7 @@ function EditProfile({ navigation }) {
                 <View style={{paddingTop: normalize(42), paddingHorizontal: normalize(16)}}>
                     <View style={{alignItems: 'center'}}>
                         <SectionProfile
+                            onPress={() => setModal(true)}
                         />
                     </View>
                     <Gap marginBottom={normalize(24)}/>
@@ -38,6 +71,17 @@ function EditProfile({ navigation }) {
                     />
                 </View>
             </ScrollView>
+            <ModalPickPhoto
+                isVisible={modal}
+                onPress={(index) => {
+                    if (index == 0) {
+                        takeImage()
+                    }
+                    else {
+                        pickImage()
+                    }
+                }}
+            />
         </Container>
     )
 }

@@ -108,7 +108,7 @@ function Artwork({ navigation }) {
                                     detail_address={item?.Alamat}
                                     item={item}
                                     index={index}
-                                    onPress={() => navigation.navigate('DetailNearest', {id: item.nKode, data: item})}
+                                    onPress={() => navigation.navigate('DetailHairStyler', {id: item.nKode, data: item})}
                                 />
                             )
                         })}

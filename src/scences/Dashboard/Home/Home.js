@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native"
-import { CardTransaction, Container, Gap, HeaderProfile, HeaderSection } from "components/global"
+import { CardTransaction, Container, Gap, HeaderProfile, HeaderSection, ModalPopUpRating } from "components/global"
 import { Nontification } from "helper"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
@@ -114,6 +114,10 @@ function Home({ navigation }) {
             <SectionCreateOrder
                 onPress={() => navigation.navigate('Nearest')}
             />
+            <ModalPopUpRating
+                isVisible={false}
+                onPress={() => navigation.navigate('Rating')}
+            />
         </Container>
     )
 }
@@ -185,44 +189,56 @@ function SectionList ({
 }) {
 
     return (
-        <FlatList
-            data={data}
-            renderItem={(({item,index}) => {
+        <>
+            {data.length > 0 ?
+            <FlatList
+                data={data}
+                renderItem={(({item,index}) => {
 
-                let pembayaran = item?.Pembayaran?.split("/")
+                    let pembayaran = item?.Pembayaran?.split("/")
 
-                return (
-                    <CardTransaction
-                        placeName={item.NamaCabang}
-                        date={item.Tanggal}
-                        payment_methods={pembayaran[0]}
-                        payment={pembayaran[1]}
-                        receipt_number={item.Struk}
-                        item={item}
-                        index={index}
-                        selectedIndex={selectedIndex}
-                        onPress={() => {
-                            if (item.status !== "cancel") {
-                                if(selectedIndex === index) {
-                                    setSelectedIndex(null)
+                    return (
+                        <CardTransaction
+                            placeName={item.NamaCabang}
+                            date={item.Tanggal}
+                            payment_methods={pembayaran[0]}
+                            payment={pembayaran[1]}
+                            receipt_number={item.Struk}
+                            item={item}
+                            index={index}
+                            selectedIndex={selectedIndex}
+                            onPress={() => {
+                                if (item.status !== "cancel") {
+                                    if(selectedIndex === index) {
+                                        setSelectedIndex(null)
+                                    }
+                                    else {
+                                        setSelectedIndex(index)
+                                    }
+                                }
+                            }}
+                            onPressAction={() => {
+                                if (item.Struk !== "-1") {
+                                    navigation.navigate('DetailReceipt', {id: item.Kode})
                                 }
                                 else {
-                                    setSelectedIndex(index)
+                                    onCancelTransaction(item)
                                 }
-                            }
-                        }}
-                        onPressAction={() => {
-                            if (item.Struk !== "-1") {
-                                navigation.navigate('DetailReceipt', {id: item.Kode})
-                            }
-                            else {
-                                onCancelTransaction(item)
-                            }
-                        }}
-                    />
-                )
-            })}
-        />
+                            }}
+                        />
+                    )
+                })}
+            />
+            :
+            <View style={{alignItems: 'center'}}>
+                <Image source={require('assets/images/ic_no_data.png')} style={{width: '100%', height: normalize(267)}}/>
+                <Gap marginBottom={normalize(16)}/>
+                <Text style={stylesFonts.Heading_3}>Tidak ada data</Text>
+                <Gap marginBottom={normalize(16)}/>
+                <Text style={[stylesFonts.Body_2_Bold, {width: '70%', textAlign: 'center', color: colors.grey}]}>Anda belum memiliki riwayat transaksi silahkan lakukan transaksi terlebih dahulu</Text>
+            </View>
+            }
+        </>
     )
 }
 

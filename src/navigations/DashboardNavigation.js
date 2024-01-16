@@ -15,6 +15,10 @@ import Nearest from "scences/Dashboard/Home/Nearest";
 import DetailNearest from "scences/Dashboard/Home/DetailNearest";
 import EditProfile from "scences/Dashboard/Account/EditProfile";
 import EditPassword from "scences/Dashboard/Account/EditPassword";
+import Rating from "scences/Dashboard/Home/Rating";
+import DetailArtwork from "scences/Dashboard/Artwork/DetailNearest";
+import DetailHairStyler from "scences/Dashboard/Artwork/DetailHairStyler";
+import DetailHasil from "scences/Dashboard/Artwork/DetailHasil";
 
 function DashboardTabs () {
     const Tab = createBottomTabNavigator()
@@ -77,6 +81,10 @@ function DashboardNavigation() {
             <Stack.Screen name="DetailNearest" component={DetailNearest}/>
             <Stack.Screen name="EditProfile" component={EditProfile}/>
             <Stack.Screen name="EditPassword" component={EditPassword}/>
+            <Stack.Screen name="Rating" component={Rating}/>
+            <Stack.Screen name="DetailArtwork" component={DetailArtwork}/>
+            <Stack.Screen name="DetailHairStyler" component={DetailHairStyler}/>
+            <Stack.Screen name="DetailHasil" component={DetailHasil}/>
         </Stack.Navigator>
     )
 }

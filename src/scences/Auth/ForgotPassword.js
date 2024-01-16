@@ -1,4 +1,4 @@
-import { Button, Container, Gap, Header, Input } from "components/global"
+import { Button, Container, Gap, Header, Input, ModalToast } from "components/global"
 import { Nontification } from "helper"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
@@ -13,12 +13,19 @@ function ForgotPassword({ navigation }) {
     const [input, setInput] = useState({
         numberPhone: "",
     })
+    const [modal, setModal] = useState(false)
 
     const handleForgotPassword = async () => {
-        const res = await mySalon.ForgetPwdMember({hpUser: storage.getString("storePhoneNumber")})
+        const res = await mySalon.ForgetPwdMember({hpUser: input.numberPhone})
 
         if (res.status === 200) {
-            Nontification("Kode Sudah dikirim kepada pengguna")
+            setModal(true)
+            setTimeout(() => {
+                setModal(false)
+                setTimeout(() => {
+                    navigation.goBack()
+                }, 500)
+            }, 2500)
         }
         else {
             Nontification(res.response)
@@ -43,6 +50,11 @@ function ForgotPassword({ navigation }) {
                     />
                 </View>
             </ScrollView>
+            <ModalToast
+                message={'Kata sandi berhasil terkirim, silahkan cek email anda.'}
+                isVisible={modal}
+                onSwipeComplete={() => setModal(false)}
+            />
         </Container>
     )
 }
