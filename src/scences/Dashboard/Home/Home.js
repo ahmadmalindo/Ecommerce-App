@@ -103,6 +103,7 @@ function Home({ navigation }) {
                     />
                     <Gap marginBottom={normalize(16)}/>
                     <SectionList
+                        dataMember={dataMember}
                         data={dataTransaction}
                         navigation={navigation}
                         selectedIndex={selectedIndex}
@@ -182,6 +183,7 @@ function SectionInfo({
 
 function SectionList ({
     navigation,
+    dataMember,
     data,
     selectedIndex,
     setSelectedIndex,
@@ -219,7 +221,8 @@ function SectionList ({
                             }}
                             onPressAction={() => {
                                 if (item.Struk !== "-1") {
-                                    navigation.navigate('DetailReceipt', {id: item.Kode})
+                                    item.username = dataMember?.NamaMember
+                                    navigation.navigate('DetailReceipt', {id: item.Kode, kode_cabang: item.KodeCabang, data: item})
                                 }
                                 else {
                                     onCancelTransaction(item)
