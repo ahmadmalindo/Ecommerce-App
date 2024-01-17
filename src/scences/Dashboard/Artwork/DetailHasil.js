@@ -17,13 +17,11 @@ function DetailHasil({ navigation, route }) {
 
     const { data, index } = route.params
 
-    const [selectedIndex, setSelectedIndex] = useState(null)
+    const [selectedIndex, setSelectedIndex] = useState(0)
 
     useLayoutEffect(() => {
         setSelectedIndex(index)
     }, [focused])
-
-    console.log(data);
 
     return (
         <Container backgroundColor={'white'}>
