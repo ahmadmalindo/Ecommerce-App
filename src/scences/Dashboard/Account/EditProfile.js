@@ -1,10 +1,16 @@
 import { Button, Container, Gap, Header, Input, ModalPickPhoto } from "components/global"
 import { Nontification } from "helper"
 import React, { useState } from "react"
-import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import normalize from "react-native-normalize"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
 import * as ImagePicker from 'expo-image-picker';
+import Axios from "axios";
+import { storage } from "helper/storage"
+import { base_uri } from "constants/BASE_URL"
+import mySalon from "utils/MySalonUtils"
+
+const AxiosFrom = Axios.create()
 
 function EditProfile({ navigation, route }) {
 
@@ -13,9 +19,48 @@ function EditProfile({ navigation, route }) {
     const [input, setInput] = useState({
         fullname: data?.NamaMember,
         email: data?.emailMember,
-        numberPhone: data?.TelpMember
+        numberPhone: data?.TelpMember,
+        photo: data?.fotoFile
     })
     const [modal, setModal] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const getDashboardMember = async () => {
+
+        let params = {
+            hpUser: storage.getString("storePhoneNumber")
+        }
+
+        const res = await mySalon.DashboardMember(params)
+
+        if (res.status === 200) {
+            setInput({
+                fullname: res?.NamaMember,
+                email: res?.emailMember,
+                numberPhone: res?.TelpMember,
+                photo: res?.fotoFile
+            })
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
+
+    const handleUpdateEmail = async () => {
+        setIsLoading(true)
+        let params = {
+            NoHP: storage.getString("storePhoneNumber"),
+            Email: input.email
+        }
+
+        const res = await mySalon.SimpanEmail(params)
+
+        setIsLoading(false)
+
+        if (res.status !== 200) {
+            Nontification(res.response)
+        }
+    }
 
     const takeImage = async () => {
         let result = await ImagePicker.launchCameraAsync({
@@ -28,6 +73,7 @@ function EditProfile({ navigation, route }) {
         console.log(result);
     
         if (!result.canceled) {
+            updatePhotoProfile(result.assets[0].uri)
             setModal(false)
         }
     };
@@ -43,9 +89,51 @@ function EditProfile({ navigation, route }) {
         console.log(result);
     
         if (!result.canceled) {
+            updatePhotoProfile(result.assets[0].uri)
             setModal(false)
         }
     };
+
+    const updatePhotoProfile = async(photo) => {
+        setIsLoading(true)
+
+        const formData = new FormData()
+
+        formData.append("image_data", {
+            uri: photo,
+            type: 'image/png',
+            name: 'image.png'
+        })
+
+        formData.append("NoHP", storage.getString("storePhoneNumber"))
+
+        let api = `${base_uri}APICabang/fotUpload.php`
+
+        AxiosFrom.post(api, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${storage.getString("token")}`
+            },
+            transformRequest: (data,headers) => {
+                return formData
+            }
+        })
+        .then(response => {
+            setIsLoading(false)
+            const res = response.data
+
+            if (res.status == 200) {
+                getDashboardMember()
+            }
+            else {
+                Nontification(res.response)
+            }
+        })
+        .catch(err => {
+            setIsLoading(false)
+            Nontification(err.response)
+        })    
+    }
 
     return (
         <Container backgroundColor={'white'}>
@@ -59,6 +147,8 @@ function EditProfile({ navigation, route }) {
                 <View style={{paddingTop: normalize(42), paddingHorizontal: normalize(16)}}>
                     <View style={{alignItems: 'center'}}>
                         <SectionProfile
+                            loading={isLoading}
+                            photo={input.photo}
                             onPress={() => setModal(true)}
                         />
                     </View>
@@ -69,13 +159,16 @@ function EditProfile({ navigation, route }) {
                     />
                     <Gap marginBottom={normalize(24)}/>
                     <Button
+                        isLoading={isLoading}
                         tittle={'Simpan'}
-                        onPress={() => Nontification('Simpan')}
+                        onPress={() => handleUpdateEmail()}
                     />
                 </View>
             </ScrollView>
             <ModalPickPhoto
                 isVisible={modal}
+                onBackdropPress={() => setModal(false)}
+                onSwipeComplete={() => setModal(false)}
                 onPress={(index) => {
                     if (index == 0) {
                         takeImage()
@@ -90,11 +183,19 @@ function EditProfile({ navigation, route }) {
 }
 
 function SectionProfile ({
+    photo,
+    loading,
     onPress
 }){
     return (
         <Pressable style={{alignItems: 'center'}} onPress={onPress}>
-            <Image source={require('assets/images/ic_onboard.png')} resizeMethod="scale" resizeMode="cover" style={{width: normalize(80), height: normalize(80), borderRadius: normalize(80)}}/>
+            {loading ?
+            <View style={[{width: normalize(80), height: normalize(80), borderRadius: normalize(80), backgroundColor: colors.grey_2}, justifyContent.view_center]}>
+                <ActivityIndicator />
+            </View>
+            :
+            <Image source={{uri: photo}} resizeMethod="scale" resizeMode="cover" style={{width: normalize(80), height: normalize(80), borderRadius: normalize(80), backgroundColor: colors.grey_2}}/>
+            }
             <Image source={require('assets/images/ic_edit.png')} style={styles.icon}/>
         </Pressable>
     )
@@ -109,6 +210,7 @@ function SectionForm ({
     return (
         <View>
             <Input
+                editable={false}
                 tittle={'Fullname'}
                 placeholder={'Ketikan Nama'}
                 value={input.fullname}

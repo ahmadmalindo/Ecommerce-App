@@ -1,8 +1,10 @@
 import { Button, Container, Gap, Header, Input } from "components/global"
 import { Nontification } from "helper"
+import { storage } from "helper/storage"
 import React, { useState } from "react"
-import { FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { Alert, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import normalize from "react-native-normalize"
+import mySalon from "utils/MySalonUtils"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
 
 function EditPassword({ navigation }) {
@@ -15,6 +17,35 @@ function EditPassword({ navigation }) {
         password3: "",
         isOpen3: true,
     })
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleChangePassword = async () => {
+        setIsLoading(true)
+        let params = {
+            NoHP: storage.getString("storePhoneNumber"),
+            nPIN: input.password2
+        }
+
+        const res = await mySalon.ChangePassword(params)
+
+        setIsLoading(false)
+
+        if (res.status === 200) {
+            Alert.alert("Perhatian", "Berhasil merubah password silahkan login ulang", [
+                {
+                    text: 'Ok',
+                    onPress: () => {
+                        storage.clearMemoryCache()
+                        storage.clearStore()
+                        navigation.replace('Onboard')
+                    }
+                }
+            ])
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
 
     return (
         <Container backgroundColor={'white'}>
@@ -34,8 +65,16 @@ function EditPassword({ navigation }) {
                     />
                     <Gap marginBottom={normalize(24)}/>
                     <Button
+                        isLoading={isLoading}
                         tittle={'Simpan'}
-                        onPress={() => Nontification('Simpan')}
+                        onPress={() => {
+                            if (input.password2 === input.password3) {
+                                handleChangePassword()
+                            }
+                            else {
+                                Nontification("Kata Sandi Baru dan Komfirmasi Kata Sandi tidak macth")
+                            }
+                        }}
                     />
                 </View>
             </ScrollView>
@@ -51,7 +90,7 @@ function SectionForm ({
 }) {
     return (
         <View>
-            <Input
+            {/* <Input
                 tittle={'Kata Sandi Lama'}
                 placeholder={'Masukkan kata sandi lama'}
                 password
@@ -66,7 +105,7 @@ function SectionForm ({
                     password: val
                 })}
             />
-            <Gap marginBottom={normalize(16)}/>
+            <Gap marginBottom={normalize(16)}/> */}
             <Input
                 tittle={'Kata Sandi Baru'}
                 placeholder={'Masukkan kata sandi baru'}

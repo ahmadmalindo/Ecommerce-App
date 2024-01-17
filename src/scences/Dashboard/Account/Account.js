@@ -79,6 +79,7 @@ function Account({ navigation }) {
             <ScrollView>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16), alignItems: 'center'}}>
                     <SectionProfile
+                        photo={dataMember?.fotoFile}
                         name={dataMember?.NamaMember}
                         phone={dataMember?.TelpMember}
                     />
@@ -110,12 +111,13 @@ function Account({ navigation }) {
 }
 
 function SectionProfile ({
+    photo,
     name = 'Alycia Genosveva',
     phone = '085123456789'
 }){
     return (
         <View style={{alignItems: 'center'}}>
-            <Image source={require('assets/images/ic_onboard.png')} resizeMethod="scale" resizeMode="cover" style={{width: normalize(80), height: normalize(80), borderRadius: normalize(80)}}/>
+            <Image source={{uri: photo}} resizeMethod="scale" resizeMode="cover" style={{width: normalize(80), height: normalize(80), borderRadius: normalize(80)}}/>
             <Gap marginBottom={normalize(12)}/>
             <Text style={stylesFonts.Body_1_Bold}>{name}</Text>
             <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>{phone}</Text>

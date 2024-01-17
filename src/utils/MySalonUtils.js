@@ -4,13 +4,18 @@ import {
     getForgetPwdMember,
     getDashboardMember,
     getTransactionHistory,
+    getReceiptTransaction,
     getNearestOutlet,
     getKaryawanStanby,
     getOrderInput,
     getOrderCancel,
     getInbox,
     getKarywanArtworksView,
-    getLogout
+    getLogout,
+    getFotoUpload,
+    getSimpanEmail,
+    getSimpanTanggalLahir,
+    getChangePassword
 } from "../constants/apiMySalon";
 // import { ToastConnection } from "../constants";
 
@@ -57,6 +62,16 @@ class MySalon {
 
     async TransactionHistory(params) {
         return params = await getTransactionHistory(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async ReceiptTransaction(params) {
+        return params = await getReceiptTransaction(params).then((response) => {
             const res = response.data
             return res
 
@@ -127,6 +142,46 @@ class MySalon {
 
     async Logout(params) {
         return params = await getLogout(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async FotoUpload(params) {
+        return params = await getFotoUpload(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async SimpanEmail(params) {
+        return params = await getSimpanEmail(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async SimpanTanggalLahir(params) {
+        return params = await getSimpanTanggalLahir(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async ChangePassword(params) {
+        return params = await getChangePassword(params).then((response) => {
             const res = response.data
             return res
 
