@@ -4,7 +4,6 @@ import Onboard from "scences/Onboard";
 import AuthNavigation from "./AuthNavigation";
 import DashboardNavigation from "./DashboardNavigation";
 import { NavigationContainer } from "@react-navigation/native";
-// import PushNotification from "services/PushNotification";
 
 function RootNavigation() {
 
@@ -17,7 +16,6 @@ function RootNavigation() {
                 <Stack.Screen name="AuthNavigation" component={AuthNavigation}/>
                 <Stack.Screen name="DashboardNavigation" component={DashboardNavigation}/>
             </Stack.Navigator>
-            {/* <PushNotification/> */}
         </NavigationContainer>
     )
 }

@@ -23,6 +23,6 @@ export default React.memo(Container);
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: '101%'
   },
 });

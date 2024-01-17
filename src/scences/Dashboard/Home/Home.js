@@ -279,6 +279,6 @@ const styles = StyleSheet.create({
         borderRadius: normalize(100),
         position: 'absolute',
         right: normalize(16),
-        bottom: normalize(16)
+        bottom: normalize(25)
     }
 })
