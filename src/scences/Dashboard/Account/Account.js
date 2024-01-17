@@ -3,7 +3,7 @@ import { Container, Gap } from "components/global"
 import { Nontification } from "helper"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
-import { FlatList, Image, InteractionManager, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { FlatList, Image, InteractionManager, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import mySalon from "utils/MySalonUtils"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
@@ -127,15 +127,13 @@ function SectionProfile ({
 
 function SectionListMenu ({item,index, onPress}) {
     return (
-        <View style={[styles.card, justifyContent.space_beetwen]}>
+        <TouchableOpacity onPress={onPress} style={[styles.card, justifyContent.space_beetwen]} >
             <View style={justifyContent.flex_start}>
                 <Image source={item.ic} style={{width: normalize(32), height: normalize(32), marginRight: normalize(12)}}/>
                 <Text style={[stylesFonts.Subtittle_2_Regular, {color: index === 3 ? colors.red_2 : colors.black}]}>{item.tittle}</Text>
             </View>
-            <Pressable onPress={onPress}>
-                <Image source={require('assets/images/ic_circle_right.png')} style={{width: normalize(32), height: normalize(32)}}/>
-            </Pressable>
-        </View>
+            <Image source={require('assets/images/ic_circle_right.png')} style={{width: normalize(32), height: normalize(32)}}/>
+        </TouchableOpacity>
     )
 }
 
