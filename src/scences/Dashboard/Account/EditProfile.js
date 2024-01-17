@@ -6,11 +6,14 @@ import normalize from "react-native-normalize"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
 import * as ImagePicker from 'expo-image-picker';
 
-function EditProfile({ navigation }) {
+function EditProfile({ navigation, route }) {
+
+    const { data } = route.params
 
     const [input, setInput] = useState({
-        fullname: "",
-        numberPhone: ""
+        fullname: data?.NamaMember,
+        email: data?.emailMember,
+        numberPhone: data?.TelpMember
     })
     const [modal, setModal] = useState(false)
 
@@ -116,6 +119,17 @@ function SectionForm ({
             />
             <Gap marginBottom={normalize(16)}/>
             <Input
+                tittle={'Email'}
+                placeholder={'Ketikan Email'}
+                value={input.email}
+                onChangeText={(val) => setInput({
+                    ...input,
+                    email: val
+                })}
+            />
+            <Gap marginBottom={normalize(16)}/>
+            <Input
+                editable={false}
                 tittle={'No. Telepon'}
                 placeholder={'62878123...'}
                 left

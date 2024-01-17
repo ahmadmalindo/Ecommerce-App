@@ -1,5 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native"
 import { Container, Gap } from "components/global"
+import { Nontification } from "helper"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
 import { FlatList, Image, InteractionManager, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
@@ -50,6 +51,19 @@ function Account({ navigation }) {
         }
     ]
 
+    const handleLogout = async () => {
+        const res = await mySalon.Logout({NoHp: storage.getString("storePhoneNumber")})
+
+        if (res.status === 200) {
+            storage.clearMemoryCache()
+            storage.clearStore()
+            navigation.replace('Onboard')
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
+
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
@@ -79,12 +93,10 @@ function Account({ navigation }) {
                                     index={index}
                                     onPress={() => {
                                         if (item.navigation === "logout") {
-                                            storage.clearMemoryCache()
-                                            storage.clearStore()
-                                            navigation.replace('Onboard')
+                                            handleLogout()
                                         }
                                         else {
-                                            navigation.navigate(item.navigation)
+                                            navigation.navigate(item.navigation, {data: dataMember})
                                         }
                                     }}
                                 />

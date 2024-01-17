@@ -9,7 +9,8 @@ import {
     getOrderInput,
     getOrderCancel,
     getInbox,
-    getKarywanArtworksView
+    getKarywanArtworksView,
+    getLogout
 } from "../constants/apiMySalon";
 // import { ToastConnection } from "../constants";
 
@@ -116,6 +117,16 @@ class MySalon {
 
     async KarywanArtworksView(params) {
         return params = await getKarywanArtworksView(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async Logout(params) {
+        return params = await getLogout(params).then((response) => {
             const res = response.data
             return res
 
