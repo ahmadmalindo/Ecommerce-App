@@ -19,7 +19,7 @@ function DetailArtwork({ navigation, route }) {
     const [dataKaryawan, setDataKaryawan] = useState([])
 
     const getKaryawanStanby = async () => {
-        const res = await mySalon.KaryawanStanby({nKodeOutlet: id})
+        const res = await mySalon.KaryawanOutlet({nKodeOutlet: id})
 
         if (res.status === 200) {
             setDataKaryawan(res.responsedata)

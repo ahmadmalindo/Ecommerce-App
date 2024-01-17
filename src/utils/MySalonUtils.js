@@ -7,6 +7,7 @@ import {
     getReceiptTransaction,
     getNearestOutlet,
     getKaryawanStanby,
+    getKaryawanOutlet,
     getOrderInput,
     getOrderCancel,
     getInbox,
@@ -92,6 +93,16 @@ class MySalon {
 
     async KaryawanStanby(params) {
         return params = await getKaryawanStanby(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async KaryawanOutlet(params) {
+        return params = await getKaryawanOutlet(params).then((response) => {
             const res = response.data
             return res
 

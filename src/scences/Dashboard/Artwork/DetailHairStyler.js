@@ -54,7 +54,7 @@ function DetailHairStyler({ navigation, route }) {
                     <Image source={require('assets/images/ic_banner.png')} style={{width: '100%', height: normalize(100), borderRadius: normalize(16)}}/>
                     <Gap marginBottom={normalize(16)}/>
                     <SectionProfile
-
+                        onPress={() => Nontification("Lihat Ulasan kemana")}
                     />
                 </View>
                 <View>
@@ -69,7 +69,10 @@ function DetailHairStyler({ navigation, route }) {
                                 <SectionList
                                     item={item}
                                     index={index}
-                                    onPress={() => navigation.navigate('DetailHasil')}
+                                    photo={item?.File}
+                                    tittle={item?.Judul}
+                                    date={item?.Timestamp}
+                                    onPress={() => navigation.navigate('DetailHasil', {data: dataArtwork, index: index})}
                                 />
                             )
                         })}
@@ -119,15 +122,16 @@ function SectionProfile ({
 function SectionList ({
     tittle = 'Light Blonde',
     date = '01/09/2023',
+    photo,
     onPress
 }) {
     return (
         <TouchableOpacity style={styles.card} onPress={onPress}>
-            <ImageBackground resizeMethod="scale" resizeMode="cover"  source={require('assets/images/ic_onboard.png')} style={{width: '100%', height: normalize(187)}}>
+            <ImageBackground resizeMethod="scale" resizeMode="cover"  source={{uri: photo}} style={{width: '100%', height: normalize(187), backgroundColor: colors.grey_2}}>
                 <View style={{width: '100%', height: normalize(187), justifyContent: 'flex-end', alignItems: 'center'}}>
-                    <BlurView intensity={80} tint="dark" style={{width: '100%', alignItems: 'center'}}>
-                        <Text style={[stylesFonts.Body_2_Regular, {color: 'white'}]}>{tittle}</Text>
-                        <Text style={[stylesFonts.Body_2_Regular, {color: 'white'}]}>{date}</Text>
+                    <BlurView intensity={80} tint="dark" style={{width: '100%', alignItems: 'center', padding: normalize(4)}}>
+                        <Text style={[stylesFonts.Body_2_Regular, {color: 'white', textAlign: 'center'}]}>{tittle}</Text>
+                        <Text style={[stylesFonts.Body_2_Regular, {color: 'white'}]}>{moment(date).format('DD/MM/YYYY')}</Text>
                     </BlurView>
                 </View>
             </ImageBackground>

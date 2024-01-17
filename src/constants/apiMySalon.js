@@ -10,6 +10,7 @@ export const getTransactionHistory      =   payload   => Axios.post(`${base_uri}
 export const getReceiptTransaction      =   payload   => Axios.post(`${base_uri}APICabang/detailHistory.php`, payload);
 export const getNearestOutlet           =   payload   => Axios.post(`${base_uri}APICabang/locationMember.php`, payload);
 export const getKaryawanStanby          =   payload   => Axios.post(`${base_uri}APICabang/standby.php`, payload);
+export const getKaryawanOutlet          =   payload   => Axios.post(`${base_uri}APICabang/artworkUser.php`, payload);
 export const getOrderInput              =   payload   => Axios.post(`${base_uri}APICabang/orderInput.php`, payload);
 export const getOrderCancel             =   payload   => Axios.post(`${base_uri}APICabang/orderCancel.php`, payload);
 export const getInbox                   =   payload   => Axios.post(`${base_uri}APICabang/inbox.php`, payload);
