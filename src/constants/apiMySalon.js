@@ -12,3 +12,4 @@ export const getKaryawanStanby          =   payload   => Axios.post(`${base_uri}
 export const getOrderInput              =   payload   => Axios.post(`${base_uri}APICabang/orderInput.php`, payload);
 export const getOrderCancel             =   payload   => Axios.post(`${base_uri}APICabang/orderCancel.php`, payload);
 export const getInbox                   =   payload   => Axios.post(`${base_uri}APICabang/inbox.php`, payload);
+export const getKarywanArtworksView     =   payload   => Axios.post(`${base_uri}APICabang/artworkUserView.php`, payload);

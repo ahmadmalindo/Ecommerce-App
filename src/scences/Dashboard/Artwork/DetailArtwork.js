@@ -16,7 +16,6 @@ function DetailArtwork({ navigation, route }) {
     const { id, data } = route.params
 
     const [inputSearch, setInputSearch] = useState("")
-    const [modal, setModal] = useState(false)
     const [dataKaryawan, setDataKaryawan] = useState([])
 
     const getKaryawanStanby = async () => {
@@ -24,30 +23,6 @@ function DetailArtwork({ navigation, route }) {
 
         if (res.status === 200) {
             setDataKaryawan(res.responsedata)
-        }
-        else {
-            Nontification(res.response)
-        }
-    }
-
-    const handleInputOrder = async () => {
-
-        let params = {
-            NoMember: storage.getString("storeNomorMember"),
-            NoHP: storage.getString("storePhoneNumber"),
-            KodeCabang: id
-        }
-
-        const res = await mySalon.OrderInput(params)
-
-        if (res.status === 200) {
-            setModal(false)
-            Alert.alert("Perhatian", "Berhasil Melakukan Order", [
-                {
-                    text: 'Ya',
-                    onPress: () => navigation.navigate("Home")
-                }
-            ])
         }
         else {
             Nontification(res.response)
@@ -100,7 +75,7 @@ function DetailArtwork({ navigation, route }) {
                                     item={item}
                                     index={index}
                                     onPress={() => {
-                                        setModal(true)
+                                        navigation.navigate('DetailHairStyler', {id: item?.NIK})
                                     }}
                                 />
                             )
@@ -108,15 +83,6 @@ function DetailArtwork({ navigation, route }) {
                     />
                 </View>
             </ScrollView>
-            <ModalConfirmOrder
-                isVisible={modal}
-                outlet={data?.Nama}
-                distance={data?.Jarak}
-                date={moment().format('YYYY-MM-DD')}
-                onBackdropPress={() => setModal(false)}
-                onSwipeComplete={() => setModal(false)}
-                onPress={() => handleInputOrder()}
-            />
         </Container>
     )
 }

@@ -14,11 +14,37 @@ import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
 
 function DetailHairStyler({ navigation, route }) {
 
+    const { id } = route.params
+
+    const [dataArtwork, setDataArtWork] = useState([])
+
+    const getKarywanArtworksView = async () => {
+        const res = await mySalon.KarywanArtworksView({nNIK: id})
+
+        if (res.status === 200) {
+            setDataArtWork(res.responsedata)
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
+
+    useFocusEffect(
+        React.useCallback(() => {
+          const task = InteractionManager.runAfterInteractions(() => {
+            getKarywanArtworksView()
+          });
+      
+          return () => task.cancel();
+        }, [navigation])
+    );
+
     return (
         <Container backgroundColor={'white'}>
             <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
                 <Header
                     share
+                    onShare={() => Nontification("ini btn share")}
                     tittle={'Detail'}
                     onPress={() => navigation.goBack()}
                 />
@@ -37,7 +63,7 @@ function DetailHairStyler({ navigation, route }) {
                     <Gap marginBottom={normalize(16)}/>
                     <FlatList
                         numColumns={3}
-                        data={[1,2,3,4,5]}
+                        data={dataArtwork}
                         renderItem={(({item, index}) => {
                             return (
                                 <SectionList

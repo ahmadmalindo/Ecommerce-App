@@ -95,7 +95,19 @@ function Artwork({ navigation }) {
                         left={false}
                         costumIcon={<Image source={require('assets/images/ic_search.png')} style={{width: normalize(24), height: normalize(24)}}/>}
                         value={inputSearch}
-                        onChangeText={(val) => setInputSearch(val)}
+                        onChangeText={(val) => {
+                            if (inputSearch.length > 1) {
+                                setTimeout(() => {
+                                    getNearestOutlet()
+                                }, 1000)
+                            }
+                            else if (inputSearch.length  < 2) {
+                                setTimeout(() => {
+                                    getNearestOutlet()
+                                }, 1000)
+                            }
+                            setInputSearch(val)
+                        }}
                     />
                     <Gap marginBottom={normalize(24)}/>
                     <FlatList
@@ -108,7 +120,10 @@ function Artwork({ navigation }) {
                                     detail_address={item?.Alamat}
                                     item={item}
                                     index={index}
-                                    onPress={() => navigation.navigate('DetailHairStyler', {id: item.nKode, data: item})}
+                                    onPress={() => {
+                                        navigation.navigate('DetailArtwork', {id: item.nKode, data: item})
+                                        setInputSearch("")
+                                    }}
                                 />
                             )
                         })}

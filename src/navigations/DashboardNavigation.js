@@ -16,7 +16,7 @@ import DetailNearest from "scences/Dashboard/Home/DetailNearest";
 import EditProfile from "scences/Dashboard/Account/EditProfile";
 import EditPassword from "scences/Dashboard/Account/EditPassword";
 import Rating from "scences/Dashboard/Home/Rating";
-import DetailArtwork from "scences/Dashboard/Artwork/DetailNearest";
+import DetailArtwork from "scences/Dashboard/Artwork/DetailArtwork";
 import DetailHairStyler from "scences/Dashboard/Artwork/DetailHairStyler";
 import DetailHasil from "scences/Dashboard/Artwork/DetailHasil";
 import { Gap } from "components/global";
