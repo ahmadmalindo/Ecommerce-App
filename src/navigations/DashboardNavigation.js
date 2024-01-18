@@ -20,6 +20,7 @@ import DetailArtwork from "scences/Dashboard/Artwork/DetailArtwork";
 import DetailHairStyler from "scences/Dashboard/Artwork/DetailHairStyler";
 import DetailHasil from "scences/Dashboard/Artwork/DetailHasil";
 import { Gap } from "components/global";
+import MoreTransaction from "scences/Dashboard/Home/MoreTransaction";
 
 function MyTabBar({ state, descriptors, navigation }) {
     return (
@@ -130,6 +131,7 @@ function DashboardNavigation() {
             <Stack.Screen name="DetailArtwork" component={DetailArtwork}/>
             <Stack.Screen name="DetailHairStyler" component={DetailHairStyler}/>
             <Stack.Screen name="DetailHasil" component={DetailHasil}/>
+            <Stack.Screen name="MoreTransaction" component={MoreTransaction}/>
         </Stack.Navigator>
     )
 }
