@@ -4,6 +4,8 @@ import { base_uri } from "./BASE_URL";
 //AUTH
 export const getAuthentification        =   payload   => Axios.post(`${base_uri}APICabang/getAuth.php`, payload);
 export const getLogin                   =   payload   => Axios.post(`${base_uri}APICabang/loginMem.php`, payload);
+export const getSiginUp                 =   payload   => Axios.post(`${base_uri}APICabang/signUp.php`, payload);
+export const getOtp                     =   payload   => Axios.post(`${base_uri}APICabang/getOTP.php`, payload);
 export const getForgetPwdMember         =   payload   => Axios.post(`${base_uri}APICabang/forgetPwdMember.php`, payload);
 export const getDashboardMember         =   payload   => Axios.post(`${base_uri}APICabang/homeMember.php`, payload);
 export const getTransactionHistory      =   payload   => Axios.post(`${base_uri}APICabang/trxHistory.php`, payload);

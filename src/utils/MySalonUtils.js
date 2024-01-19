@@ -1,6 +1,8 @@
 import { 
     getAuthentification,
     getLogin,
+    getSiginUp,
+    getOtp,
     getForgetPwdMember,
     getDashboardMember,
     getTransactionHistory,
@@ -33,6 +35,26 @@ class MySalon {
 
     async Login(params) {
         return params = await getLogin(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async SiginUp(params) {
+        return params = await getSiginUp(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async Otp(params) {
+        return params = await getOtp(params).then((response) => {
             const res = response.data
             return res
 
