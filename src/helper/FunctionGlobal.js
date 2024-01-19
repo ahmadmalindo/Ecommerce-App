@@ -43,3 +43,29 @@ export const currencyFloat = (number) => {
     }
 }
 
+export const formatCountDown = (time) => {
+    const minutes = Math.floor(time / 60);
+
+    let minute_time = 0
+
+    if (minutes < 10) {
+        minute_time = `0${minutes}`
+    }
+    else {
+        minute_time = minutes
+    }
+
+    const seconds = time % 60;
+
+    let seconds_time = 0
+
+    if (seconds < 10) {
+        seconds_time = `0${seconds}`
+    }
+    else {
+        seconds_time = seconds
+    }
+
+    return `${minute_time} : ${seconds_time}`
+}
+

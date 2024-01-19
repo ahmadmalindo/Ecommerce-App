@@ -2,24 +2,28 @@ import { useFocusEffect } from "@react-navigation/native"
 import { Button, Container, Gap, Header, Input } from "components/global"
 import { storage } from "helper"
 import React, { useState } from "react"
-import { Image, InteractionManager, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
+import { Image, InteractionManager, ScrollView, StyleSheet, Text, View } from "react-native"
 import normalize from "react-native-normalize"
 import mySalon from "utils/MySalonUtils"
 import { colors } from "utils/colors"
-import { fonts, stylesFonts } from "utils/fonts"
+import { stylesFonts } from "utils/fonts"
 import MMKVStorage from "react-native-mmkv-storage"
 import { Nontification } from "helper"
 
-function Login({ navigation }) {
+function Register({ navigation }) {
 
     const storage = new MMKVStorage.Loader().initialize()
 
     const [isLoading, setIsloading] = useState(false)
 
     const [input, setInput] = useState({
-        numberPhone: "081366886666",
-        password: "567928",
-        isOpen: true
+        fullname: "",
+        email: "",
+        numberPhone: "",
+        password: "",
+        password2: "",
+        isOpen: true,
+        isOpen2: true,
     })
  
     const getAuthentification = async () => {
@@ -36,50 +40,40 @@ function Login({ navigation }) {
         }
     }
 
-    const handleLogin = async () => {
-        setIsloading(true)
-
-        let params = {
-            hpUser: input.numberPhone,
-            pwdUser: input.password,
-            perangkatID:'567928'
+    const handleRegister = async () => {
+        if (input.numberPhone === "") {
+            Nontification("Nomor Handphone Wajib di Isi")
         }
-
-        const res = await mySalon.Login(params)
-
-        setIsloading(false)
-
-        if (res.status === 200) {
-            getDashboardMember()
+        else if (input.fullname === "") {
+            Nontification("Nama Lengkap Wajib di Isi")
+        }
+        else if (input.email === "") {
+            Nontification("Email Wajib di Isi")
+        }
+        else if (input.email === "") {
+            Nontification("Email Wajib di Isi")
+        }
+        else if (input.password === "") {
+            Nontification("Password Wajib di Isi")
+        }
+        else if (input.password !== input.password2) {
+            Nontification("Kata Sandi dan Konfimasi Kata Sandi Harus Sama")
         }
         else {
-            Nontification(res.response)
-        }
-    }
-
-    const getDashboardMember = async () => {
-        setIsloading(true)
-
-        let params = {
-            hpUser: input.numberPhone
-        }
-
-        const res = await mySalon.DashboardMember(params)
-
-        setIsloading(false)
-
-        if (res.status === 200) {
-            if (res.TanggalLahir !== null) {
-                storage.setBool('isLogin', true)
-                storage.setString('storePhoneNumber', params.hpUser)
-                navigation.navigate('DashboardNavigation')
+            setIsloading(true)
+    
+            let params = {
+                NoHP: input.numberPhone,
+                Nama: input.fullname,
+                Email: input.email,
+                nPIN: input.password,
             }
-        }
-        else {
-            Nontification(res.response)
+    
+            navigation.navigate('VerificationOtp', params)
+    
+            setIsloading(false)
         }
     }
-
 
     useFocusEffect(
         React.useCallback(() => {
@@ -106,13 +100,9 @@ function Login({ navigation }) {
                     <Gap marginBottom={normalize(24)}/>
                     <SectionButton
                         isLoading={isLoading}
-                        onPressLogin={() => handleLogin()}
+                        onPressLogin={() => handleRegister()}
                         onPressForgot={() => navigation.navigate("ForgotPassword")}
                     />
-                    <Gap marginBottom={normalize(24)}/>
-                    <Pressable onPress={() => navigation.navigate('Register')}>
-                        <Text style={[stylesFonts.Body_2_Regular, {textAlign: 'center'}]}>Tidak Punya Akun ? <Text style={{color: colors.primary, fontFamily: fonts.bold}}>Register</Text></Text>
-                    </Pressable>
                 </View>
             </ScrollView>
         </Container>
@@ -122,7 +112,7 @@ function Login({ navigation }) {
 function SectionTittle () {
     return (
         <>
-            <Text style={stylesFonts.Body_1_Bold}>Selamat datang kembali. Silahkan masuk ke Akun Anda</Text>
+            <Text style={stylesFonts.Body_1_Bold}>Ayo bergabung ke MySalon. Silahkan daftarkan Akun Anda</Text>
             <Gap marginBottom={normalize(8)}/>
             <Text style={[stylesFonts.Subtittle_2_Regular, {color: colors.grey}]}>Lengkapi data Anda</Text>
         </>
@@ -149,7 +139,33 @@ function SectionFormInput ({
             />
             <Gap marginBottom={normalize(16)}/>
             <Input
-                tittle={'Kata Sandi'}
+                tittle={'Nama Lengkap'}
+                placeholder={'Ketikan nama lengkap anda'}
+                left
+                costumIcon={<Image source={require('assets/images/ic_electronicdevices.png')} style={styles.icon}/>}
+                value={input.fullname}
+                onChangeText={(val) => setInput({
+                    ...input,
+                    fullname: val
+                })}
+            />
+            <Gap marginBottom={normalize(16)}/>
+            <Input
+                tittle={'Email'}
+                placeholder={'Ketikan email aktif'}
+                left
+                autoCapitalize={"none"}
+                keyboardType={'email-address'}
+                costumIcon={<Image source={require('assets/images/ic_electronicdevices.png')} style={styles.icon}/>}
+                value={input.email}
+                onChangeText={(val) => setInput({
+                    ...input,
+                    email: val
+                })}
+            />
+            <Gap marginBottom={normalize(16)}/>
+            <Input
+                tittle={'Buat Kata Sandi'}
                 placeholder={'Masukkan kata sandi'}
                 password
                 secureTextEntry={input.isOpen}
@@ -161,6 +177,22 @@ function SectionFormInput ({
                 onChangeText={(val) => setInput({
                     ...input,
                     password: val
+                })}
+            />
+            <Gap marginBottom={normalize(16)}/>
+            <Input
+                tittle={'Konfitmasi Kata Sandi'}
+                placeholder={'Masukkan konfirmasi kata sandi'}
+                password
+                secureTextEntry={input.isOpen2}
+                onPress={() => setInput({
+                    ...input,
+                    isOpen2: !input.isOpen2
+                })}
+                value={input.password2}
+                onChangeText={(val) => setInput({
+                    ...input,
+                    password2: val
                 })}
             />
         </>
@@ -177,7 +209,7 @@ function SectionButton({
         <>
             <Button
                 isLoading={isLoading}
-                tittle={"Masuk"}
+                tittle={"Daftar"}
                 onPress={() => onPressLogin()}
             />
             <Gap marginBottom={normalize(8)}/>
@@ -193,7 +225,7 @@ function SectionButton({
     )
 }
 
-export default Login
+export default Register
 
 const styles = StyleSheet.create({
     icon: {

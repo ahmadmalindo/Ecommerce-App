@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "scences/Auth/Login";
 import ForgotPassword from "scences/Auth/ForgotPassword";
 import FromUser from "scences/Auth/FormUser";
+import Register from "scences/Auth/Register";
+import VerificationOtp from "scences/Auth/VerificationOtp";
 
 function AuthNavigation() {
 
@@ -13,6 +15,8 @@ function AuthNavigation() {
             <Stack.Screen name="Login" component={Login}/>
             <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
             <Stack.Screen name="FromUser" component={FromUser}/>
+            <Stack.Screen name="Register" component={Register}/>
+            <Stack.Screen name="VerificationOtp" component={VerificationOtp}/>
         </Stack.Navigator>
     )
 }
