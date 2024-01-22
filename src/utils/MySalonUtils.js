@@ -18,7 +18,8 @@ import {
     getFotoUpload,
     getSimpanEmail,
     getSimpanTanggalLahir,
-    getChangePassword
+    getChangePassword,
+    getBenefitMember
 } from "../constants/apiMySalon";
 // import { ToastConnection } from "../constants";
 
@@ -215,6 +216,16 @@ class MySalon {
 
     async ChangePassword(params) {
         return params = await getChangePassword(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async BenefitMember(params) {
+        return params = await getBenefitMember(params).then((response) => {
             const res = response.data
             return res
 

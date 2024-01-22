@@ -17,6 +17,7 @@ function DetailNearest({ navigation, route }) {
 
     const [inputSearch, setInputSearch] = useState("")
     const [modal, setModal] = useState(false)
+    const [show, setShow] = useState(false)
     const [dataKaryawan, setDataKaryawan] = useState([])
 
     const getKaryawanStanby = async () => {
@@ -64,6 +65,12 @@ function DetailNearest({ navigation, route }) {
         }, [navigation])
     );
 
+    const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
+        const paddingToBottom = 20;
+        return layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - paddingToBottom;
+    };
+
     return (
         <Container backgroundColor={'white'}>
             <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
@@ -84,7 +91,14 @@ function DetailNearest({ navigation, route }) {
                     onChangeText={(val) => setInputSearch(val)}
                 />
             </View>
-            <ScrollView>
+            <ScrollView 
+                onScroll={({nativeEvent}) => {
+                    if (isCloseToBottom(nativeEvent)) {
+                        setShow(true)
+                    }
+                }}
+                scrollEventThrottle={400}
+            >
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
                     <FlatList
                         numColumns={2}
@@ -103,14 +117,7 @@ function DetailNearest({ navigation, route }) {
                                 />
                             )
                         })}
-                        ListFooterComponent={
-                            <Button
-                                tittle={'Order Sekarang'}
-                                onPress={() => setModal(true)}
-                            />
-                        }
                         />
-                    <Gap marginBottom={normalize(36)}/>
                 </View>
             </ScrollView>
             <ModalConfirmOrder
@@ -122,6 +129,14 @@ function DetailNearest({ navigation, route }) {
                 onSwipeComplete={() => setModal(false)}
                 onPress={() => handleInputOrder()}
             />
+            {show &&
+            <View style={{paddingHorizontal: normalize(16), height: normalize(84), justifyContent: 'center'}}>
+                <Button
+                    tittle={'Pesan Sekarang'}
+                    onPress={() => setModal(true)}
+                />
+            </View>
+            }
         </Container>
     )
 }

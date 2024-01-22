@@ -1,4 +1,4 @@
-import { CardNearest, CardTransaction, Container, Gap, Header, HeaderProfile, HeaderSection, Input } from "components/global"
+import { CardImage, CardNearest, CardTransaction, Container, Gap, Header, HeaderProfile, HeaderSection, Input, ModalBenefitMember } from "components/global"
 import { Nontification } from "helper"
 import { currencyFloat } from "helper"
 import moment from "moment"
@@ -16,6 +16,8 @@ function MoreTransaction({ navigation }) {
     const [selectedIndex, setSelectedIndex] = useState(null)
     const [dataMember, setDataMember] = useState([])
     const [dataTransaction, setDataTransaction] = useState([])
+    const [dataBenefitMember, setDataBenefitMember] = useState([])
+    const [modal, setModal] = useState(false)
 
     const storePhoneNumber = storage.getString("storePhoneNumber")
 
@@ -58,6 +60,20 @@ function MoreTransaction({ navigation }) {
         }
     }
 
+    const getBenefitMember = async () => {
+        let namaKategori = dataMember?.NamaKategoriMember.split(" ")
+
+        const res = await mySalon.BenefitMember({levelMember: namaKategori[0]})
+
+        if (res.status === 200) {
+            setModal(true)
+            setDataBenefitMember(res)
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
+
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
@@ -79,12 +95,13 @@ function MoreTransaction({ navigation }) {
             </View>
             <ScrollView>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
-                    <SectionCard
+                    <CardImage
                         status_member={dataMember?.NamaKategoriMember}
                         type_member={dataMember?.StatusUser}
                         number_member={dataMember?.NoMember}
                         name_member={dataMember?.NamaMember}
                         phone_member={dataMember?.TelpMember}
+                        onPress={() => getBenefitMember()}
                     />
                     <Gap marginBottom={normalize(16)}/>
                     <SectionList
@@ -97,41 +114,14 @@ function MoreTransaction({ navigation }) {
                     />
                 </View>
             </ScrollView>
+            <ModalBenefitMember
+                isVisible={modal}
+                onBackdropPress={() => setModal(false)}
+                tittle={dataBenefitMember?.title}
+                benefits={dataBenefitMember?.message_1}
+                detail_message={dataBenefitMember?.message_2}
+            />
         </Container>
-    )
-}
-
-function SectionCard ({
-    status_member = 'SILVER MEMBER',
-    type_member = 'VIP',
-    number_member = '0109 2409 0000 1009',
-    name_member = 'ALYCIA GENOSVEVA',
-    phone_member = '085123456789'
-}) {
-    return (
-        <ImageBackground source={require('assets/images/ic_content_card.png')} style={styles.icBg}>
-            <View style={{width: '100%', height: normalize(160), padding: normalize(16)}}>
-                <View style={justifyContent.space_beetwen}>
-                    <View style={[styles.viewCardMember, justifyContent.view_center]}>
-                        <Text style={[stylesFonts.Overline, {color: 'white'}]}>{status_member}</Text>
-                    </View>
-                    <View style={justifyContent.flex_start}>
-                        <Image source={require('assets/images/ic_star.png')} style={{width: normalize(16), height: normalize(16), marginRight: normalize(4)}}/>
-                        <Text style={[stylesFonts.Subtittle_2_Bold, {color: 'white'}]}>{type_member}</Text>
-                    </View>
-                </View>
-                <Gap marginBottom={normalize(16)}/>
-                <View>
-                    <Text style={[stylesFonts.Subtittle_1_SemiBold, {color: 'white'}]}>{number_member}</Text>
-                    <Gap marginBottom={normalize(8)}/>
-                    <Text style={[stylesFonts.Body_2_Medium, {color: 'white'}]}>{name_member}</Text>
-                </View>
-                <Gap marginBottom={normalize(16)}/>
-                <View style={{alignItems: 'flex-end'}}> 
-                    <Text style={[stylesFonts.Body_2_SemiBold, {color: 'white'}]}>{phone_member}</Text>
-                </View>
-            </View>
-        </ImageBackground>
     )
 }
 

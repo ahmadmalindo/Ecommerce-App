@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native"
-import { CardTransaction, Container, Gap, HeaderProfile, HeaderSection, ModalPopUpRating } from "components/global"
+import { CardImage, CardTransaction, Container, Gap, HeaderProfile, HeaderSection, ModalPopUpRating } from "components/global"
 import { Nontification } from "helper"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
@@ -80,7 +80,7 @@ function Home({ navigation }) {
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
-                    <SectionCard
+                    <CardImage
                         status_member={dataMember?.NamaKategoriMember}
                         type_member={dataMember?.StatusUser}
                         number_member={dataMember?.NoMember}
@@ -121,40 +121,6 @@ function Home({ navigation }) {
                 onPress={() => navigation.navigate('Rating')}
             />
         </Container>
-    )
-}
-
-function SectionCard ({
-    status_member = 'SILVER MEMBER',
-    type_member = 'VIP',
-    number_member = '0109 2409 0000 1009',
-    name_member = 'ALYCIA GENOSVEVA',
-    phone_member = '085123456789'
-}) {
-    return (
-        <ImageBackground source={require('assets/images/ic_content_card.png')} style={styles.icBg}>
-            <View style={{width: '100%', height: normalize(160), padding: normalize(16)}}>
-                <View style={justifyContent.space_beetwen}>
-                    <View style={[styles.viewCardMember, justifyContent.view_center]}>
-                        <Text style={[stylesFonts.Overline, {color: 'white'}]}>{status_member}</Text>
-                    </View>
-                    <View style={justifyContent.flex_start}>
-                        <Image source={require('assets/images/ic_star.png')} style={{width: normalize(16), height: normalize(16), marginRight: normalize(4)}}/>
-                        <Text style={[stylesFonts.Subtittle_2_Bold, {color: 'white'}]}>{type_member}</Text>
-                    </View>
-                </View>
-                <Gap marginBottom={normalize(16)}/>
-                <View>
-                    <Text style={[stylesFonts.Subtittle_1_SemiBold, {color: 'white'}]}>{number_member}</Text>
-                    <Gap marginBottom={normalize(8)}/>
-                    <Text style={[stylesFonts.Body_2_Medium, {color: 'white'}]}>{name_member}</Text>
-                </View>
-                <Gap marginBottom={normalize(16)}/>
-                <View style={{alignItems: 'flex-end'}}> 
-                    <Text style={[stylesFonts.Body_2_SemiBold, {color: 'white'}]}>{phone_member}</Text>
-                </View>
-            </View>
-        </ImageBackground>
     )
 }
 
@@ -262,12 +228,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: normalize(160),
         borderRadius: radius.r_16
-    },
-    viewCardMember: {
-        width: normalize(94),
-        height: normalize(21),
-        backgroundColor: '#FFFFFF33',
-        borderRadius: normalize(5),
     },
     viewInfo: {
         width: '100%',

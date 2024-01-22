@@ -22,3 +22,4 @@ export const getFotoUpload              =   payload   => Axios.post(`${base_uri}
 export const getSimpanEmail             =   payload   => Axios.post(`${base_uri}APICabang/simpanEmail.php`, payload);
 export const getSimpanTanggalLahir      =   payload   => Axios.post(`${base_uri}APICabang/simpanTglLahir.php`, payload);
 export const getChangePassword          =   payload   => Axios.post(`${base_uri}APICabang/changePassword.php`, payload);
+export const getBenefitMember          =   payload   => Axios.post(`${base_uri}APICabang/getBenefit.php`, payload);
