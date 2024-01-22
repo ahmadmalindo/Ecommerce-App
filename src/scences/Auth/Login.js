@@ -39,8 +39,11 @@ function Login({ navigation }) {
     const handleLogin = async () => {
         setIsloading(true)
 
+        let isFormat62 = input.numberPhone.includes("62")
+        let numberPhone = input.numberPhone.slice(2)
+
         let params = {
-            hpUser: input.numberPhone,
+            hpUser: isFormat62 ? `0${numberPhone}` : input.numberPhone,
             pwdUser: input.password,
             perangkatID:'567928'
         }

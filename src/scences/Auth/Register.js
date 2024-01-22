@@ -56,19 +56,25 @@ function Register({ navigation }) {
         else if (input.password === "") {
             Nontification("Password Wajib di Isi")
         }
+        else if (input.password === "123456") {
+            Nontification("Password yang anda masukkan tidak aman")
+        }
         else if (input.password !== input.password2) {
             Nontification("Kata Sandi dan Konfimasi Kata Sandi Harus Sama")
         }
         else {
             setIsloading(true)
+
+            let isFormat62 = input.numberPhone.includes("62")
+            let numberPhone = input.numberPhone.slice(2)
     
             let params = {
-                NoHP: input.numberPhone,
+                NoHP: isFormat62 ? `0${numberPhone}` : input.numberPhone,
                 Nama: input.fullname,
                 Email: input.email,
                 nPIN: input.password,
             }
-    
+
             navigation.navigate('VerificationOtp', params)
     
             setIsloading(false)
@@ -168,6 +174,7 @@ function SectionFormInput ({
                 tittle={'Buat Kata Sandi'}
                 placeholder={'Masukkan kata sandi'}
                 password
+                keyboardType={'numeric'}
                 secureTextEntry={input.isOpen}
                 onPress={() => setInput({
                     ...input,
@@ -184,6 +191,7 @@ function SectionFormInput ({
                 tittle={'Konfitmasi Kata Sandi'}
                 placeholder={'Masukkan konfirmasi kata sandi'}
                 password
+                keyboardType={'numeric'}
                 secureTextEntry={input.isOpen2}
                 onPress={() => setInput({
                     ...input,
