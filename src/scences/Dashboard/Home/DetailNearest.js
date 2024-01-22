@@ -1,6 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons"
 import { useFocusEffect } from "@react-navigation/native"
-import { CardHairStylelist, CardNearest, CardTransaction, Container, Gap, Header, HeaderProfile, HeaderSection, Input, ModalConfirmOrder } from "components/global"
+import { Button, CardHairStylelist, CardNearest, CardTransaction, Container, Gap, Header, HeaderProfile, HeaderSection, Input, ModalConfirmOrder } from "components/global"
 import { Nontification } from "helper"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
@@ -89,6 +89,7 @@ function DetailNearest({ navigation, route }) {
                     <FlatList
                         numColumns={2}
                         data={dataKaryawan}
+                        showsVerticalScrollIndicator={false}
                         renderItem={(({item, index}) => {
                             return (
                                 <CardHairStylelist
@@ -99,13 +100,17 @@ function DetailNearest({ navigation, route }) {
                                     ulasan={item?.jml_user}
                                     item={item}
                                     index={index}
-                                    onPress={() => {
-                                        setModal(true)
-                                    }}
                                 />
                             )
                         })}
-                    />
+                        ListFooterComponent={
+                            <Button
+                                tittle={'Order Sekarang'}
+                                onPress={() => setModal(true)}
+                            />
+                        }
+                        />
+                    <Gap marginBottom={normalize(36)}/>
                 </View>
             </ScrollView>
             <ModalConfirmOrder

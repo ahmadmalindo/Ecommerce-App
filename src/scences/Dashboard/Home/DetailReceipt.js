@@ -176,7 +176,7 @@ function  SectionReceipt4({
             <View>
                 <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>Sub Total</Text>
                 <Gap marginBottom={normalize(4)}/>
-                <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>Discount</Text>
+                <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>Diskon Member</Text>
                 <Gap marginBottom={normalize(4)}/>
                 <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>Total</Text>
                 <Gap marginBottom={normalize(4)}/>
