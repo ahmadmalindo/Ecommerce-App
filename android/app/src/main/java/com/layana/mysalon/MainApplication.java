@@ -1,4 +1,4 @@
-package com.mysalon;
+package com.layana.mysalon;
 
 import android.app.Application;
 import android.content.res.Configuration;

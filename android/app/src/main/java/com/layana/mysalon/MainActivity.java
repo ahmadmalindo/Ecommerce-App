@@ -1,4 +1,4 @@
-package com.mysalon;
+package com.layana.mysalon;
 
 import android.os.Build;
 import android.os.Bundle;

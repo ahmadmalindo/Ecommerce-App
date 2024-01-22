@@ -16,14 +16,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mysalon"
+      "bundleIdentifier": "com.layana.mysalon"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.mysalon"
+      "package": "com.layana.mysalon"
     },
     "web": {
       "favicon": "./assets/favicon.png"
