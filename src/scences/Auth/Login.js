@@ -71,7 +71,7 @@ function Login({ navigation }) {
 
         setIsloading(false)
 
-        if (res.status === 200) {
+        if (res.status === 200 || res.status === 202) {
             if (res.TanggalLahir !== null) {
                 storage.setBool('isLogin', true)
                 storage.setString('storePhoneNumber', params.hpUser)
