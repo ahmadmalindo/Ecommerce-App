@@ -14,7 +14,7 @@ import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
 
 function DetailHairStyler({ navigation, route }) {
 
-    const { id } = route.params
+    const { id, data } = route.params
 
     const [dataArtwork, setDataArtWork] = useState([])
 
@@ -54,6 +54,11 @@ function DetailHairStyler({ navigation, route }) {
                     <Image source={require('assets/images/ic_banner.png')} style={{width: '100%', height: normalize(100), borderRadius: normalize(16)}}/>
                     <Gap marginBottom={normalize(16)}/>
                     <SectionProfile
+                        photo={data?.foto}
+                        hairstylist_name={data?.Alias}
+                        hairstylist_sc={data?.jabatan}
+                        rating={data?.rating}
+                        ulasan={data?.jml_user}
                         onPress={() => Nontification("Lihat Ulasan kemana")}
                     />
                 </View>

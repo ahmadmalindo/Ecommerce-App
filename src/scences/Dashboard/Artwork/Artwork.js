@@ -1,5 +1,5 @@
 import { CardNearest, CardTransaction, Container, Gap, HeaderProfile, HeaderSection, Input } from "components/global"
-import { Nontification } from "helper"
+import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { currencyFloat } from "helper"
 import moment from "moment"
 import React, { useEffect, useState } from "react"
@@ -28,7 +28,7 @@ function Artwork({ navigation }) {
 
         const res = await mySalon.DashboardMember(params)
 
-        if (res.status === 200) {
+        if (statusDashboard.includes(res.status)) {
             setDataMember(res)
         }
         else {

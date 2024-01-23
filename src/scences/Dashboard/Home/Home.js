@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native"
 import { CardImage, CardTransaction, Container, Gap, HeaderProfile, HeaderSection, ModalPopUpRating } from "components/global"
-import { Nontification } from "helper"
+import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
 import moment from "moment"
@@ -27,7 +27,7 @@ function Home({ navigation }) {
 
         const res = await mySalon.DashboardMember(params)
 
-        if (res.status === 200) {
+        if (statusDashboard.includes(res.status)) {
             setDataMember(res)
             storage.getString("storeNomorMember", res.NoMember)
         }
@@ -39,8 +39,10 @@ function Home({ navigation }) {
     const getTransactionHistory = async () => {
         const res = await mySalon.TransactionHistory({NoHP: storePhoneNumber})
 
-        if (res.status === 200) {
-            setDataTransaction(res.responsedata)
+        if (statusDashboard.includes(res.status)) {
+            if (res?.responsedata !== undefined) {
+                setDataTransaction(res.responsedata)
+            }
         }
         else {
             Nontification(res.response)
@@ -80,6 +82,7 @@ function Home({ navigation }) {
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
+                    {dataMember.NoMember !== "-1" &&
                     <CardImage
                         status_member={dataMember?.NamaKategoriMember}
                         type_member={dataMember?.StatusUser}
@@ -87,6 +90,7 @@ function Home({ navigation }) {
                         name_member={dataMember?.NamaMember}
                         phone_member={dataMember?.TelpMember}
                     />
+                    }
                     <Gap marginBottom={normalize(16)}/>
                     <SectionInfo 
                         html={dataMember?.NotifLevelUP}

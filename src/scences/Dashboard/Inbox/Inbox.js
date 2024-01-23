@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native"
 import { CardTransaction, Container, Gap, HeaderProfile, HeaderSection, Input, ModalInbox } from "components/global"
-import { Nontification } from "helper"
+import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
 import moment from "moment"
@@ -28,7 +28,7 @@ function Inbox({ navigation }) {
 
         const res = await mySalon.DashboardMember(params)
 
-        if (res.status === 200) {
+        if (statusDashboard.includes(res.status)) {
             setDataMember(res)
         }
         else {

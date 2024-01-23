@@ -10,6 +10,7 @@ import * as Location from 'expo-location';
 import { useFocusEffect } from "@react-navigation/native"
 import mySalon from "utils/MySalonUtils"
 import { storage } from "helper/storage"
+import { statusDashboard } from "helper/FunctionGlobal"
 
 function MoreTransaction({ navigation }) {
 
@@ -29,7 +30,7 @@ function MoreTransaction({ navigation }) {
 
         const res = await mySalon.DashboardMember(params)
 
-        if (res.status === 200) {
+        if (statusDashboard.includes(res.status)) {
             setDataMember(res)
             storage.getString("storeNomorMember", res.NoMember)
         }
@@ -52,8 +53,10 @@ function MoreTransaction({ navigation }) {
     const getTransactionHistory = async () => {
         const res = await mySalon.TransactionHistory({NoHP: storePhoneNumber})
 
-        if (res.status === 200) {
-            setDataTransaction(res.responsedata)
+        if (statusDashboard.includes(res.status)) {
+            if (res?.responsedata !== undefined) {
+                setDataTransaction(res.responsedata)
+            }
         }
         else {
             Nontification(res.response)
@@ -95,6 +98,7 @@ function MoreTransaction({ navigation }) {
             </View>
             <ScrollView>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
+                    {dataMember.NoMember !== "-1" &&
                     <CardImage
                         status_member={dataMember?.NamaKategoriMember}
                         type_member={dataMember?.StatusUser}
@@ -103,6 +107,7 @@ function MoreTransaction({ navigation }) {
                         phone_member={dataMember?.TelpMember}
                         onPress={() => getBenefitMember()}
                     />
+                    }
                     <Gap marginBottom={normalize(16)}/>
                     <SectionList
                         dataMember={dataMember}

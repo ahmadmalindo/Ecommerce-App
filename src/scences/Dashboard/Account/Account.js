@@ -1,6 +1,6 @@
 import { useFocusEffect } from "@react-navigation/native"
 import { Container, Gap } from "components/global"
-import { Nontification } from "helper"
+import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
 import { FlatList, Image, InteractionManager, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
@@ -20,7 +20,7 @@ function Account({ navigation }) {
 
         const res = await mySalon.DashboardMember(params)
 
-        if (res.status === 200) {
+        if (statusDashboard.includes(res.status)) {
             setDataMember(res)
         }
         else {

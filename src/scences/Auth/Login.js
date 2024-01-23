@@ -19,8 +19,8 @@ function Login({ navigation }) {
     //567928
 
     const [input, setInput] = useState({
-        numberPhone: "081366886666",
-        password: "567928",
+        numberPhone: "087886831322",
+        password: "300501",
         isOpen: true
     })
  
@@ -80,6 +80,9 @@ function Login({ navigation }) {
                 navigation.navigate('DashboardNavigation')
             }
             else {
+                // storage.setBool('isLogin', true)
+                // storage.setString('storePhoneNumber', params.hpUser)
+                // navigation.navigate('DashboardNavigation')
                 navigation.navigate('FromUser', {data: res})
             }
         }

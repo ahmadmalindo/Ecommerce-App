@@ -75,7 +75,7 @@ function DetailArtwork({ navigation, route }) {
                                     item={item}
                                     index={index}
                                     onPress={() => {
-                                        navigation.navigate('DetailHairStyler', {id: item?.NIK})
+                                        navigation.navigate('DetailHairStyler', {id: item?.NIK, data: item})
                                     }}
                                 />
                             )
