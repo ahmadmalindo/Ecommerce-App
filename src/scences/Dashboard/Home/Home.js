@@ -16,6 +16,8 @@ function Home({ navigation }) {
     const [selectedIndex, setSelectedIndex] = useState(null)
     const [dataMember, setDataMember] = useState([])
     const [dataTransaction, setDataTransaction] = useState([])
+    const [dataRating, setDataRating] = useState([])
+    const [modalRating, setModalRating] = useState(false)
 
     const storePhoneNumber = storage.getString("storePhoneNumber")
 
@@ -49,6 +51,18 @@ function Home({ navigation }) {
         }
     }
 
+    const getCloseOrder = async () => {
+        const res = await mySalon.CloseOrder({NoHP: storePhoneNumber})
+
+        if (res.status === 200) {
+            setModalRating(true)
+            setDataRating(res)
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
+
     const handleCancelTransaction = async () => {
         const res = await mySalon.OrderCancel({NoMember: storage.getString("storeNomorMember")})
 
@@ -65,6 +79,7 @@ function Home({ navigation }) {
           const task = InteractionManager.runAfterInteractions(() => {
             getDashboardMember()
             getTransactionHistory()
+            getCloseOrder()
           });
       
           return () => task.cancel();
@@ -93,10 +108,10 @@ function Home({ navigation }) {
                     }
                     <Gap marginBottom={normalize(16)}/>
                     <SectionInfo 
-                        html={dataMember?.NotifLevelUP}
-                        // status_member={member[5]}
-                        // minimum_transaction={member[8]}
-                        // due_date={member[9]}
+                        // html={dataMember?.NotifLevelUP}
+                        status_member={dataMember?.NotifLevelUPuser}
+                        minimum_transaction={dataMember?.NotifLevelUPtransaction_due}
+                        due_date={dataMember?.NotifLevelUPtransaction_price}
                     />
                     <Gap marginBottom={normalize(16)}/>
                     <Image source={require('assets/images/ic_cardPromo.png')} resizeMethod="scale" resizeMode="contain" style={{width: '100%', height: normalize(158)}}/>
@@ -121,8 +136,13 @@ function Home({ navigation }) {
                 onPress={() => navigation.navigate('Nearest')}
             />
             <ModalPopUpRating
-                isVisible={false}
-                onPress={() => navigation.navigate('Rating')}
+                isVisible={modalRating}
+                date={dataRating.Tanggal}
+                onBackdropPress={() => setModalRating(false)}
+                onPress={() => {
+                    navigation.navigate('Rating', {data: dataRating})
+                    setModalRating(false)
+                }}
             />
         </Container>
     )
@@ -137,17 +157,17 @@ function SectionInfo({
 
     return (
         <View style={[styles.viewInfo, justifyContent.view_center]}>
-            <WebView
+            {/* <WebView
                 originWhitelist={["*"]}
                 source={{
                     html: 
                     `<html><body style="background-color:transparent;">${html}</body></html>`
                 }}
                 style={{width: normalize(250),height:normalize(200), backgroundColor: 'transparent'}}
-            />
-            {/* <Text style={[stylesFonts.Overline, {textAlign: 'center'}]}>
-                Naikkan level anda ke <Text style={{fontFamily: fonts.bold}}>{status_member}</Text> dengan transaksi <Text style={{fontFamily: fonts.bold}}>Rp {minimum_transaction}</Text> sebelum  <Text style={{fontFamily: fonts.bold}}>{moment(due_date).format('DD-MM-YYYY')}</Text>
-            </Text> */}
+            /> */}
+            <Text style={[stylesFonts.Overline, {textAlign: 'center'}]}>
+                Naikkan level anda ke <Text style={{fontFamily: fonts.bold}}>{status_member}</Text> dengan transaksi <Text style={{fontFamily: fonts.bold}}>Rp {minimum_transaction}</Text> sebelum  <Text style={{fontFamily: fonts.bold}}>{due_date}</Text>
+            </Text>
         </View>
     )
 }

@@ -19,8 +19,8 @@ function Login({ navigation }) {
     //567928
 
     const [input, setInput] = useState({
-        numberPhone: "087886831322",
-        password: "300501",
+        numberPhone: "081366886666",
+        password: "567928",
         isOpen: true
     })
  

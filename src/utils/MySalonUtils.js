@@ -19,7 +19,9 @@ import {
     getSimpanEmail,
     getSimpanTanggalLahir,
     getChangePassword,
-    getBenefitMember
+    getBenefitMember,
+    getCloseOrder,
+    getSubmitRating
 } from "../constants/apiMySalon";
 // import { ToastConnection } from "../constants";
 
@@ -226,6 +228,26 @@ class MySalon {
 
     async BenefitMember(params) {
         return params = await getBenefitMember(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async CloseOrder(params) {
+        return params = await getCloseOrder(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async SubmitRating(params) {
+        return params = await getSubmitRating(params).then((response) => {
             const res = response.data
             return res
 
