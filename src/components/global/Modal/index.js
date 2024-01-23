@@ -4,6 +4,7 @@ import ModalPickPhoto from "./ModalPickPhoto";
 import ModalInbox from "./ModalInbox";
 import ModalPopUpRating from "./ModalPopUpRating";
 import ModalBenefitMember from "./ModalBenefitMember";
+import ModalCompleteProfile from "./ModalCompleteProfile";
 
 export {
     ModalConfirmOrder,
@@ -11,5 +12,6 @@ export {
     ModalPickPhoto,
     ModalInbox,
     ModalPopUpRating,
-    ModalBenefitMember
+    ModalBenefitMember,
+    ModalCompleteProfile
 }

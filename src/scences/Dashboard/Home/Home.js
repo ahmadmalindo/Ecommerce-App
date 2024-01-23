@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native"
-import { CardImage, CardTransaction, Container, Gap, HeaderProfile, HeaderSection, ModalPopUpRating } from "components/global"
+import { CardImage, CardTransaction, Container, Gap, HeaderProfile, HeaderSection, ModalCompleteProfile, ModalPopUpRating } from "components/global"
 import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
@@ -18,6 +18,7 @@ function Home({ navigation }) {
     const [dataTransaction, setDataTransaction] = useState([])
     const [dataRating, setDataRating] = useState([])
     const [modalRating, setModalRating] = useState(false)
+    const [modalProfile, setModalProfile] = useState(false)
 
     const storePhoneNumber = storage.getString("storePhoneNumber")
 
@@ -30,6 +31,9 @@ function Home({ navigation }) {
         const res = await mySalon.DashboardMember(params)
 
         if (statusDashboard.includes(res.status)) {
+            if (res?.NamaMember === "NONAME" || res?.emailMember === null) {
+                setModalProfile(true)
+            }
             setDataMember(res)
             storage.getString("storeNomorMember", res.NoMember)
         }
@@ -86,6 +90,8 @@ function Home({ navigation }) {
         }, [navigation])
     );
 
+    let type_member = ["OK", "Non Member No Trx"]
+
     return (
         <Container backgroundColor={'white'}>
             <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
@@ -106,13 +112,17 @@ function Home({ navigation }) {
                         phone_member={dataMember?.TelpMember}
                     />
                     }
-                    <Gap marginBottom={normalize(16)}/>
-                    <SectionInfo 
-                        // html={dataMember?.NotifLevelUP}
-                        status_member={dataMember?.NotifLevelUPuser}
-                        minimum_transaction={dataMember?.NotifLevelUPtransaction_due}
-                        due_date={dataMember?.NotifLevelUPtransaction_price}
-                    />
+                    {dataMember.NoMember !== "-1" &&
+                    <>
+                        <Gap marginBottom={normalize(16)}/>
+                        <SectionInfo 
+                            // html={dataMember?.NotifLevelUP}
+                            status_member={dataMember?.NotifLevelUPuser}
+                            minimum_transaction={dataMember?.NotifLevelUPtransaction_price}
+                            due_date={dataMember?.NotifLevelUPtransaction_due}
+                        />
+                    </>
+                    }
                     <Gap marginBottom={normalize(16)}/>
                     <Image source={require('assets/images/ic_cardPromo.png')} resizeMethod="scale" resizeMode="contain" style={{width: '100%', height: normalize(158)}}/>
                     <Gap marginBottom={normalize(16)}/>
@@ -132,9 +142,12 @@ function Home({ navigation }) {
                     />
                 </View>
             </ScrollView>
+            {type_member.includes(dataMember.response) &&
             <SectionCreateOrder
+                tittle={dataMember.response === "OK" ? "Order Member" : "Order Non Member"}
                 onPress={() => navigation.navigate('Nearest')}
             />
+            }
             <ModalPopUpRating
                 isVisible={modalRating}
                 date={dataRating.Tanggal}
@@ -142,6 +155,14 @@ function Home({ navigation }) {
                 onPress={() => {
                     navigation.navigate('Rating', {data: dataRating})
                     setModalRating(false)
+                }}
+            />
+            <ModalCompleteProfile
+                isVisible={modalProfile}
+                onBackdropPress={() => setModalProfile(false)}
+                onPress={() => {
+                    navigation.navigate('EditProfile', {data: dataMember})
+                    setModalProfile(false)
                 }}
             />
         </Container>
@@ -236,11 +257,11 @@ function SectionList ({
     )
 }
 
-function SectionCreateOrder ({onPress}) {
+function SectionCreateOrder ({onPress, tittle = 'Order'}) {
     return (
         <TouchableOpacity style={[styles.viewOrder, justifyContent.center]} onPress={onPress}>
             <Image source={require('assets/images/ic_gunting.png')} style={{width: normalize(24), height: normalize(24), marginRight: normalize(6)}}/>
-            <Text style={[stylesFonts.Body_1_Bold, {color: 'white'}]}>Order</Text>
+            <Text style={[stylesFonts.Body_1_Bold, {color: 'white'}]}>{tittle}</Text>
         </TouchableOpacity>
     )
 }
@@ -261,12 +282,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: normalize(34)
     },
     viewOrder: {
-        width: normalize(127),
+        minWidth: normalize(127),
         height: normalize(48),
         backgroundColor: colors.primary,
         borderRadius: normalize(100),
         position: 'absolute',
         right: normalize(16),
-        bottom: normalize(25)
+        bottom: normalize(25),
+        paddingHorizontal: normalize(16)
     }
 })
