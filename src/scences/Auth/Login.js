@@ -8,13 +8,15 @@ import mySalon from "utils/MySalonUtils"
 import { colors } from "utils/colors"
 import { fonts, stylesFonts } from "utils/fonts"
 import MMKVStorage from "react-native-mmkv-storage"
-import { Nontification } from "helper"
+import { statusDashboard, Nontification } from "helper/FunctionGlobal"
 
 function Login({ navigation }) {
 
     const storage = new MMKVStorage.Loader().initialize()
 
     const [isLoading, setIsloading] = useState(false)
+    //081366886666
+    //567928
 
     const [input, setInput] = useState({
         numberPhone: "081366886666",
@@ -71,11 +73,14 @@ function Login({ navigation }) {
 
         setIsloading(false)
 
-        if (res.status === 200 || res.status === 202) {
+        if (statusDashboard.includes(res.status)) {
             if (res.TanggalLahir !== null) {
                 storage.setBool('isLogin', true)
                 storage.setString('storePhoneNumber', params.hpUser)
                 navigation.navigate('DashboardNavigation')
+            }
+            else {
+                navigation.navigate('FromUser', {data: res})
             }
         }
         else {

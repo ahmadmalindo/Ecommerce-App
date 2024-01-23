@@ -4,6 +4,8 @@ export const Nontification = (val) => {
     Alert.alert("Perhatian", val)
 }
 
+export const statusDashboard = [200, 201, 202]
+
 export const inputNominal = (angka, prefix) => {
     var number_string   = angka.replace(/[^,\d]/g, '').toString(),
         split           = number_string.split(','),
