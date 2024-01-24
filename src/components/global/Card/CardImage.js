@@ -5,11 +5,11 @@ import { justifyContent, stylesFonts, colors } from 'utils/index';
 import normalize from 'react-native-normalize';
 
 function CardImage ({
-    status_member = 'SILVER MEMBER',
-    type_member = 'VIP',
-    number_member = '0109 2409 0000 1009',
-    name_member = 'ALYCIA GENOSVEVA',
-    phone_member = '085123456789',
+    status_member = '',
+    type_member = '',
+    number_member = '',
+    name_member = '',
+    phone_member = '',
     onPress
 }) {
     return (

@@ -119,8 +119,8 @@ function  SectionReceipt({
 }
 
 function  SectionReceipt2({
-    username = 'Alycia Genosveva',
-    invoice_number = '12345678'
+    username = '',
+    invoice_number = ''
 }) {
     return (
         <View style={justifyContent.space_beetwen}>

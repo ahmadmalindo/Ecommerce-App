@@ -88,8 +88,8 @@ function DetailArtwork({ navigation, route }) {
 }
 
 function SectionTittle ({
-    namePlace = 'Malang Tows Square',
-    detail_address = 'Malang Town Square, Blok GE 2 No. 1, Malang'
+    namePlace = '',
+    detail_address = ''
 }) {
     return (
         <>

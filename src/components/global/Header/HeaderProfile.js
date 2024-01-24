@@ -6,9 +6,9 @@ import normalize from "react-native-normalize";
 import { colors, fonts, justifyContent, stylesFonts } from "utils/index";
 
 const HeaderProfile = ({
-    username = 'Alycia Genosveva',
+    username = '',
     photo = '',
-    adminNumber = '081932472082'
+    adminNumber = ''
 }) => {
 
     const handleOpenWa = () => {

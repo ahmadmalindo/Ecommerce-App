@@ -134,25 +134,6 @@ function Artwork({ navigation }) {
     )
 }
 
-function SectionList ({
-    item,
-    tittle = 'Promo Akhir Tahun 12.12',
-    desc = 'Segera pesan di outlet terdekat denganmu!',
-    time = moment().format('LT'),
-    onPress
-}) {
-    return (
-        <TouchableOpacity style={[styles.viewCard, justifyContent.space_beetwen, {backgroundColor: item.isRead ? colors.secondary_2 : 'white', borderColor: item.isRead ? colors.primary : colors.grey_2}]} onPress={onPress}>
-            <Image source={item.isRead ? require('assets/images/ic_notif_fill.png') : require('assets/images/ic_notif.png')} style={[styles.icon, {marginRight: normalize(12)}]}/>
-            <View style={{width: '65%'}}>
-                <Text style={stylesFonts.Subtittle_2_Bold}>{tittle}</Text>
-                <Text style={stylesFonts.Subtittle_2_Regular} numberOfLines={1}>{desc}</Text>
-            </View>
-            <Text style={stylesFonts.Subtittle_2_Regular} numberOfLines={1}>{time}</Text>
-        </TouchableOpacity>
-    )
-}
-
 export default Artwork
 
 const styles = StyleSheet.create({

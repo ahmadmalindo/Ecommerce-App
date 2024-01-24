@@ -112,8 +112,8 @@ function Account({ navigation }) {
 
 function SectionProfile ({
     photo,
-    name = 'Alycia Genosveva',
-    phone = '085123456789'
+    name = '',
+    phone = ''
 }){
     return (
         <View style={{alignItems: 'center'}}>

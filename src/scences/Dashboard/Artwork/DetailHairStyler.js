@@ -90,10 +90,10 @@ function DetailHairStyler({ navigation, route }) {
 
 function SectionProfile ({
     photo,
-    hairstylist_name = 'Cyndy Lillibridge',
-    hairstylist_sc = 'CR',
-    rating = '5.0',
-    ulasan = '270',
+    hairstylist_name = '',
+    hairstylist_sc = '',
+    rating = '',
+    ulasan = '',
     onPress
 }) {
     return (
@@ -125,8 +125,8 @@ function SectionProfile ({
 }
 
 function SectionList ({
-    tittle = 'Light Blonde',
-    date = '01/09/2023',
+    tittle = '',
+    date = '',
     photo,
     onPress
 }) {

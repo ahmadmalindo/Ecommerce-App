@@ -4,7 +4,7 @@ import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
 import moment from "moment"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import WebView from "react-native-webview"
@@ -83,12 +83,15 @@ function Home({ navigation }) {
           const task = InteractionManager.runAfterInteractions(() => {
             getDashboardMember()
             getTransactionHistory()
-            getCloseOrder()
           });
       
           return () => task.cancel();
         }, [navigation])
     );
+
+    useEffect(() => {
+        getCloseOrder()
+    }, [])
 
     let type_member = ["OK", "Non Member No Trx"]
 
@@ -148,10 +151,10 @@ function Home({ navigation }) {
                 onPress={() => navigation.navigate('Nearest')}
             />
             }
-            <ModalPopUpRating
-                isVisible={modalRating}
-                date={dataRating.Tanggal}
-                onBackdropPress={() => setModalRating(false)}
+            <SectionModalPopUpRating
+                dataRating={dataRating}
+                modalRating={modalRating}
+                setModalRating={setModalRating}
                 onPress={() => {
                     navigation.navigate('Rating', {data: dataRating})
                     setModalRating(false)
@@ -171,9 +174,9 @@ function Home({ navigation }) {
 
 function SectionInfo({
     html = '',
-    status_member = 'GOLD MEMBER',
-    minimum_transaction = 2945000,
-    due_date= '2024-05-31'
+    status_member = '',
+    minimum_transaction = 0,
+    due_date= ''
 }) {
 
     return (
@@ -263,6 +266,54 @@ function SectionCreateOrder ({onPress, tittle = 'Order'}) {
             <Image source={require('assets/images/ic_gunting.png')} style={{width: normalize(24), height: normalize(24), marginRight: normalize(6)}}/>
             <Text style={[stylesFonts.Body_1_Bold, {color: 'white'}]}>{tittle}</Text>
         </TouchableOpacity>
+    )
+}
+
+function SectionModalPopUpRating ({
+    modalRating,
+    setModalRating,
+    dataRating,
+    onPress
+}) {
+
+    
+    const [time, setTime] = useState(0);
+
+    useEffect(() => {
+        let timerIdIOS = setInterval(() => {
+            if (time > 0) {
+                setTime(time - 1)
+            }
+
+            if (time == 0) {
+                clearInterval(timerIdIOS)
+            }
+        }, 1000);
+
+        return () => {
+            clearInterval(timerIdIOS)
+            if (time === 1) {
+                if (!modalRating) {
+                    setModalRating(true)
+                }
+            }
+        };
+    }, [time])
+
+
+    return (
+        <ModalPopUpRating
+            isVisible={modalRating}
+            date={dataRating.Tanggal}
+            onBackdropPress={() => {
+                setModalRating(false)
+                setTime(180)
+            }}
+            onPress={() => {
+                onPress()
+                setTime(180)
+            }}
+        />
     )
 }
 

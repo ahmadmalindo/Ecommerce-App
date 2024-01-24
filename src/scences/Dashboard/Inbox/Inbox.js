@@ -113,8 +113,8 @@ function Inbox({ navigation }) {
 
 function SectionList ({
     item,
-    tittle = 'Promo Akhir Tahun 12.12',
-    desc = 'Segera pesan di outlet terdekat denganmu!',
+    tittle = '',
+    desc = '',
     time = moment().format('LT'),
     onPress
 }) {
