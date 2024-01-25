@@ -3,7 +3,7 @@ import { Nontification } from "helper"
 import { currencyFloat } from "helper"
 import moment from "moment"
 import React, { useEffect, useState } from "react"
-import { FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Dimensions, FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
 import * as Location from 'expo-location';
@@ -12,6 +12,8 @@ import mySalon from "utils/MySalonUtils"
 import { storage } from "helper/storage"
 import { statusDashboard } from "helper/FunctionGlobal"
 
+const { width: SCREEN_WIDTH } = Dimensions.get("window")
+
 function MoreTransaction({ navigation }) {
 
     const [selectedIndex, setSelectedIndex] = useState(null)
@@ -19,6 +21,7 @@ function MoreTransaction({ navigation }) {
     const [dataTransaction, setDataTransaction] = useState([])
     const [dataBenefitMember, setDataBenefitMember] = useState([])
     const [modal, setModal] = useState(false)
+    const [selectCard, setSelectCard] = useState()
 
     const storePhoneNumber = storage.getString("storePhoneNumber")
 
@@ -66,11 +69,13 @@ function MoreTransaction({ navigation }) {
     const getBenefitMember = async () => {
         let namaKategori = dataMember?.NamaKategoriMember.split(" ")
 
-        const res = await mySalon.BenefitMember({levelMember: namaKategori[0]})
+        const res = await mySalon.BenefitMember({levelMember: 'SILVER'})
 
         if (res.status === 200) {
-            setModal(true)
-            setDataBenefitMember(res)
+            let data = res?.responsedata?.map((x,i) => {
+                return ({...x, image: i === 0 ? require('assets/images/ic_content_card.png') : i === 1 ? require('assets/images/ic_content_card_2.png') : require('assets/images/ic_content_card_3.png')})
+            })
+            setDataBenefitMember(data)
         }
         else {
             Nontification(res.response)
@@ -81,6 +86,7 @@ function MoreTransaction({ navigation }) {
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
             getDashboardMember()
+            getBenefitMember()
             getTransactionHistory()
           });
       
@@ -99,13 +105,28 @@ function MoreTransaction({ navigation }) {
             <ScrollView>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
                     {dataMember.NoMember !== "-1" &&
-                    <CardImage
-                        status_member={dataMember?.NamaKategoriMember}
-                        type_member={dataMember?.StatusUser}
-                        number_member={dataMember?.NoMember}
-                        name_member={dataMember?.NamaMember}
-                        phone_member={dataMember?.TelpMember}
-                        onPress={() => getBenefitMember()}
+                    <FlatList
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        data={dataBenefitMember}
+                        renderItem={(({item, index}) => {
+                            return (
+                                <View style={{width: SCREEN_WIDTH / 1.5, marginRight: normalize(6) }}>
+                                    <CardImage
+                                        source={item.image}
+                                        status_member={index === 0 ? dataMember?.NamaKategoriMember : index === 1 ? 'GOLD MEMBER' : 'PLATINUM'}
+                                        type_member={dataMember?.StatusUser}
+                                        number_member={dataMember?.NoMember}
+                                        name_member={dataMember?.NamaMember}
+                                        phone_member={dataMember?.TelpMember}
+                                        onPress={() => {
+                                            setSelectCard(item)
+                                            setModal(true)
+                                        }}
+                                    />
+                                </View>
+                            )
+                        })}
                     />
                     }
                     <Gap marginBottom={normalize(16)}/>
@@ -122,9 +143,15 @@ function MoreTransaction({ navigation }) {
             <ModalBenefitMember
                 isVisible={modal}
                 onBackdropPress={() => setModal(false)}
-                tittle={dataBenefitMember?.title}
-                benefits={dataBenefitMember?.message_1}
-                detail_message={dataBenefitMember?.message_2}
+                tittle={selectCard?.title}
+                benefits={selectCard?.message_1}
+                detail_message={selectCard?.message_2}
+                detail_message_2={selectCard?.message_2}
+                detail_message_3={selectCard?.message_3}
+                detail_message_4={selectCard?.message_4}
+                detail_message_5={selectCard?.message_5}
+                detail_message_6={selectCard?.message_6}
+                detail_message_7={selectCard?.message_7}
             />
         </Container>
     )

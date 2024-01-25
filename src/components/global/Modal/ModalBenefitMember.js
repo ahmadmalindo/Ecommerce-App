@@ -16,7 +16,12 @@ const ModalBenefitMember = ({
     distance = '2.5',
     tittle = 'Promo Akhir Tahun 12.12',
     benefits = 'BENEFITS',
-    detail_message = 'All benefits of Silver Member PLUS 10%'
+    detail_message = 'All benefits of Silver Member PLUS 10%',
+    detail_message_3 = null,
+    detail_message_4 = null,
+    detail_message_5 = null,
+    detail_message_6 = null,
+    detail_message_7 = null,
 }) => {
 
     return (
@@ -40,6 +45,11 @@ const ModalBenefitMember = ({
                 <Text style={stylesFonts.Subtittle_2_Bold}>{benefits}</Text>
                 <Gap marginBottom={normalize(12)}/>
                 <Text style={[stylesFonts.Subtittle_2_Regular]}>{detail_message}</Text>
+                <Text style={[stylesFonts.Subtittle_2_Regular]}>{detail_message_3}</Text>
+                <Text style={[stylesFonts.Subtittle_2_Regular]}>{detail_message_4}</Text>
+                <Text style={[stylesFonts.Subtittle_2_Regular]}>{detail_message_5}</Text>
+                <Text style={[stylesFonts.Subtittle_2_Regular]}>{detail_message_6}</Text>
+                <Text style={[stylesFonts.Subtittle_2_Regular]}>{detail_message_7}</Text>
             </View>
         </Modal>
     )

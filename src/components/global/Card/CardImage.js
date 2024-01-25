@@ -5,6 +5,7 @@ import { justifyContent, stylesFonts, colors } from 'utils/index';
 import normalize from 'react-native-normalize';
 
 function CardImage ({
+    source = require('assets/images/ic_content_card.png'),
     status_member = '',
     type_member = '',
     number_member = '',
@@ -14,7 +15,7 @@ function CardImage ({
 }) {
     return (
         <Pressable onPress={onPress}>
-            <ImageBackground source={require('assets/images/ic_content_card.png')} borderRadius={normalize(16)} style={styles.icBg}>
+            <ImageBackground source={source} borderRadius={normalize(16)} style={styles.icBg}>
                 <View style={{width: '100%', height: normalize(160), padding: normalize(16)}}>
                     <View style={[justifyContent.flex_start, styles.viewCardMember, {alignSelf: 'flex-end', marginRight: normalize(86)}]}>
                         <Text style={[stylesFonts.Overline, {color: 'white'}]}>{status_member}</Text>
