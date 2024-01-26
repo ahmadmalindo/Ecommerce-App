@@ -67,7 +67,6 @@ function MoreTransaction({ navigation }) {
     }
 
     const getBenefitMember = async () => {
-        let namaKategori = dataMember?.NamaKategoriMember.split(" ")
 
         const res = await mySalon.BenefitMember({levelMember: 'SILVER'})
 

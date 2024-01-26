@@ -62,7 +62,7 @@ function Home({ navigation }) {
             setModalRating(true)
             setDataRating(res)
         }
-        else {
+        else if (res.status !== 201) {
             Nontification(res.response)
         }
     }
