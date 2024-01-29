@@ -21,7 +21,8 @@ import {
     getChangePassword,
     getBenefitMember,
     getCloseOrder,
-    getSubmitRating
+    getSubmitRating,
+    getSummaryHistoryTrx
 } from "../constants/apiMySalon";
 // import { ToastConnection } from "../constants";
 
@@ -248,6 +249,16 @@ class MySalon {
 
     async SubmitRating(params) {
         return params = await getSubmitRating(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async SummaryHistoryTrx(params) {
+        return params = await getSummaryHistoryTrx(params).then((response) => {
             const res = response.data
             return res
 

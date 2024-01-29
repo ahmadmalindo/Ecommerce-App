@@ -25,3 +25,4 @@ export const getChangePassword          =   payload   => Axios.post(`${base_uri}
 export const getBenefitMember           =   payload   => Axios.post(`${base_uri}APICabang/getBenefit.php`, payload);
 export const getCloseOrder              =   payload   => Axios.post(`${base_uri}APICabang/orderClose.php`, payload);
 export const getSubmitRating            =   payload   => Axios.post(`${base_uri}APICabang/ratingInput.php`, payload);
+export const getSummaryHistoryTrx       =   payload   => Axios.post(`${base_uri}APICabang/sumHistory.php`, payload);
