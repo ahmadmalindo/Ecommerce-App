@@ -3,6 +3,7 @@ import { Image, ImageBackground, Text, View, StyleSheet, Pressable } from 'react
 import { Gap } from '../Gap';
 import { justifyContent, stylesFonts, colors } from 'utils/index';
 import normalize from 'react-native-normalize';
+import { Ionicons } from '@expo/vector-icons';
 
 function CardImage2 ({
     source = require('assets/images/ic_content_card_1.png'),
@@ -18,13 +19,16 @@ function CardImage2 ({
     return (
         <Pressable onPress={onPress}>
             <ImageBackground source={source} borderRadius={normalize(16)} style={styles.icBg}>
-                <View style={{width: '100%', minHeight: normalize(120), padding: normalize(12)}}>
+                <View style={{width: '100%', minHeight: normalize(120), padding: normalize(8)}}>
                     <View>
-                        <Text style={[stylesFonts.Body_2_SemiBold, {height: normalize(62)}]}>{item.id_type === 1 ? 'Silver Member' : item.id_type === 2 ? 'Upgrade To Gold Member' : 'Upgrade To Platinum Member' }</Text>
-                        <Gap marginBottom={normalize(6)}/>
-                        <Text style={[stylesFonts.Body_2_SemiBold]}>Rp {name_member}</Text>
-                        <Gap marginBottom={normalize(6)}/>
-                        <Text style={[stylesFonts.Body_2_SemiBold]}>You Save Rp {phone_member}</Text>
+                        <View style={[justifyContent.space_beetwen, {alignItems: 'flex-start'}]}>
+                            <Text style={[stylesFonts.Body_2_Bold, {width: normalize(70),height: normalize(62), fontSize: normalize(10)}]}>{item.id_type === 1 ? 'Silver Member' : item.id_type === 2 ? 'Upgrade To Gold Member' : 'Upgrade To Platinum Member' }</Text>
+                            <Ionicons name="information-circle-outline" size={normalize(16)} color={colors.primary} />
+                        </View>
+                        <Gap marginBottom={normalize(4)}/>
+                        <Text style={[stylesFonts.Body_2_Regular, {fontSize: normalize(10)}]}>Rp {name_member}</Text>
+                        <Gap marginBottom={normalize(4)}/>
+                        <Text style={[stylesFonts.Body_2_Regular, {fontSize: normalize(10)}]}>You Save Rp {phone_member}</Text>
                     </View>
                 </View>
             </ImageBackground>
