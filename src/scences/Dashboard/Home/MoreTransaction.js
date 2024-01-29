@@ -1,4 +1,4 @@
-import { CardImage, CardNearest, CardTransaction, Container, Gap, Header, HeaderProfile, HeaderSection, Input, ModalBenefitMember } from "components/global"
+import { CardImage2, CardNearest, CardTransaction, Container, Gap, Header, HeaderProfile, HeaderSection, Input, ModalBenefitMember } from "components/global"
 import { Nontification } from "helper"
 import { currencyFloat } from "helper"
 import moment from "moment"
@@ -18,6 +18,7 @@ function MoreTransaction({ navigation }) {
 
     const [selectedIndex, setSelectedIndex] = useState(null)
     const [dataMember, setDataMember] = useState([])
+    const [dataMemberSummary, setDataMemberSummary] = useState([])
     const [dataTransaction, setDataTransaction] = useState([])
     const [dataBenefitMember, setDataBenefitMember] = useState([])
     const [modal, setModal] = useState(false)
@@ -35,6 +36,7 @@ function MoreTransaction({ navigation }) {
 
         if (statusDashboard.includes(res.status)) {
             setDataMember(res)
+            getBenefitMember(res)
             storage.getString("storeNomorMember", res.NoMember)
         }
         else {
@@ -66,15 +68,43 @@ function MoreTransaction({ navigation }) {
         }
     }
 
-    const getBenefitMember = async () => {
+    const getSummaryTransactionHistory = async () => {
+        const res = await mySalon.SummaryHistoryTrx({NoHP: storePhoneNumber})
+
+        if (statusDashboard.includes(res.status)) {
+            setDataMemberSummary(res)
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
+
+    const getBenefitMember = async (data_member) => {
 
         const res = await mySalon.BenefitMember({levelMember: 'SILVER'})
 
         if (res.status === 200) {
             let data = res?.responsedata?.map((x,i) => {
-                return ({...x, image: i === 0 ? require('assets/images/ic_content_card.png') : i === 1 ? require('assets/images/ic_content_card_2.png') : require('assets/images/ic_content_card_3.png')})
+                return ({
+                    ...x, 
+                    image: i + 1 === 1 ? require('assets/images/ic_content_card_1.png') : i + 1 === 2 ? require('assets/images/ic_content_card_2.png') : require('assets/images/ic_content_card_3.png'),
+                    id_type: i + 1
+                })
             })
-            setDataBenefitMember(data)
+
+            let final_data = []
+
+            if (data_member?.NamaKategoriMember === "SILVER MEMBER" ) {
+                final_data = data
+            }
+            else if (data_member?.NamaKategoriMember === "GOLD MEMBER") {
+                final_data = data?.splice(1)
+            }
+            else if (data_member?.NamaKategoriMember === "PLATINUM MEMBER") {
+                final_data = data?.splice(2)
+            }
+
+            setDataBenefitMember(final_data)
         }
         else {
             Nontification(res.response)
@@ -85,7 +115,7 @@ function MoreTransaction({ navigation }) {
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
             getDashboardMember()
-            getBenefitMember()
+            getSummaryTransactionHistory()
             getTransactionHistory()
           });
       
@@ -103,21 +133,21 @@ function MoreTransaction({ navigation }) {
             </View>
             <ScrollView>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
-                    {dataMember.NoMember !== "-1" &&
+                    {/* {dataMember.NoMember !== "-1" && */}
                     <FlatList
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         data={dataBenefitMember}
                         renderItem={(({item, index}) => {
                             return (
-                                <View style={{width: SCREEN_WIDTH / 1.5, marginRight: normalize(6) }}>
-                                    <CardImage
+                                <View style={{width: SCREEN_WIDTH / 3.4, marginRight: normalize(6) }}>
+                                    <CardImage2
+                                        index={index}
+                                        item={item}
                                         source={item.image}
-                                        status_member={index === 0 ? dataMember?.NamaKategoriMember : index === 1 ? 'GOLD MEMBER' : 'PLATINUM'}
-                                        type_member={dataMember?.StatusUser}
-                                        number_member={dataMember?.NoMember}
-                                        name_member={dataMember?.NamaMember}
-                                        phone_member={dataMember?.TelpMember}
+                                        number_member={dataMemberSummary?.NoMember}
+                                        name_member={dataMemberSummary?.jumlahNaikGold}
+                                        phone_member={dataMemberSummary?.saveTransaksi}
                                         onPress={() => {
                                             setSelectCard(item)
                                             setModal(true)
@@ -127,7 +157,7 @@ function MoreTransaction({ navigation }) {
                             )
                         })}
                     />
-                    }
+                    {/* } */}
                     <Gap marginBottom={normalize(16)}/>
                     <SectionList
                         dataMember={dataMember}
