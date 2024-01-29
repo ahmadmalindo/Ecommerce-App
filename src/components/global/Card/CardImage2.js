@@ -18,11 +18,11 @@ function CardImage2 ({
     return (
         <Pressable onPress={onPress}>
             <ImageBackground source={source} borderRadius={normalize(16)} style={styles.icBg}>
-                <View style={{width: '100%', height: normalize(120), padding: normalize(12)}}>
+                <View style={{width: '100%', minHeight: normalize(120), padding: normalize(12)}}>
                     <View>
-                        <Text style={[stylesFonts.Body_2_SemiBold]}>{item.id_type === 1 ? 'Silver Member' : item.id_type === 2 ? 'Gold Member' : 'Platinum Member' }</Text>
+                        <Text style={[stylesFonts.Body_2_SemiBold, {height: normalize(62)}]}>{item.id_type === 1 ? 'Silver Member' : item.id_type === 2 ? 'Upgrade To Gold Member' : 'Upgrade To Platinum Member' }</Text>
                         <Gap marginBottom={normalize(6)}/>
-                        <Text style={[stylesFonts.Body_2_SemiBold]}>{name_member}</Text>
+                        <Text style={[stylesFonts.Body_2_SemiBold]}>Rp {name_member}</Text>
                         <Gap marginBottom={normalize(6)}/>
                         <Text style={[stylesFonts.Body_2_SemiBold]}>You Save Rp {phone_member}</Text>
                     </View>

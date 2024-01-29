@@ -146,7 +146,7 @@ function MoreTransaction({ navigation }) {
                                         item={item}
                                         source={item.image}
                                         number_member={dataMemberSummary?.NoMember}
-                                        name_member={dataMemberSummary?.jumlahNaikGold}
+                                        name_member={item.id_type === 1 ? dataMemberSummary?.jumlahTransaksi ?? 0 : item.id_type === 2 ? dataMemberSummary?.jumlahNaikGold : item.id_type === 3 ? dataMemberSummary?.jumlahNaikPlatinum : 0 }
                                         phone_member={dataMemberSummary?.saveTransaksi}
                                         onPress={() => {
                                             setSelectCard(item)
