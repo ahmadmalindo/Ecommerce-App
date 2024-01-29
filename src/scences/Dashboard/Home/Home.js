@@ -5,11 +5,12 @@ import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
 import moment from "moment"
 import React, { useEffect, useState } from "react"
-import { FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { FlatList, Image, ImageBackground, InteractionManager, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import WebView from "react-native-webview"
 import mySalon from "utils/MySalonUtils"
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
+import { FontAwesome5 } from "@expo/vector-icons"
 
 function Home({ navigation }) {
 
@@ -78,6 +79,21 @@ function Home({ navigation }) {
         }
     }
 
+    const handleOpenWa = () => {
+
+        let params = {
+            number_phone: dataMember?.waCS?.substr(1)
+        }
+
+        Linking.openURL(`whatsapp://send?phone=+62${params.number_phone}`)
+        .then(() => {
+
+        })
+        .catch(err => {
+            Nontification("Pastikan Wa anda sudah terinstall di hp")
+        })
+    } 
+
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
@@ -97,22 +113,32 @@ function Home({ navigation }) {
 
     return (
         <Container backgroundColor={'white'}>
-            <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
+            {/* <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
                 <HeaderProfile
                     username={dataMember?.NamaMember}
                     photo={dataMember?.fotoFile}
                     adminNumber={dataMember?.waCS}
                 />
-            </View>
+            </View> */}
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
                     {dataMember.NoMember !== "-1" &&
                     <CardImage
+                        photo_member={dataMember?.fotoFile}
                         status_member={dataMember?.NamaKategoriMember}
                         type_member={dataMember?.StatusUser}
                         number_member={dataMember?.NoMember}
                         name_member={dataMember?.NamaMember}
                         phone_member={dataMember?.TelpMember}
+                        tittle={dataMember.response === "OK" ? "Order Member" : "Order Non Member"}
+                        onPress={() => {
+                            if (type_member.includes(dataMember.response)) {
+                                navigation.navigate('Nearest')
+                            }
+                            else {
+                                Nontification("Anda Tidak bisa order dikarenakan Non Member No Trx")
+                            }
+                        }}
                     />
                     }
                     {dataMember.NoMember !== "-1" &&
@@ -145,12 +171,15 @@ function Home({ navigation }) {
                     />
                 </View>
             </ScrollView>
-            {type_member.includes(dataMember.response) &&
+            <SectionWhatsapp
+                onPress={() => handleOpenWa()}
+            />
+            {/* {type_member.includes(dataMember.response) &&
             <SectionCreateOrder
                 tittle={dataMember.response === "OK" ? "Order Member" : "Order Non Member"}
                 onPress={() => navigation.navigate('Nearest')}
             />
-            }
+            } */}
             <SectionModalPopUpRating
                 dataRating={dataRating}
                 modalRating={modalRating}
@@ -269,6 +298,14 @@ function SectionCreateOrder ({onPress, tittle = 'Order'}) {
     )
 }
 
+function SectionWhatsapp ({onPress, tittle = 'Order'}) {
+    return (
+        <TouchableOpacity style={[styles.btnWa, justifyContent.view_center]} onPress={onPress}>
+            <Image source={require('assets/images/ic_wa.png')} style={{width: normalize(32), height: normalize(32)}}/>
+        </TouchableOpacity>
+    )
+}
+
 function SectionModalPopUpRating ({
     modalRating,
     setModalRating,
@@ -341,5 +378,19 @@ const styles = StyleSheet.create({
         right: normalize(16),
         bottom: normalize(25),
         paddingHorizontal: normalize(16)
+    },
+    btnWa: {
+        width: normalize(48),
+        height: normalize(48),
+        backgroundColor: 'white',
+        elevation: 3,
+        shadowColor: '#CCE3FF66',
+        shadowRadius: 10,
+        shadowOpacity: 1,
+        shadowOffset: {width: 1, height: 1},
+        borderRadius: normalize(48),
+        position: 'absolute',
+        right: normalize(16),
+        bottom: normalize(25),
     }
 })
