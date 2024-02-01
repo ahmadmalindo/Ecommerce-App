@@ -28,7 +28,7 @@ function CardImage2 ({
                         <Gap marginBottom={normalize(4)}/>
                         <Text style={[stylesFonts.Body_2_Regular, {fontSize: normalize(10)}]}>Rp {name_member}</Text>
                         <Gap marginBottom={normalize(4)}/>
-                        <Text style={[stylesFonts.Body_2_Regular, {fontSize: normalize(10)}]}>You Save Rp {phone_member}</Text>
+                        <Text style={[stylesFonts.Body_2_Regular, {fontSize: normalize(10)}]}>{item.id_type === 1 ? 'You Save Rp' : ''} {item.id_type === 1 ? phone_member : ''}</Text>
                     </View>
                 </View>
             </ImageBackground>

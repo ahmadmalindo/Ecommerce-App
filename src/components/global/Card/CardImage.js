@@ -54,9 +54,15 @@ function CardImage ({
                     </View>
                     <Gap marginBottom={normalize(16)}/>
                     <View style={justifyContent.space_beetwen}> 
+                        {photo_member !== null ?
                         <TouchableOpacity onPress={onPress} style={[styles.btn, justifyContent.view_center]}>
                             <Text style={[stylesFonts.Body_2_Bold]}>{tittle?.toUpperCase()}</Text>
                         </TouchableOpacity>
+                        :
+                        <TouchableOpacity onPress={onPress} style={[styles.btn, justifyContent.view_center, {borderColor: 'transparent'}]}>
+
+                        </TouchableOpacity>
+                        }
                         <Text style={[stylesFonts.Body_2_SemiBold]}>{phone_member}</Text>
                     </View>
                 </View>

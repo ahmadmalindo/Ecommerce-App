@@ -4,13 +4,46 @@ import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
 import moment from "moment"
-import React, { useEffect, useState } from "react"
-import { FlatList, Image, ImageBackground, InteractionManager, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import React, { useEffect, useRef, useState } from "react"
+import { Dimensions, FlatList, Image, ImageBackground, InteractionManager, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import WebView from "react-native-webview"
 import mySalon from "utils/MySalonUtils"
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
 import { FontAwesome5 } from "@expo/vector-icons"
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window')
+
+let image_banner = [
+    {
+        id: 1,
+        img: 'https://msi.mysalon.id/images-slide/silver_senin.png'
+    },
+    {
+        id: 2,
+        img: 'https://msi.mysalon.id/images-slide/silver_selasa.png'
+    },
+    {
+        id: 3,
+        img: 'https://msi.mysalon.id/images-slide/silver_rabu.png'
+    },
+    {
+        id: 4,
+        img: 'https://msi.mysalon.id/images-slide/silver_kamis.png'
+    },
+    {
+        id: 5,
+        img: 'https://msi.mysalon.id/images-slide/silver_jumat.png'
+    },
+    {
+        id: 6,
+        img: 'https://msi.mysalon.id/images-slide/gold_member.png'
+    },
+    {
+        id: 7,
+        img: 'https://msi.mysalon.id/images-slide/platinum_member.png'
+    },
+]
 
 function Home({ navigation }) {
 
@@ -153,7 +186,8 @@ function Home({ navigation }) {
                     </>
                     }
                     <Gap marginBottom={normalize(16)}/>
-                    <Image source={require('assets/images/ic_cardPromo.png')} resizeMethod="scale" resizeMode="contain" style={{width: '100%', height: normalize(158)}}/>
+                    <SectionImageSlider
+                    />
                     <Gap marginBottom={normalize(16)}/>
                     <HeaderSection
                         tittle={'Transaksi Terakhir'}
@@ -221,6 +255,49 @@ function SectionInfo({
             <Text style={[stylesFonts.Overline, {textAlign: 'center'}]}>
                 Naikkan level anda ke <Text style={{fontFamily: fonts.bold}}>{status_member}</Text> dengan transaksi <Text style={{fontFamily: fonts.bold}}>Rp {minimum_transaction}</Text> sebelum  <Text style={{fontFamily: fonts.bold}}>{due_date}</Text>
             </Text>
+        </View>
+    )
+}
+
+function SectionImageSlider () {
+
+    const bannerRef = useRef()
+    const [bannerIndex, setBannerIndex] = useState(0)
+
+    useEffect(() => {
+        let lenght = image_banner.length - 1
+
+        const interval = setInterval(() => {
+            if (bannerIndex == lenght) {
+                setBannerIndex(0)
+            }
+            else {
+              setBannerIndex(bannerIndex + 1 )
+            }
+            bannerRef.current?.scrollToIndex({ index: bannerIndex, animated: true });
+        }, 2500)
+        return () => clearInterval(interval)
+    }, [bannerIndex])
+
+    return (
+        <View>
+            <FlatList
+                ref={bannerRef}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={image_banner}
+                renderItem={(({item,index}) => {
+                    return (
+                        <Image source={{uri: item.img}} resizeMethod="scale" resizeMode="cover" style={{width: SCREEN_WIDTH / 1.15, height: normalize(270), marginRight: normalize(16)}}/>
+                    )
+                })}
+                onScrollToIndexFailed={info => {
+                    const wait = new Promise(resolve => setTimeout(resolve, 700));
+                    wait.then(() => {
+                        bannerRef.current?.scrollToIndex({ index: info.index, animated: true });
+                    });
+                }}
+            />
         </View>
     )
 }
