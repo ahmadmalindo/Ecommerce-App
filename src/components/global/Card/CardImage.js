@@ -7,6 +7,7 @@ import { Button } from '../Button';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function CardImage ({
+    data,
     source,
     photo_member, 
     status_member = '',
@@ -55,9 +56,27 @@ function CardImage ({
                     <Gap marginBottom={normalize(16)}/>
                     <View style={justifyContent.space_beetwen}> 
                         {photo_member !== null ?
-                        <TouchableOpacity onPress={onPress} style={[styles.btn, justifyContent.view_center]}>
-                            <Text style={[stylesFonts.Body_2_Bold]}>{tittle?.toUpperCase()}</Text>
-                        </TouchableOpacity>
+                        <>
+                            {data?.response === "OK" ?
+                            <>
+                                {data.TanggalLahir !== null ?
+                                <SectionButtonOrder
+                                    tittle={tittle}
+                                    onPress={onPress}
+                                />
+                                :
+                                <TouchableOpacity onPress={onPress} style={[styles.btn, justifyContent.view_center, {borderColor: 'transparent'}]}>
+
+                                </TouchableOpacity>
+                                }
+                            </>
+                            :
+                            <SectionButtonOrder
+                                tittle={tittle}
+                                onPress={onPress}
+                            />
+                            }
+                        </>
                         :
                         <TouchableOpacity onPress={onPress} style={[styles.btn, justifyContent.view_center, {borderColor: 'transparent'}]}>
 
@@ -68,6 +87,17 @@ function CardImage ({
                 </View>
             </ImageBackground>
         </Pressable>
+    )
+}
+
+function SectionButtonOrder ({
+    onPress,
+    tittle
+}) {
+    return (
+        <TouchableOpacity onPress={onPress} style={[styles.btn, justifyContent.view_center]}>
+            <Text style={[stylesFonts.Body_2_Bold]}>{tittle?.toUpperCase()}</Text>
+        </TouchableOpacity>
     )
 }
 

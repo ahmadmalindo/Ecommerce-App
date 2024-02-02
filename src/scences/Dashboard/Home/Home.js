@@ -178,6 +178,7 @@ function Home({ navigation }) {
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
                     {dataMember.NoMember !== "-1" &&
                     <CardImage
+                        data={dataMember}
                         photo_member={dataMember?.fotoFile}
                         status_member={dataMember?.NamaKategoriMember}
                         type_member={dataMember?.StatusUser}
@@ -246,7 +247,14 @@ function Home({ navigation }) {
             />
             <ModalCompleteProfile
                 isVisible={modalProfile}
-                // onBackdropPress={() => setModalProfile(false)}
+                onBackdropPress={() => {
+                    if (dataMember.response === "OK") {
+                        Nontification("Wajib Melengkapi Profile")
+                    }
+                    else {
+                        setModalProfile(false)
+                    }
+                }}
                 onPress={() => {
                     navigation.navigate('AuthNavigation', {screen: 'FromUser', params: {data: dataMember}})
                     setModalProfile(false)
