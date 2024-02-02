@@ -9,12 +9,14 @@ import { colors } from "utils/colors"
 import { fonts, stylesFonts } from "utils/fonts"
 import MMKVStorage from "react-native-mmkv-storage"
 import { statusDashboard, Nontification } from "helper/FunctionGlobal"
+import DeviceInfo from 'react-native-device-info';
 
 function Login({ navigation }) {
 
     const storage = new MMKVStorage.Loader().initialize()
 
     const [isLoading, setIsloading] = useState(false)
+    const [deviceUniqueId, setDeviceUniqueId] = useState("")
     //081366886666
     //567928
 
@@ -23,6 +25,13 @@ function Login({ navigation }) {
         password: "567928",
         isOpen: true
     })
+
+    const getDeviceUniqueId = async () => {
+        DeviceInfo.getUniqueId().then((uniqueId) => {
+            console.log(uniqueId);
+            setDeviceUniqueId(uniqueId)
+        });
+    }
  
     const getAuthentification = async () => {
         let params = {
@@ -80,10 +89,10 @@ function Login({ navigation }) {
                 navigation.navigate('DashboardNavigation')
             }
             else {
-                storage.setBool('isLogin', true)
-                storage.setString('storePhoneNumber', params.hpUser)
-                navigation.navigate('DashboardNavigation')
-                // navigation.navigate('FromUser', {data: res})
+                // storage.setBool('isLogin', true)
+                // storage.setString('storePhoneNumber', params.hpUser)
+                // navigation.navigate('DashboardNavigation')
+                navigation.navigate('FromUser', {data: res})
             }
         }
         else {
@@ -95,6 +104,7 @@ function Login({ navigation }) {
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
+            getDeviceUniqueId()
             getAuthentification()
           });
       
