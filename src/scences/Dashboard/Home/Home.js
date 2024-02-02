@@ -66,7 +66,13 @@ function Home({ navigation }) {
         const res = await mySalon.DashboardMember(params)
 
         if (statusDashboard.includes(res.status)) {
-            if (res?.NamaMember === "NONAME" || res?.emailMember === null) {
+            if (res?.NamaMember === "NONAME") {
+                setModalProfile(true)
+            }
+            else if (res?.emailMember === null) {
+                setModalProfile(true)
+            }
+            else if (res?.TanggalLahir == null) {
                 setModalProfile(true)
             }
             setDataMember(res)

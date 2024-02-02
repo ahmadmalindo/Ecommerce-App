@@ -19,10 +19,12 @@ function Login({ navigation }) {
     const [deviceUniqueId, setDeviceUniqueId] = useState("")
     //081366886666
     //567928
+    //087854402772
+    //112233
 
     const [input, setInput] = useState({
-        numberPhone: "081366886666",
-        password: "567928",
+        numberPhone: "",
+        password: "",
         isOpen: true
     })
 

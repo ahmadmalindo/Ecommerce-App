@@ -24,7 +24,7 @@ function Onboard({ navigation }) {
                     border
                     tittle="Masuk Ke Akun Saya"
                     onPress={() => {
-                        navigation.navigate("AuthNavigation")
+                        navigation.navigate("AuthNavigation", {screen: 'Login'})
                     }}
                 />
             </View>
