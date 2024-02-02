@@ -16,6 +16,7 @@ const ModalBenefitMember = ({
     distance = '2.5',
     tittle = 'Promo Akhir Tahun 12.12',
     benefits = 'BENEFITS',
+    level_member = '',
     detail_message = 'All benefits of Silver Member PLUS 10%',
     detail_message_3 = null,
     detail_message_4 = null,
@@ -35,7 +36,7 @@ const ModalBenefitMember = ({
         >
             <View style={[styles.contentModal]}>
                 <View style={justifyContent.space_beetwen}>
-                    <Text style={stylesFonts.Body_1_Bold}>Detail Benefit Member</Text>
+                    <Text style={stylesFonts.Body_1_Bold}>Detail {level_member?.toUpperCase()}</Text>
                     <Gap marginBottom={normalize(36)}/>
                     <Ionicons name="close-circle" size={24} color={colors.grey} onPress={onBackdropPress}/>
                 </View>

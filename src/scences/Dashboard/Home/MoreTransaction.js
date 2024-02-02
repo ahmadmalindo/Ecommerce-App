@@ -174,6 +174,7 @@ function MoreTransaction({ navigation }) {
                 onBackdropPress={() => setModal(false)}
                 tittle={selectCard?.title}
                 benefits={selectCard?.message_1}
+                level_member={selectCard?.level}
                 detail_message={selectCard?.message_2}
                 detail_message_2={selectCard?.message_2}
                 detail_message_3={selectCard?.message_3}

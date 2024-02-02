@@ -26,7 +26,7 @@ function CardImage2 ({
                             <Ionicons name="information-circle-outline" size={normalize(16)} color={colors.primary} />
                         </View>
                         <Gap marginBottom={normalize(4)}/>
-                        <Text style={[stylesFonts.Body_2_Regular, {fontSize: normalize(10)}]}>Rp {name_member}</Text>
+                        <Text style={[stylesFonts.Body_2_Regular, {fontSize: normalize(10)}]}>(Rp {name_member})</Text>
                         <Gap marginBottom={normalize(4)}/>
                         <Text style={[stylesFonts.Body_2_Regular, {fontSize: normalize(10)}]}>{item.id_type === 1 ? 'You Save Rp' : ''} {item.id_type === 1 ? phone_member : ''}</Text>
                     </View>
