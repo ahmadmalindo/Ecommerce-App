@@ -71,7 +71,10 @@ function FromUser({ navigation, route }) {
                     <Gap marginBottom={normalize(24)}/>
                     <SectionFormInput
                         month={month}
-                        onMonthPicker={() => setPickerMonth(true)}
+                        onMonthPicker={() => {
+                            setPickerMonth(true)
+                            setPickerDate(false)
+                        }}
                         date={date}
                         onDatePicker={() => {
                             if (month !== '') {
@@ -95,6 +98,7 @@ function FromUser({ navigation, route }) {
                 onValueChange={(itemValue, itemIndex) => {
                     setMonth(itemValue)
                     setPickerMonth(false)
+                    setDate("")
                 }}
                 style={{height: normalize(250), backgroundColor: colors.grey_3}}
             >
