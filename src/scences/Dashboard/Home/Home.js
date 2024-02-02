@@ -242,7 +242,7 @@ function Home({ navigation }) {
                 isVisible={modalProfile}
                 onBackdropPress={() => setModalProfile(false)}
                 onPress={() => {
-                    navigation.navigate('EditProfile', {data: dataMember})
+                    navigation.navigate('AuthNavigation', {screen: 'FromUser', params: {data: dataMember}})
                     setModalProfile(false)
                 }}
             />
