@@ -246,7 +246,7 @@ function Home({ navigation }) {
             />
             <ModalCompleteProfile
                 isVisible={modalProfile}
-                onBackdropPress={() => setModalProfile(false)}
+                // onBackdropPress={() => setModalProfile(false)}
                 onPress={() => {
                     navigation.navigate('AuthNavigation', {screen: 'FromUser', params: {data: dataMember}})
                     setModalProfile(false)

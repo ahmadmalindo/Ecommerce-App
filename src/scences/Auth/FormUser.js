@@ -9,25 +9,43 @@ import normalize from "react-native-normalize"
 import mySalon from "utils/MySalonUtils"
 import { colors } from "utils/colors"
 import { stylesFonts } from "utils/fonts"
+import {Picker} from '@react-native-picker/picker'
 
 function FromUser({ navigation, route }) {
 
     const { data } = route.params
 
     const [isLoading, setIsloading] = useState(false)
+    const [month, setMonth] = useState("")
+    const [arrayDays, setArrayDays] = useState([])
     const [date, setDate] = useState("")
-    const [open, setOpen] = useState(false)
+    const [pickerMonth, setPickerMonth] = useState(false)
+    const [pickerDate, setPickerDate] = useState(false)
+
+    const arrayMonth = moment.months()
+    const year = moment().format('YYYY')
+
+    const getDaysInMonth = async () => {
+        let arrayDays = moment(moment(`${year}-${month + 1}`)).daysInMonth()
+
+        let days = []
+        for (let i = 0; i < arrayDays; i++) {
+            days.push(i + 1)
+        }
+
+        setArrayDays(days);
+        setPickerDate(true)
+    }
+
 
     const handleSaveBirthDate = async () => {
         setIsloading(true)
 
         let params = {
             NoMember: data.NoMember,
-            TglLahir: moment(date).format('DD'),
-            BulanLahir:  moment(date).format('MM')
+            TglLahir: moment(`${year}-${month + 1}-${date}`).format('DD'),
+            BulanLahir:  moment(`${year}-${month + 1}`).format('MM')
         }
-
-        console.log(JSON.stringify(params))
 
         const res = await mySalon.SimpanTanggalLahir(params)
 
@@ -43,7 +61,7 @@ function FromUser({ navigation, route }) {
         }
     }
 
-    return (
+    return ( 
         <Container backgroundColor={'white'}>
             <ScrollView>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
@@ -52,8 +70,17 @@ function FromUser({ navigation, route }) {
                     <SectionTittle/>
                     <Gap marginBottom={normalize(24)}/>
                     <SectionFormInput
+                        month={month}
+                        onMonthPicker={() => setPickerMonth(true)}
                         date={date}
-                       onPress={() => setOpen(true)}
+                        onDatePicker={() => {
+                            if (month !== '') {
+                                getDaysInMonth(true)
+                            }
+                            else {
+                                Nontification('Pilih tanggal dahulu')
+                            }
+                        }}
                     />
                     <Gap marginBottom={normalize(24)}/>
                     <SectionButton
@@ -62,20 +89,38 @@ function FromUser({ navigation, route }) {
                     />
                 </View>
             </ScrollView>
-            <DatePicker
-                modal
-                mode="date"
-                open={open}
-                date={date === "" ? new Date() : date}
-                maximumDate={new Date()}
-                onConfirm={(date) => {
-                    setOpen(false)
-                    setDate(date)
+            {pickerMonth &&
+            <Picker
+                selectedValue={month}
+                onValueChange={(itemValue, itemIndex) => {
+                    setMonth(itemValue)
+                    setPickerMonth(false)
                 }}
-                onCancel={() => {
-                    setOpen(false)
+                style={{height: normalize(250), backgroundColor: colors.grey_3}}
+            >
+                {arrayMonth.map((item, index) => {
+                    return (
+                        <Picker.Item label={item} value={index} />
+                    )
+                })}
+            </Picker>
+            }
+            {pickerDate &&
+            <Picker
+                selectedValue={date}
+                onValueChange={(itemValue, itemIndex) => {
+                    setDate(itemValue)
+                    setPickerDate(false)
                 }}
-            />
+                style={{height: normalize(250), backgroundColor: colors.grey_3}}
+            >
+              {arrayDays.map(item => {
+                return (
+                    <Picker.Item label={item.toString()} value={item} />
+                )
+              })}
+            </Picker>
+            }
         </Container>
     )
 }
@@ -89,16 +134,28 @@ function SectionTittle () {
 }
 
 function SectionFormInput ({
+    month,
     date,
-    onPress
+    onMonthPicker,
+    onDatePicker
 }) {
+
+    const monthDate = moment.months(month);
+
     return (
         <>
             <Selection
-                tittle="Tanggal Lahir"
-                placeHolder={date === "" ? 'Pilih Tanggal Lahir' : moment(date).format('DD MMM YYYY')}
+                tittle="Bulan Lahir"
+                placeHolder={month === "" ? 'Pilih Bulan Lahir' : monthDate}
                 costumIcon={<Image source={require('assets/images/ic_calendar.png')} style={styles.icon}/>}
-                onPress={onPress}
+                onPress={onMonthPicker}
+            />
+            <Gap marginBottom={normalize(16)}/>
+            <Selection
+                tittle="Tanggal Lahir"
+                placeHolder={date === "" ? 'Pilih Tanggal Lahir' : date}
+                costumIcon={<Image source={require('assets/images/ic_calendar.png')} style={styles.icon}/>}
+                onPress={onDatePicker}
             />
         </>
     )

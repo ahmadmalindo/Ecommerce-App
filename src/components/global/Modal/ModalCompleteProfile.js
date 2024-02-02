@@ -30,7 +30,7 @@ const ModalCompleteProfile = ({
                 <View style={justifyContent.space_beetwen}>
                     <Text style={stylesFonts.Body_1_Bold}></Text>
                     <Gap marginBottom={normalize(36)}/>
-                    <Ionicons name="close-circle" size={24} color={colors.grey} onPress={onBackdropPress}/>
+                    {/* <Ionicons name="close-circle" size={24} color={colors.grey} onPress={onBackdropPress}/> */}
                 </View>
                 <Image source={require ('assets/images/ic_complete_profile.png')} resizeMethod='scale' resizeMode='contain' style={{width: '100%', height: normalize(200)}}/>
                 <Gap marginBottom={normalize(24)}/>
