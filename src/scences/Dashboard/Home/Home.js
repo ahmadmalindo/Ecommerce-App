@@ -5,7 +5,7 @@ import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
 import moment from "moment"
 import React, { useEffect, useRef, useState } from "react"
-import { Dimensions, FlatList, Image, ImageBackground, InteractionManager, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Dimensions, FlatList, Image, ImageBackground, InteractionManager, Linking, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import WebView from "react-native-webview"
 import mySalon from "utils/MySalonUtils"
@@ -47,6 +47,7 @@ let image_banner = [
 
 function Home({ navigation }) {
 
+    const [isLoading, setIsLoading] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(null)
     const [dataMember, setDataMember] = useState([])
     const [dataTransaction, setDataTransaction] = useState([])
@@ -142,6 +143,15 @@ function Home({ navigation }) {
         getCloseOrder()
     }, [])
 
+    const onRefresh = React.useCallback(() => {
+        setIsLoading(true);
+        getDashboardMember()
+        getTransactionHistory()
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+      }, []);
+
     let type_member = ["OK", "Non Member No Trx"]
 
     return (
@@ -153,7 +163,12 @@ function Home({ navigation }) {
                     adminNumber={dataMember?.waCS}
                 />
             </View> */}
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView 
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+                }
+            >
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
                     {dataMember.NoMember !== "-1" &&
                     <CardImage
