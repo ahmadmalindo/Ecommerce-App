@@ -3,7 +3,7 @@ import { Container, Gap, ModalPickPhoto } from "components/global"
 import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
-import { ActivityIndicator, FlatList, Image, InteractionManager, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, FlatList, Image, InteractionManager, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import mySalon from "utils/MySalonUtils"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
@@ -153,9 +153,21 @@ function Account({ navigation }) {
         }, [navigation])
     );
 
+    const onRefresh = React.useCallback(() => {
+        setIsLoading(true);
+        getDashboardMember()
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+    }, []);
+
     return (
         <Container backgroundColor={'white'}>
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+                }
+            >
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16), alignItems: 'center'}}>
                     <SectionProfile
                         isLoading={isLoading}

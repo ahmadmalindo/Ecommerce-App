@@ -80,10 +80,10 @@ function Login({ navigation }) {
                 navigation.navigate('DashboardNavigation')
             }
             else {
-                // storage.setBool('isLogin', true)
-                // storage.setString('storePhoneNumber', params.hpUser)
-                // navigation.navigate('DashboardNavigation')
-                navigation.navigate('FromUser', {data: res})
+                storage.setBool('isLogin', true)
+                storage.setString('storePhoneNumber', params.hpUser)
+                navigation.navigate('DashboardNavigation')
+                // navigation.navigate('FromUser', {data: res})
             }
         }
         else {

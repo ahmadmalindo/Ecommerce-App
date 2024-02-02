@@ -3,7 +3,7 @@ import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { currencyFloat } from "helper"
 import moment from "moment"
 import React, { useEffect, useState } from "react"
-import { FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { FlatList, Image, ImageBackground, InteractionManager, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import mySalon from "utils/MySalonUtils"
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
@@ -13,6 +13,7 @@ import { storage } from "helper/storage"
 
 function Artwork({ navigation }) {
 
+    const [isLoading, setIsLoading] = useState(false)
     const [inputSearch, setInputSearch] = useState("")
     const [dataNearest, setDataNearest] = useState([])
     const [dataMember, setDataMember] = useState([])
@@ -79,6 +80,15 @@ function Artwork({ navigation }) {
         }, [navigation])
     );
 
+    const onRefresh = React.useCallback(() => {
+        setIsLoading(true);
+        getDashboardMember()
+        getNearestOutlet()
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+    }, []);
+
     return (
         <Container backgroundColor={'white'}>
             <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
@@ -88,7 +98,11 @@ function Artwork({ navigation }) {
                     adminNumber={dataMember?.waCS}
                 />
             </View>
-            <ScrollView>
+            <ScrollView
+                refreshControl={
+                    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+                }
+            >
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
                     <Input
                         placeholder={'Search'}
