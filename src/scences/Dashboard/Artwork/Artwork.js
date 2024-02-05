@@ -17,7 +17,6 @@ function Artwork({ navigation }) {
     const [inputSearch, setInputSearch] = useState("")
     const [dataNearest, setDataNearest] = useState([])
     const [dataMember, setDataMember] = useState([])
-    const [location, setLocation] = useState(null);
 
     const storePhoneNumber = storage.getString("storePhoneNumber")
 
@@ -37,7 +36,7 @@ function Artwork({ navigation }) {
         }
     }
 
-    const getNearestOutlet = async () => {
+    const getNearestOutlet = async (location) => {
 
         let params = {
             latUser : location?.coords?.latitude,
@@ -65,7 +64,7 @@ function Artwork({ navigation }) {
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
+        getNearestOutlet(location)
         })();
     }, []);
 
@@ -73,7 +72,6 @@ function Artwork({ navigation }) {
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
             getDashboardMember()
-            getNearestOutlet()
           });
       
           return () => task.cancel();
@@ -83,7 +81,6 @@ function Artwork({ navigation }) {
     const onRefresh = React.useCallback(() => {
         setIsLoading(true);
         getDashboardMember()
-        getNearestOutlet()
         setTimeout(() => {
             setIsLoading(false);
         }, 2000);

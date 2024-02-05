@@ -7,16 +7,19 @@ import { FlatList, Image, ImageBackground, InteractionManager, ScrollView, Style
 import normalize from "react-native-normalize"
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
 import * as Location from 'expo-location';
-import { useFocusEffect } from "@react-navigation/native"
+import { useFocusEffect, useIsFocused } from "@react-navigation/native"
 import mySalon from "utils/MySalonUtils"
 
 function Nearest({ navigation }) {
 
+    let minimum_distance = 0.15
+
+    const focused = useIsFocused()
+
     const [inputSearch, setInputSearch] = useState("")
     const [dataNearest, setDataNearest] = useState([])
-    const [location, setLocation] = useState(null);
 
-    const getNearestOutlet = async () => {
+    const getNearestOutlet = async (location) => {
 
         let params = {
             latUser : location?.coords?.latitude,
@@ -44,19 +47,9 @@ function Nearest({ navigation }) {
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        setLocation(location);
+        getNearestOutlet(location);
         })();
     }, []);
-
-    useFocusEffect(
-        React.useCallback(() => {
-          const task = InteractionManager.runAfterInteractions(() => {
-            getNearestOutlet()
-          });
-      
-          return () => task.cancel();
-        }, [navigation])
-    );
 
     return (
         <Container backgroundColor={'white'}>
@@ -95,7 +88,15 @@ function Nearest({ navigation }) {
                                     detail_address={item?.Alamat}
                                     item={item}
                                     index={index}
-                                    onPress={() => navigation.navigate('DetailNearest', {id: item.nKode, data: item})}
+                                    onPress={() => {
+                                        if (parseFloat(item.Jarak) <= minimum_distance) {
+                                            navigation.navigate('DetailNearest', {id: item.nKode, data: item})
+                                        }
+                                        else {
+                                           Nontification("Anda tidak dapat order karena melebihi jarak 0.15 km dari lokasi anda")
+                                        }
+
+                                    }}
                                 />
                             )
                         })}

@@ -71,6 +71,8 @@ function DetailNearest({ navigation, route }) {
             contentSize.height - paddingToBottom;
     };
 
+    console.log(show);
+
     return (
         <Container backgroundColor={'white'}>
             <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
@@ -129,14 +131,19 @@ function DetailNearest({ navigation, route }) {
                 onSwipeComplete={() => setModal(false)}
                 onPress={() => handleInputOrder()}
             />
-            {show &&
             <View style={{paddingHorizontal: normalize(16), height: normalize(84), justifyContent: 'center'}}>
                 <Button
                     tittle={'Pesan Sekarang'}
-                    onPress={() => setModal(true)}
+                    onPress={() => {
+                        if (!show && dataKaryawan.length >= 3) {
+                            Nontification("Scroll sampai bawah dahulu untuk melakukan pemesanan")
+                        }
+                        else {
+                            setModal(true)
+                        }
+                    }}
                 />
             </View>
-            }
         </Container>
     )
 }
