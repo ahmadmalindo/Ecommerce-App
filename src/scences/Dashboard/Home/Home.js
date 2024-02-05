@@ -76,7 +76,7 @@ function Home({ navigation }) {
                 setModalProfile(true)
             }
             setDataMember(res)
-            storage.getString("storeNomorMember", res.NoMember)
+            storage.setString("storeNomorMember", res.NoMember)
         }
         else {
             Nontification(res.response)

@@ -37,7 +37,7 @@ function MoreTransaction({ navigation }) {
         if (statusDashboard.includes(res.status)) {
             setDataMember(res)
             getBenefitMember(res)
-            storage.getString("storeNomorMember", res.NoMember)
+            storage.setString("storeNomorMember", res.NoMember)
         }
         else {
             Nontification(res.response)
