@@ -3,7 +3,7 @@ import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { currencyFloat } from "helper"
 import moment from "moment"
 import React, { useEffect, useState } from "react"
-import { FlatList, Image, ImageBackground, InteractionManager, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, FlatList, Image, ImageBackground, InteractionManager, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import mySalon from "utils/MySalonUtils"
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
@@ -123,6 +123,7 @@ function Artwork({ navigation }) {
                     <Gap marginBottom={normalize(24)}/>
                     <FlatList
                         data={dataNearest}
+                        ListEmptyComponent={<ActivityIndicator/>}
                         renderItem={(({item,index}) => {
                             return (
                                 <CardNearest

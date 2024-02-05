@@ -3,7 +3,7 @@ import { Nontification } from "helper"
 import { currencyFloat } from "helper"
 import moment from "moment"
 import React, { useEffect, useState } from "react"
-import { FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
 import * as Location from 'expo-location';
@@ -80,6 +80,7 @@ function Nearest({ navigation }) {
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
                     <FlatList
                         data={dataNearest}
+                        ListEmptyComponent={<ActivityIndicator/>}
                         renderItem={(({item,index}) => {
                             return (
                                 <CardNearest
