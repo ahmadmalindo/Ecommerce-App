@@ -72,8 +72,8 @@ const CardTransaction = ({
                 </View>
                 <View>
                     <Text style={[stylesFonts.Body_2_SemiBold, {textAlign: "right"}]}>{payment_methods}</Text>
-                    <Text style={[stylesFonts.Body_2_SemiBold, {textAlign: "right"}]}>{payment}</Text>
-                    <Text style={[stylesFonts.Body_2_SemiBold, {textAlign: "right"}]}>{receipt_number === "-1" ? null : receipt_number}</Text>
+                    <Text style={[stylesFonts.Body_2_SemiBold, {textAlign: "right"}]}>{receipt_number === "-1" ? '-' : payment}</Text>
+                    <Text style={[stylesFonts.Body_2_SemiBold, {textAlign: "right"}]}>{receipt_number === "-1" ? '-' : receipt_number}</Text>
                 </View>
               </View>
             </Animated.View>   
