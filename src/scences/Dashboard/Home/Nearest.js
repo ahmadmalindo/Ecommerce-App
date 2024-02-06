@@ -51,6 +51,8 @@ function Nearest({ navigation }) {
         })();
     }, []);
 
+    const filteredSearch = dataNearest.filter(item => item?.Nama?.toLowerCase().indexOf(inputSearch?.toLowerCase()) !== -1)
+
     return (
         <Container backgroundColor={'white'}>
             <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
@@ -65,13 +67,6 @@ function Nearest({ navigation }) {
                     costumIcon={<Image source={require('assets/images/ic_search.png')} style={{width: normalize(24), height: normalize(24)}}/>}
                     value={inputSearch}
                     onChangeText={(val) => {
-                        if (inputSearch.length > 1) {
-                            getNearestOutlet()
-                        }
-                        else if (inputSearch.length  < 2) {
-                            getNearestOutlet()
-
-                        }
                         setInputSearch(val)
                     }}
                 />
@@ -79,7 +74,7 @@ function Nearest({ navigation }) {
             <ScrollView>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
                     <FlatList
-                        data={dataNearest}
+                        data={filteredSearch}
                         ListEmptyComponent={<ActivityIndicator/>}
                         renderItem={(({item,index}) => {
                             return (

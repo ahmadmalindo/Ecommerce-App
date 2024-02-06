@@ -86,6 +86,8 @@ function Artwork({ navigation }) {
         }, 2000);
     }, []);
 
+    const filteredSearch = dataNearest.filter(item => item?.Nama?.toLowerCase().indexOf(inputSearch?.toLowerCase()) !== -1)
+
     return (
         <Container backgroundColor={'white'}>
             <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
@@ -107,22 +109,12 @@ function Artwork({ navigation }) {
                         costumIcon={<Image source={require('assets/images/ic_search.png')} style={{width: normalize(24), height: normalize(24)}}/>}
                         value={inputSearch}
                         onChangeText={(val) => {
-                            if (inputSearch.length > 1) {
-                                setTimeout(() => {
-                                    getNearestOutlet()
-                                }, 1000)
-                            }
-                            else if (inputSearch.length  < 2) {
-                                setTimeout(() => {
-                                    getNearestOutlet()
-                                }, 1000)
-                            }
                             setInputSearch(val)
                         }}
                     />
                     <Gap marginBottom={normalize(24)}/>
                     <FlatList
-                        data={dataNearest}
+                        data={filteredSearch}
                         ListEmptyComponent={<ActivityIndicator/>}
                         renderItem={(({item,index}) => {
                             return (
