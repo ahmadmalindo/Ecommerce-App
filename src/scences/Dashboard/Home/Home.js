@@ -152,6 +152,7 @@ function Home({ navigation }) {
     const onRefresh = React.useCallback(() => {
         setIsLoading(true);
         getDashboardMember()
+        getCloseOrder()
         getTransactionHistory()
         setTimeout(() => {
             setIsLoading(false);
