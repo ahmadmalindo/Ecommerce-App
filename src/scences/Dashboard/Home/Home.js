@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native"
-import { CardImage, CardTransaction, Container, Gap, HeaderProfile, HeaderSection, ModalCompleteProfile, ModalPopUpRating } from "components/global"
+import { CardImage, CardTransaction, Container, Gap, HeaderProfile, HeaderSection, ModalCompleteProfile, ModalPopUpRating, ModalPromoBirthday } from "components/global"
 import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
@@ -54,6 +54,7 @@ function Home({ navigation }) {
     const [dataRating, setDataRating] = useState([])
     const [modalRating, setModalRating] = useState(false)
     const [modalProfile, setModalProfile] = useState(false)
+    const [modalBirthDay, setModalBirthDay] = useState(false)
 
     const storePhoneNumber = storage.getString("storePhoneNumber")
 
@@ -134,6 +135,42 @@ function Home({ navigation }) {
         })
     } 
 
+    const getPopUpBirthDays = async () => {
+        let params = {
+            hpUser: storePhoneNumber
+        }
+
+        const res = await mySalon.DashboardMember(params)
+
+        if (statusDashboard.includes(res.status)) {
+            let tanggalLahir = res.TanggalLahir
+            let birthDates = moment(tanggalLahir).startOf('days')
+            let birthDatesAfter5Days = moment(tanggalLahir).add(6, 'days').startOf('days')
+            let birthDatesBefore5Days = moment(tanggalLahir).subtract(6, 'days').startOf('days')
+
+            let arrayBirthDatesNext = []
+            let arrayBirthDatesBefore = []
+
+            while(birthDates.add(1, 'days').diff(birthDatesAfter5Days) < 0) {
+                arrayBirthDatesNext.push(birthDates.clone().format('YYYY-MM-DD'));
+            }
+
+            while(birthDatesBefore5Days.add(1, 'days').diff(birthDates) < 0) {
+                arrayBirthDatesBefore.push(birthDatesBefore5Days.clone().format('YYYY-MM-DD'));
+            }
+
+            for (let i = 0; i < arrayBirthDatesBefore.length ; i++) {
+                if (moment(arrayBirthDatesBefore[i]).isSame(moment().format('YYYY-MM-DD'))) {
+                    console.log(arrayBirthDatesBefore[i]);
+                    setModalBirthDay(true)
+                }
+            }
+        }
+        else {
+            Nontification(res.response)
+        }
+    }
+
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
@@ -147,12 +184,14 @@ function Home({ navigation }) {
 
     useEffect(() => {
         getCloseOrder()
+        getPopUpBirthDays()
     }, [])
 
     const onRefresh = React.useCallback(() => {
         setIsLoading(true);
         getDashboardMember()
         getCloseOrder()
+        getPopUpBirthDays()
         getTransactionHistory()
         setTimeout(() => {
             setIsLoading(false);
@@ -237,6 +276,17 @@ function Home({ navigation }) {
                 onPress={() => navigation.navigate('Nearest')}
             />
             } */}
+            <ModalPromoBirthday
+                isVisible={modalBirthDay}
+                username={dataMember?.NamaMember}
+                onBackdropPress={() => setModalBirthDay(false)}
+                onPress={() => {
+                    setModalBirthDay(false)
+                    setTimeout(() => {
+                        navigation.navigate('Nearest')
+                    }, 500)
+                }}
+            />
             <SectionModalPopUpRating
                 dataRating={dataRating}
                 modalRating={modalRating}

@@ -5,6 +5,7 @@ import ModalInbox from "./ModalInbox";
 import ModalPopUpRating from "./ModalPopUpRating";
 import ModalBenefitMember from "./ModalBenefitMember";
 import ModalCompleteProfile from "./ModalCompleteProfile";
+import ModalPromoBirthday from "./ModalPromoBirthday"
 
 export {
     ModalConfirmOrder,
@@ -13,5 +14,6 @@ export {
     ModalInbox,
     ModalPopUpRating,
     ModalBenefitMember,
-    ModalCompleteProfile
+    ModalCompleteProfile,
+    ModalPromoBirthday
 }
