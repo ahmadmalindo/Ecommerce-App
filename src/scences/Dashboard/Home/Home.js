@@ -119,8 +119,6 @@ function Home({ navigation }) {
     const handleCancelTransaction = async () => {
         const res = await mySalon.OrderCancel({NoHP: storePhoneNumber})
 
-        alert(JSON.stringify(res.status))
-
         if (res.status === 200) {
             getTransactionHistory()
         }
