@@ -9,6 +9,7 @@ import mySalon from "utils/MySalonUtils"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
 import * as ImagePicker from 'expo-image-picker';
 import Axios from "axios";
+import { base_uri } from "constants/BASE_URL"
 
 const AxiosFrom = Axios.create()
 
@@ -103,7 +104,6 @@ function Account({ navigation }) {
     };
 
     const updatePhotoProfile = async(photo) => {
-        setIsLoading(true)
 
         const formData = new FormData()
 
@@ -116,6 +116,8 @@ function Account({ navigation }) {
         formData.append("NoHP", storage.getString("storePhoneNumber"))
 
         let api = `${base_uri}APICabang/fotUpload.php`
+
+        setIsLoading(true)
 
         AxiosFrom.post(api, formData, {
             headers: {
