@@ -42,10 +42,6 @@ const ModalPromoBirthday = ({
                     <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey, textAlign: 'center', lineHeight: normalize(16)}]}>Selamat ulang tahun, kami memiliki hadiah voucher khusus untuk anda silahkan klaim voucher anda sekarang.</Text>
                 </View>
                 <Gap marginBottom={normalize(24)}/>
-                <Button 
-                    tittle={'Claim voucher sekarang'}
-                    onPress={onPress}
-                />
                 <Gap marginBottom={normalize(8)}/>
             </View>
         </Modal>
@@ -60,7 +56,7 @@ const styles = StyleSheet.create({
     },
     contentModal: {
         backgroundColor: 'white', 
-        minHeight: normalize(402),
+        minHeight: normalize(302),
         borderRadius: normalize(32),
         marginBottom: normalize(24),
         padding: normalize(16)
