@@ -25,6 +25,8 @@ function Login({ navigation }) {
     //652278 pw platinum
     //082251434434 gold
     //020501 pw gold
+    //085236468718 no member
+    //787181
 
     const [input, setInput] = useState({
         numberPhone: "",
@@ -95,10 +97,14 @@ function Login({ navigation }) {
                 navigation.navigate('DashboardNavigation')
             }
             else {
-                // storage.setBool('isLogin', true)
-                // storage.setString('storePhoneNumber', params.hpUser)
-                // navigation.navigate('DashboardNavigation')
-                navigation.navigate('FromUser', {data: res})
+                if (res.response !== 'OK') {
+                    storage.setBool('isLogin', true)
+                    storage.setString('storePhoneNumber', params.hpUser)
+                    navigation.navigate('DashboardNavigation')
+                }
+                else {
+                    navigation.navigate('FromUser', {data: res})
+                }
             }
         }
         else {
