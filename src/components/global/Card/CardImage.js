@@ -78,7 +78,7 @@ function CardImage ({
                             }
                         </>
                         :
-                        <TouchableOpacity onPress={onPress} style={[styles.btn, justifyContent.view_center, {borderColor: 'transparent'}]}>
+                        <TouchableOpacity style={[styles.btn, justifyContent.view_center, {borderColor: 'transparent'}]}>
 
                         </TouchableOpacity>
                         }

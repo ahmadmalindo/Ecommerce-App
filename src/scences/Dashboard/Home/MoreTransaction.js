@@ -3,7 +3,7 @@ import { Nontification } from "helper"
 import { currencyFloat } from "helper"
 import moment from "moment"
 import React, { useEffect, useState } from "react"
-import { Dimensions, FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Dimensions, FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
 import * as Location from 'expo-location';
@@ -16,6 +16,7 @@ const { width: SCREEN_WIDTH } = Dimensions.get("window")
 
 function MoreTransaction({ navigation }) {
 
+    const [isLoading, setIsLoading] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(null)
     const [dataMember, setDataMember] = useState([])
     const [dataMemberSummary, setDataMemberSummary] = useState([])
@@ -56,7 +57,11 @@ function MoreTransaction({ navigation }) {
     }
 
     const getTransactionHistory = async () => {
+        setIsLoading(true)
+
         const res = await mySalon.TransactionHistory({NoHP: storePhoneNumber})
+
+        setIsLoading(false)
 
         if (statusDashboard.includes(res.status)) {
             if (res?.responsedata !== undefined) {
@@ -160,6 +165,7 @@ function MoreTransaction({ navigation }) {
                     {/* } */}
                     <Gap marginBottom={normalize(16)}/>
                     <SectionList
+                        isLoading={isLoading}
                         dataMember={dataMember}
                         data={dataTransaction}
                         navigation={navigation}
@@ -188,6 +194,7 @@ function MoreTransaction({ navigation }) {
 }
 
 function SectionList ({
+    isLoading,
     navigation,
     dataMember,
     data,
@@ -196,8 +203,12 @@ function SectionList ({
     onCancelTransaction
 }) {
 
+    if (isLoading) {
+        return <ActivityIndicator/>
+    }
+
     return (
-        <>
+        <>  
             {data.length > 0 ?
             <FlatList
                 data={data}

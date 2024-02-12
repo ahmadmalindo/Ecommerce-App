@@ -5,7 +5,7 @@ import { currencyFloat } from "helper"
 import { storage } from "helper/storage"
 import moment from "moment"
 import React, { useEffect, useRef, useState } from "react"
-import { Dimensions, FlatList, Image, ImageBackground, InteractionManager, Linking, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { Alert, Dimensions, FlatList, Image, ImageBackground, InteractionManager, Linking, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import WebView from "react-native-webview"
 import mySalon from "utils/MySalonUtils"
@@ -66,13 +66,15 @@ function Home({ navigation }) {
 
         const res = await mySalon.DashboardMember(params)
 
+        console.log(JSON.stringify(res));
+
         if (statusDashboard.includes(res.status)) {
             if (res?.NamaMember === "NONAME") {
                 setModalProfile(true)
             }
-            else if (res?.emailMember === null) {
-                setModalProfile(true)
-            }
+            // else if (res?.emailMember === null) {
+            //     setModalProfile(true)
+            // }
             else if (res?.TanggalLahir == null) {
                 setModalProfile(true)
             }
@@ -164,6 +166,15 @@ function Home({ navigation }) {
                     console.log(arrayBirthDatesBefore[i]);
                     setModalBirthDay(true)
                 }
+            }
+
+            if (res?.fotoFile === null) {
+                Alert.alert("Perhatian", "Upload foto profilemu untuk melakukan order", [
+                    {
+                        text: 'OK',
+                        onPress: () => navigation.navigate("Account")
+                    }
+                ])
             }
         }
         else {
@@ -332,9 +343,15 @@ function SectionInfo({
                 }}
                 style={{width: normalize(250),height:normalize(200), backgroundColor: 'transparent'}}
             /> */}
+            {status_member === "PLATINUM MEMBER" ?
+            <Text style={[stylesFonts.Overline, {textAlign: 'center'}]}>
+               Selamat level Anda <Text style={{fontFamily: fonts.bold}}>{status_member}</Text> {'\n'}dengan transaksi <Text style={{fontFamily: fonts.bold}}>Rp {minimum_transaction}</Text>
+            </Text>
+            :
             <Text style={[stylesFonts.Overline, {textAlign: 'center'}]}>
                 Naikkan level anda ke <Text style={{fontFamily: fonts.bold}}>{status_member}</Text> dengan transaksi <Text style={{fontFamily: fonts.bold}}>Rp {minimum_transaction}</Text> sebelum  <Text style={{fontFamily: fonts.bold}}>{due_date}</Text>
             </Text>
+            }
         </View>
     )
 }
