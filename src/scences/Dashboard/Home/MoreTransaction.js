@@ -144,7 +144,7 @@ function MoreTransaction({ navigation }) {
             </View>
             <ScrollView>
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
-                    {/* {dataMember.NoMember !== "-1" && */}
+                    {dataMember.NoMember !== "-1" ?
                     <FlatList
                         horizontal
                         showsHorizontalScrollIndicator={false}
@@ -168,7 +168,11 @@ function MoreTransaction({ navigation }) {
                             )
                         })}
                     />
-                    {/* } */}
+                    :
+                    <SectionInfoNoMember
+                        message={dataMember?.NotifLevelUP}
+                    />
+                    }
                     <Gap marginBottom={normalize(16)}/>
                     <SectionList
                         isLoading={isLoading}
@@ -196,6 +200,19 @@ function MoreTransaction({ navigation }) {
                 detail_message_7={selectCard?.message_7}
             />
         </Container>
+    )
+}
+
+function SectionInfoNoMember({
+    message
+}) {
+
+    return (
+        <View style={[styles.viewInfo, justifyContent.view_center]}>
+            <Text style={[stylesFonts.Overline, {textAlign: 'center'}]}>
+                {message}
+            </Text>
+        </View>
     )
 }
 
@@ -271,5 +288,11 @@ function SectionList ({
 export default MoreTransaction
 
 const styles = StyleSheet.create({
-    
+    viewInfo: {
+        width: '100%',
+        height: normalize(48),
+        backgroundColor: colors.orange,
+        borderRadius: radius.r_10,
+        paddingHorizontal: normalize(34)
+    },
 })
