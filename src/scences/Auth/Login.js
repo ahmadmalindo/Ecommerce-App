@@ -21,6 +21,10 @@ function Login({ navigation }) {
     //567928
     //087854402772
     //112233
+    //085795515906 platinum
+    //652278 pw platinum
+    //082251434434 gold
+    //020501 pw gold
 
     const [input, setInput] = useState({
         numberPhone: "",
