@@ -76,7 +76,9 @@ function Home({ navigation }) {
             //     setModalProfile(true)
             // }
             else if (res?.TanggalLahir == null) {
-                setModalProfile(true)
+                if (res.response === "OK") {
+                    setModalProfile(true)
+                }
             }
             setDataMember(res)
             storage.setString("storeNomorMember", res.NoMember)
@@ -209,7 +211,7 @@ function Home({ navigation }) {
         }, 2000);
       }, []);
 
-    let type_member = ["OK", "Non Member No Trx"]
+    let type_member = ["OK", "Non Member with Trx"]
 
     return (
         <Container backgroundColor={'white'}>
@@ -227,7 +229,6 @@ function Home({ navigation }) {
                 }
             >
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
-                    {dataMember.NoMember !== "-1" &&
                     <CardImage
                         data={dataMember}
                         photo_member={dataMember?.fotoFile}
@@ -246,8 +247,7 @@ function Home({ navigation }) {
                             }
                         }}
                     />
-                    }
-                    {dataMember.NoMember !== "-1" &&
+                    {dataMember.NoMember !== "-1" ?
                     <>
                         <Gap marginBottom={normalize(16)}/>
                         <SectionInfo 
@@ -255,6 +255,13 @@ function Home({ navigation }) {
                             status_member={dataMember?.NotifLevelUPuser}
                             minimum_transaction={dataMember?.NotifLevelUPtransaction_price}
                             due_date={dataMember?.NotifLevelUPtransaction_due}
+                        />
+                    </>
+                    :
+                    <>
+                        <Gap marginBottom={normalize(16)}/>
+                        <SectionInfoNoMember 
+                            message={dataMember?.NotifLevelUP}
                         />
                     </>
                     }
@@ -281,12 +288,6 @@ function Home({ navigation }) {
             <SectionWhatsapp
                 onPress={() => handleOpenWa()}
             />
-            {/* {type_member.includes(dataMember.response) &&
-            <SectionCreateOrder
-                tittle={dataMember.response === "OK" ? "Order Member" : "Order Non Member"}
-                onPress={() => navigation.navigate('Nearest')}
-            />
-            } */}
             <ModalPromoBirthday
                 isVisible={modalBirthDay}
                 username={dataMember?.NamaMember}
@@ -352,6 +353,19 @@ function SectionInfo({
                 Naikkan level anda ke <Text style={{fontFamily: fonts.bold}}>{status_member}</Text> dengan transaksi <Text style={{fontFamily: fonts.bold}}>Rp {minimum_transaction}</Text> sebelum  <Text style={{fontFamily: fonts.bold}}>{due_date}</Text>
             </Text>
             }
+        </View>
+    )
+}
+
+function SectionInfoNoMember({
+    message
+}) {
+
+    return (
+        <View style={[styles.viewInfo, justifyContent.view_center]}>
+            <Text style={[stylesFonts.Overline, {textAlign: 'center'}]}>
+                {message}
+            </Text>
         </View>
     )
 }

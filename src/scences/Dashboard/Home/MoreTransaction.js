@@ -14,6 +14,8 @@ import { statusDashboard } from "helper/FunctionGlobal"
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window")
 
+let status_member = ["SILVER MEMBER", "GOLD MEMBER", "PLATINUM MEMBER"]
+
 function MoreTransaction({ navigation }) {
 
     const [isLoading, setIsLoading] = useState(false)
@@ -107,6 +109,10 @@ function MoreTransaction({ navigation }) {
             }
             else if (data_member?.NamaKategoriMember === "PLATINUM MEMBER") {
                 final_data = data?.splice(2)
+            }
+
+            if (!status_member.includes(data_member?.NamaKategoriMember)) {
+                final_data = data
             }
 
             setDataBenefitMember(final_data)

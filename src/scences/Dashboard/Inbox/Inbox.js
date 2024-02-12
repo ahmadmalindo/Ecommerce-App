@@ -38,9 +38,10 @@ function Inbox({ navigation }) {
     }
 
     const getInbox = async () => {
+        let resInbox = [200, 201, 202]
         const res = await mySalon.Inbox({NoHP: storage.getString('storePhoneNumber')})
 
-        if (res.status === 200) {
+        if (resInbox.includes(res.status)) {
             setDataInbox(res.responsedata)
         }
         else {

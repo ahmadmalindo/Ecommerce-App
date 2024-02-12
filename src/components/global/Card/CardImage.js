@@ -20,7 +20,7 @@ function CardImage ({
 }) {
     return (
         <Pressable>
-            <ImageBackground source={status_member === "SILVER MEMBER" ? require('assets/images/ic_content_card_1.png') : status_member === "GOLD MEMBER" ? require('assets/images/ic_content_card_2.png') : status_member === "PLATINUM MEMBER" ? require('assets/images/ic_content_card_3.png') : null} borderRadius={normalize(16)} style={styles.icBg}>
+            <ImageBackground source={status_member === "SILVER MEMBER" ? require('assets/images/ic_content_card_1.png') : status_member === "GOLD MEMBER" ? require('assets/images/ic_content_card_2.png') : status_member === "PLATINUM MEMBER" ? require('assets/images/ic_content_card_3.png') : require('assets/images/ic_content_card_1.png')} borderRadius={normalize(16)} style={styles.icBg}>
                 <View style={{width: '100%', minHeight: normalize(104), padding: normalize(16)}}>
                     <View style={justifyContent.space_beetwen}>
                         <Text style={[stylesFonts.Subtittle_2_Bold, {color: 'white', width: '32%'}]}></Text>
@@ -47,7 +47,7 @@ function CardImage ({
                     <Gap marginBottom={normalize(16)}/>
                     <View style={justifyContent.space_beetwen}>
                         <View>
-                            <Text style={[stylesFonts.Subtittle_1_SemiBold]}>{number_member}</Text>
+                            <Text style={[stylesFonts.Subtittle_1_SemiBold]}>{number_member === "-1" ? "-" : number_member}</Text>
                             <Gap marginBottom={normalize(8)}/>
                             <Text style={[stylesFonts.Body_2_Medium]}>{name_member}</Text>
                         </View>
@@ -65,16 +65,20 @@ function CardImage ({
                                     onPress={onPress}
                                 />
                                 :
-                                <TouchableOpacity onPress={onPress} style={[styles.btn, justifyContent.view_center, {borderColor: 'transparent'}]}>
+                                <TouchableOpacity style={[styles.btn, justifyContent.view_center, {borderColor: 'transparent'}]}>
 
                                 </TouchableOpacity>
                                 }
                             </>
-                            :
+                            : data?.response === "Non Member with Trx" ?
                             <SectionButtonOrder
                                 tittle={tittle}
                                 onPress={onPress}
                             />
+                            :
+                            <TouchableOpacity style={[styles.btn, justifyContent.view_center, {borderColor: 'transparent'}]}>
+
+                            </TouchableOpacity>
                             }
                         </>
                         :
