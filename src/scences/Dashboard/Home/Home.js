@@ -95,6 +95,9 @@ function Home({ navigation }) {
             if (res?.responsedata !== undefined) {
                 setDataTransaction(res.responsedata)
             }
+            else {
+                setDataTransaction([])
+            }
         }
         else {
             Nontification(res.response)
@@ -114,7 +117,9 @@ function Home({ navigation }) {
     }
 
     const handleCancelTransaction = async () => {
-        const res = await mySalon.OrderCancel({NoMember: storage.getString("storeNomorMember")})
+        const res = await mySalon.OrderCancel({NoHP: storePhoneNumber})
+
+        alert(JSON.stringify(res.status))
 
         if (res.status === 200) {
             getTransactionHistory()
