@@ -78,12 +78,12 @@ function Account({ navigation }) {
           aspect: [4, 3],
           quality: 1,
         });
-    
+
         console.log(result);
     
         if (!result.canceled) {
-            updatePhotoProfile(result.assets[0].uri)
             setModal(false)
+            updatePhotoProfile(result.assets[0].uri)
         }
     };
 
@@ -98,8 +98,8 @@ function Account({ navigation }) {
         console.log(result);
     
         if (!result.canceled) {
-            updatePhotoProfile(result.assets[0].uri)
             setModal(false)
+            updatePhotoProfile(result.assets[0].uri)
         }
     };
 
@@ -173,7 +173,16 @@ function Account({ navigation }) {
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16), alignItems: 'center'}}>
                     <SectionProfile
                         isLoading={isLoading}
-                        onPress={() => setModal(true)}
+                        onPress={async () =>  {
+                            const permisionCamera = await ImagePicker.requestCameraPermissionsAsync()
+
+                            if (permisionCamera.granted) {
+                                setModal(true)
+                            }
+                            else {
+                                Nontification("Izinkan kamera untuk mengupdate profil kamu")
+                            }
+                        }}
                         photo={dataMember?.fotoFile}
                         name={dataMember?.NamaMember}
                         phone={dataMember?.TelpMember}
