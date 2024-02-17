@@ -60,7 +60,7 @@ function Artwork({ navigation }) {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
             Nontification('Permission to access location was denied');
-            return;
+            getNearestOutlet()
         }
 
         let location = await Location.getCurrentPositionAsync({});

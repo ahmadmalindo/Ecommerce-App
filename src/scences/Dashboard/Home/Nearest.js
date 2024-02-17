@@ -43,6 +43,7 @@ function Nearest({ navigation }) {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
             Nontification('Permission to access location was denied');
+            getNearestOutlet()
             return;
         }
 
