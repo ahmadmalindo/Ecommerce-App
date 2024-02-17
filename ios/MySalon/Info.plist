@@ -51,11 +51,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Allow MySalon to access your camera</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow MySalon to use your location.</string>
+	<string>Allow MySalon to use your location to determine the closest distance to mysalon at your current location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your location</string>
+	<string>Allow $(PRODUCT_NAME) to access your location to determine the closest distance to mysalon at your current location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow $(PRODUCT_NAME) to access your location</string>
+	<string>Allow $(PRODUCT_NAME) to access your location to determine the closest distance to mysalon at your current location</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to access your microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>

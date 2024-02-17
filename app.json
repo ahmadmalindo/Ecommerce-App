@@ -32,7 +32,7 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow MySalon to use your location."
+          "locationAlwaysAndWhenInUsePermission": "Allow MySalon to use your location to determine the closest distance to mysalon at your current location."
         }
       ],
       [
