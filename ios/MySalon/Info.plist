@@ -56,6 +56,8 @@
 	<string>Allow $(PRODUCT_NAME) to access your location to determine the closest distance to mysalon at your current location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Allow $(PRODUCT_NAME) to access your location to determine the closest distance to mysalon at your current location</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow $(PRODUCT_NAME) to access your microphone to record your sound</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app accesses your photos to let you share them with your friends.</string>
 	<key>UILaunchStoryboardName</key>
