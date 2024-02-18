@@ -3,7 +3,7 @@ import { Container, Gap, ModalPickPhoto } from "components/global"
 import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
-import { ActivityIndicator, FlatList, Image, InteractionManager, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, FlatList, Image, InteractionManager, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import mySalon from "utils/MySalonUtils"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
@@ -49,7 +49,7 @@ function Account({ navigation }) {
         {
             tittle: 'Privacy & Policy',
             ic: require('assets/images/ic_privacy.png'),
-            navigation: ''
+            navigation: 'privacy'
         },
         {
             tittle: 'Logout',
@@ -199,6 +199,14 @@ function Account({ navigation }) {
                                     onPress={() => {
                                         if (item.navigation === "logout") {
                                             handleLogout()
+                                        }
+                                        else if (item.navigation === "privacy") {
+                                            Linking.openURL("https://mysalon.id/privacy/").then(() => {
+
+                                            })
+                                            .catch(() => {
+                                                Nontification("Tidak dapat Membuka Url Privacy Policy")
+                                            })
                                         }
                                         else {
                                             navigation.navigate(item.navigation, {data: dataMember})
