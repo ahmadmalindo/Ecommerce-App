@@ -73,7 +73,7 @@ function Account({ navigation }) {
 
     const takeImage = async () => {
         let result = await ImagePicker.launchCameraAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
           aspect: [4, 3],
           quality: 1,
@@ -89,7 +89,7 @@ function Account({ navigation }) {
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: false,
           aspect: [4, 3],
           quality: 1,
