@@ -49,7 +49,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow MySalon to access your camera</string>
+	<string>Allow MySalon to access your camera to let user change profile picture.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Allow MySalon to use your location to determine the closest distance to mysalon at your current location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
