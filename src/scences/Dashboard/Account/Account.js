@@ -52,6 +52,11 @@ function Account({ navigation }) {
             navigation: 'privacy'
         },
         {
+            tittle: 'Hapus Akun',
+            ic: require('assets/images/ic_trash_menu.png'),
+            navigation: 'delete'
+        },
+        {
             tittle: 'Logout',
             ic: require('assets/images/ic_logout.png'),
             navigation: 'logout'
@@ -207,6 +212,9 @@ function Account({ navigation }) {
                                             .catch(() => {
                                                 Nontification("Tidak dapat Membuka Url Privacy Policy")
                                             })
+                                        }
+                                        else if (item.navigation === "delete") {
+                                            Nontification("delete akun")
                                         }
                                         else {
                                             navigation.navigate(item.navigation, {data: dataMember})
