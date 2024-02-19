@@ -214,7 +214,12 @@ function Account({ navigation }) {
                                             })
                                         }
                                         else if (item.navigation === "delete") {
-                                            Nontification("delete akun")
+                                            Linking.openURL("https://mysalon.id/hapusakun/").then(() => {
+
+                                            })
+                                            .catch(() => {
+                                                Nontification("Tidak dapat Membuka Url Hapus Akun")
+                                            })
                                         }
                                         else {
                                             navigation.navigate(item.navigation, {data: dataMember})
