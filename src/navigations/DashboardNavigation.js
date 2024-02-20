@@ -21,6 +21,7 @@ import DetailHairStyler from "scences/Dashboard/Artwork/DetailHairStyler";
 import DetailHasil from "scences/Dashboard/Artwork/DetailHasil";
 import { Gap } from "components/global";
 import MoreTransaction from "scences/Dashboard/Home/MoreTransaction";
+import DeleteAccount from "scences/Dashboard/Account/DeleteAccount";
 
 function MyTabBar({ state, descriptors, navigation }) {
     return (
@@ -126,6 +127,7 @@ function DashboardNavigation() {
             <Stack.Screen name="Nearest" component={Nearest}/>
             <Stack.Screen name="DetailNearest" component={DetailNearest}/>
             <Stack.Screen name="EditProfile" component={EditProfile}/>
+            <Stack.Screen name="DeleteAccount" component={DeleteAccount}/>
             <Stack.Screen name="EditPassword" component={EditPassword}/>
             <Stack.Screen name="Rating" component={Rating}/>
             <Stack.Screen name="DetailArtwork" component={DetailArtwork}/>

@@ -54,7 +54,7 @@ function Account({ navigation }) {
         {
             tittle: 'Hapus Akun',
             ic: require('assets/images/ic_trash_menu.png'),
-            navigation: 'delete'
+            navigation: 'DeleteAccount'
         },
         {
             tittle: 'Logout',
@@ -211,14 +211,6 @@ function Account({ navigation }) {
                                             })
                                             .catch(() => {
                                                 Nontification("Tidak dapat Membuka Url Privacy Policy")
-                                            })
-                                        }
-                                        else if (item.navigation === "delete") {
-                                            Linking.openURL("https://mysalon.id/hapusakun/").then(() => {
-
-                                            })
-                                            .catch(() => {
-                                                Nontification("Tidak dapat Membuka Url Hapus Akun")
                                             })
                                         }
                                         else {
