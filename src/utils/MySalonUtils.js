@@ -22,7 +22,8 @@ import {
     getBenefitMember,
     getCloseOrder,
     getSubmitRating,
-    getSummaryHistoryTrx
+    getSummaryHistoryTrx,
+    getDeleteAccount
 } from "../constants/apiMySalon";
 // import { ToastConnection } from "../constants";
 
@@ -259,6 +260,16 @@ class MySalon {
 
     async SummaryHistoryTrx(params) {
         return params = await getSummaryHistoryTrx(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async DeleteAccount(params) {
+        return params = await getDeleteAccount(params).then((response) => {
             const res = response.data
             return res
 

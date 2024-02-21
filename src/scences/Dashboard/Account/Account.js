@@ -3,7 +3,7 @@ import { Container, Gap, ModalPickPhoto } from "components/global"
 import { Nontification, statusDashboard } from "helper/FunctionGlobal"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
-import { ActivityIndicator, FlatList, Image, InteractionManager, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { ActivityIndicator, Alert, FlatList, Image, InteractionManager, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
 import mySalon from "utils/MySalonUtils"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
@@ -54,7 +54,7 @@ function Account({ navigation }) {
         {
             tittle: 'Hapus Akun',
             ic: require('assets/images/ic_trash_menu.png'),
-            navigation: 'DeleteAccount'
+            navigation: 'delete'
         },
         {
             tittle: 'Logout',
@@ -150,6 +150,16 @@ function Account({ navigation }) {
         })    
     }
 
+    const handleDeleteAccount = async () => {
+        const res = await mySalon.DeleteAccount({NoHP: storage.getString("storePhoneNumber")})
+
+        Nontification("Akun anda sedang dalam proses penghapusan")
+        
+        storage.clearMemoryCache()
+        storage.clearStore()
+        navigation.replace('Onboard')
+    }
+
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
@@ -212,6 +222,18 @@ function Account({ navigation }) {
                                             .catch(() => {
                                                 Nontification("Tidak dapat Membuka Url Privacy Policy")
                                             })
+                                        }
+                                        else if (item.navigation === "delete") {
+                                            Alert.alert("Alert", "Are you sure to delete your account?", [
+                                                {
+                                                    text: 'Delete Account',
+                                                    onPress: () => handleDeleteAccount()
+                                                },
+                                                {
+                                                    text: 'No'
+                                                }
+                                                
+                                            ])
                                         }
                                         else {
                                             navigation.navigate(item.navigation, {data: dataMember})
