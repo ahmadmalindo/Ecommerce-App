@@ -186,6 +186,7 @@ function SectionFormInput ({
                 tittle={'Kata Sandi'}
                 placeholder={'Masukkan kata sandi'}
                 password
+                keyboardType={'numeric'}
                 secureTextEntry={input.isOpen}
                 onPress={() => setInput({
                     ...input,
