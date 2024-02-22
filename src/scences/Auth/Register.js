@@ -133,7 +133,7 @@ function SectionFormInput ({
         <>
             <Input
                 tittle={'No. Telepon'}
-                placeholder={'62878123...'}
+                placeholder={'0878123...'}
                 left
                 costumIcon={<Image source={require('assets/images/ic_electronicdevices.png')} style={styles.icon}/>}
                 keyboardType={'numeric'}
