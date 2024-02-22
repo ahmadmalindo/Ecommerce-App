@@ -27,6 +27,7 @@ function Login({ navigation }) {
     //020501 pw gold
     //085236468718 no member
     //787181
+    //567928 deviceId
 
     const [input, setInput] = useState({
         numberPhone: "",
