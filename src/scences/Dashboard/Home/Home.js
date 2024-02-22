@@ -69,13 +69,13 @@ function Home({ navigation }) {
         console.log(JSON.stringify(res));
 
         if (statusDashboard.includes(res.status)) {
-            if (res?.NamaMember === "NONAME") {
-                setModalProfile(true)
-            }
+            // if (res?.NamaMember === "NONAME") {
+            //     setModalProfile(true)
+            // }
             // else if (res?.emailMember === null) {
             //     setModalProfile(true)
             // }
-            else if (res?.TanggalLahir == null) {
+            if (res?.TanggalLahir == null) {
                 if (res.response === "OK") {
                     setModalProfile(true)
                 }
