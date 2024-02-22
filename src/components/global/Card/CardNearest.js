@@ -19,6 +19,16 @@ const CardNearest = ({
 }) => {
     return (
         <View style={styles.card}>
+            {image === null ?
+            <ImageBackground source={require('assets/images/ic_onboard.png')} borderTopLeftRadius={normalize(16)} borderTopRightRadius={normalize(16)} resizeMethod="scale" resizeMode="cover" style={{width: SCREEN_WIDTH / 1.1, height: normalize(120), backgroundColor: colors.grey_2, borderTopRightRadius: normalize(16), borderTopLeftRadius: normalize(16)}}>
+                <View style={{width: '100%', height: normalize(120), justifyContent: 'flex-end', padding: normalize(16)}}>
+                    <View style={[justifyContent.flex_start,{alignSelf: 'flex-end'}]}>
+                        <MaterialIcons name="location-pin" size={16} color="white" style={{marginRight: normalize(4)}} />
+                        <Text style={[stylesFonts.Body_2_Regular, {color: 'white'}]}>{distance} Km</Text>
+                    </View>
+                </View>
+            </ImageBackground>
+            :
             <ImageBackground source={{uri: image}} borderTopLeftRadius={normalize(16)} borderTopRightRadius={normalize(16)} resizeMethod="scale" resizeMode="cover" style={{width: SCREEN_WIDTH / 1.1, height: normalize(120), backgroundColor: colors.grey_2, borderTopRightRadius: normalize(16), borderTopLeftRadius: normalize(16)}}>
                 <View style={{width: '100%', height: normalize(120), justifyContent: 'flex-end', padding: normalize(16)}}>
                     <View style={[justifyContent.flex_start,{alignSelf: 'flex-end'}]}>
@@ -27,6 +37,7 @@ const CardNearest = ({
                     </View>
                 </View>
             </ImageBackground>
+            }
             <View style={{padding: normalize(16)}}>
                 <Text style={stylesFonts.Subtittle_1_Bold}>{namePlace}</Text>
                 <Gap marginBottom={normalize(4)}/>
