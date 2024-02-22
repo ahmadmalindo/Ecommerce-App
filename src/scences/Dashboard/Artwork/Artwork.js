@@ -119,6 +119,7 @@ function Artwork({ navigation }) {
                         renderItem={(({item,index}) => {
                             return (
                                 <CardNearest
+                                    image={item?.Foto}
                                     distance={item?.Jarak}
                                     namePlace={item?.Nama}
                                     detail_address={item?.Alamat}

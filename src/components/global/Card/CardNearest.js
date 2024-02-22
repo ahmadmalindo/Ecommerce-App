@@ -1,14 +1,17 @@
 import { AntDesign, Entypo, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Dimensions } from "react-native";
 import normalize from "react-native-normalize";
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index";
 import { Gap } from "../Gap";
 import { Button } from "../Button";
 
+const { width: SCREEN_WIDTH } = Dimensions.get('window')
+
 const CardNearest = ({
     item,
     index,
+    image,
     distance = '2.5 Km',
     namePlace = 'Mall Olympic Garden',
     detail_address = 'Mall Olympic Garden, Lantai 2/SF-26, Malang',
@@ -16,7 +19,7 @@ const CardNearest = ({
 }) => {
     return (
         <View style={styles.card}>
-            <ImageBackground source={require('assets/images/ic_onboard.png')} borderTopLeftRadius={normalize(16)} borderTopRightRadius={normalize(16)} resizeMethod="scale" resizeMode="cover" style={{width: '100%', height: normalize(120)}}>
+            <ImageBackground source={{uri: image}} borderTopLeftRadius={normalize(16)} borderTopRightRadius={normalize(16)} resizeMethod="scale" resizeMode="cover" style={{width: SCREEN_WIDTH / 1.1, height: normalize(120), backgroundColor: colors.grey_2, borderTopRightRadius: normalize(16), borderTopLeftRadius: normalize(16)}}>
                 <View style={{width: '100%', height: normalize(120), justifyContent: 'flex-end', padding: normalize(16)}}>
                     <View style={[justifyContent.flex_start,{alignSelf: 'flex-end'}]}>
                         <MaterialIcons name="location-pin" size={16} color="white" style={{marginRight: normalize(4)}} />
