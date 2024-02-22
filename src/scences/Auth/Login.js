@@ -64,7 +64,7 @@ function Login({ navigation }) {
         let params = {
             hpUser: isFormat62 ? `0${numberPhone}` : input.numberPhone,
             pwdUser: input.password,
-            perangkatID:'567928'
+            perangkatID: deviceUniqueId
         }
 
         const res = await mySalon.Login(params)
