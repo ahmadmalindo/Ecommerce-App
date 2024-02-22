@@ -27,3 +27,4 @@ export const getCloseOrder              =   payload   => Axios.post(`${base_uri}
 export const getSubmitRating            =   payload   => Axios.post(`${base_uri}APICabang/ratingInput.php`, payload);
 export const getSummaryHistoryTrx       =   payload   => Axios.post(`${base_uri}APICabang/sumHistory.php`, payload);
 export const getDeleteAccount           =   payload   => Axios.post(`${base_uri}APICabang/deleteAkun.php`, payload);
+export const getUploadImage             =   payload   => Axios.post(`${base_uri}APICabang/fotUpload.php`, payload);

@@ -23,7 +23,8 @@ import {
     getCloseOrder,
     getSubmitRating,
     getSummaryHistoryTrx,
-    getDeleteAccount
+    getDeleteAccount,
+    getUploadImage
 } from "../constants/apiMySalon";
 // import { ToastConnection } from "../constants";
 
@@ -270,6 +271,16 @@ class MySalon {
 
     async DeleteAccount(params) {
         return params = await getDeleteAccount(params).then((response) => {
+            const res = response.data
+            return res
+
+        }).catch((error) => {
+            // return ToastConnection()
+        })
+    }
+
+    async UploadImage(params) {
+        return params = await getUploadImage(params).then((response) => {
             const res = response.data
             return res
 
