@@ -65,7 +65,7 @@ function Register({ navigation }) {
         else {
             setIsloading(true)
 
-            let isFormat62 = input.numberPhone.includes("62")
+            let isFormat62 = input.numberPhone.slice(0, 2) === "62"
             let numberPhone = input.numberPhone.slice(2)
     
             let params = {
