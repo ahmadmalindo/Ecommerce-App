@@ -69,7 +69,7 @@ function Register({ navigation }) {
             let numberPhone = input.numberPhone.slice(2)
     
             let params = {
-                NoHP: isFormat62 ? `0${numberPhone}` : input.numberPhone,
+                NoHP: input.numberPhone,
                 Nama: input.fullname,
                 Email: input.email,
                 nPIN: input.password,
@@ -176,6 +176,7 @@ function SectionFormInput ({
                 password
                 keyboardType={'numeric'}
                 secureTextEntry={input.isOpen}
+                maxLength={6}
                 onPress={() => setInput({
                     ...input,
                     isOpen: !input.isOpen
@@ -193,6 +194,7 @@ function SectionFormInput ({
                 password
                 keyboardType={'numeric'}
                 secureTextEntry={input.isOpen2}
+                maxLength={6}
                 onPress={() => setInput({
                     ...input,
                     isOpen2: !input.isOpen2
