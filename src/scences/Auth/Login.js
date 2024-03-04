@@ -63,7 +63,7 @@ function Login({ navigation }) {
         let numberPhone = input.numberPhone.slice(2)
 
         let params = {
-            hpUser: isFormat62 ? `0${numberPhone}` : input.numberPhone,
+            hpUser: input.numberPhone,
             pwdUser: input.password,
             perangkatID: deviceUniqueId
         }
