@@ -1,29 +1,29 @@
 {
   "expo": {
-    "name": "MySalon",
-    "slug": "my-salon",
+    "name": "starcom-starter",
+    "slug": "starcom-starter",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/ic_app.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/images/ic_splash_screen.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#EE51A5"
+      "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.layana.mysalon"
+      "bundleIdentifier": "com.starcom.starter"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/ic_app_adaptive.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.layana.mysalon"
+      "package": "com.starcom.starter"
     },
     "web": {
       "favicon": "./assets/favicon.png"

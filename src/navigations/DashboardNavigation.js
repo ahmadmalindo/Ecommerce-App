@@ -10,17 +10,9 @@ import { colors } from "utils/colors";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import normalize from "react-native-normalize";
 import { fonts } from "utils/fonts";
-import DetailReceipt from "scences/Dashboard/Home/DetailReceipt";
-import Nearest from "scences/Dashboard/Home/Nearest";
-import DetailNearest from "scences/Dashboard/Home/DetailNearest";
 import EditProfile from "scences/Dashboard/Account/EditProfile";
 import EditPassword from "scences/Dashboard/Account/EditPassword";
-import Rating from "scences/Dashboard/Home/Rating";
-import DetailArtwork from "scences/Dashboard/Artwork/DetailArtwork";
-import DetailHairStyler from "scences/Dashboard/Artwork/DetailHairStyler";
-import DetailHasil from "scences/Dashboard/Artwork/DetailHasil";
 import { Gap } from "components/global";
-import MoreTransaction from "scences/Dashboard/Home/MoreTransaction";
 import DeleteAccount from "scences/Dashboard/Account/DeleteAccount";
 
 function MyTabBar({ state, descriptors, navigation }) {
@@ -123,17 +115,9 @@ function DashboardNavigation() {
     return (
         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
             <Stack.Screen name="Home" component={DashboardTabs}/>
-            <Stack.Screen name="DetailReceipt" component={DetailReceipt}/>
-            <Stack.Screen name="Nearest" component={Nearest}/>
-            <Stack.Screen name="DetailNearest" component={DetailNearest}/>
             <Stack.Screen name="EditProfile" component={EditProfile}/>
             <Stack.Screen name="DeleteAccount" component={DeleteAccount}/>
             <Stack.Screen name="EditPassword" component={EditPassword}/>
-            <Stack.Screen name="Rating" component={Rating}/>
-            <Stack.Screen name="DetailArtwork" component={DetailArtwork}/>
-            <Stack.Screen name="DetailHairStyler" component={DetailHairStyler}/>
-            <Stack.Screen name="DetailHasil" component={DetailHasil}/>
-            <Stack.Screen name="MoreTransaction" component={MoreTransaction}/>
         </Stack.Navigator>
     )
 }
