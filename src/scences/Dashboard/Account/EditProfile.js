@@ -152,7 +152,7 @@ function EditProfile({ navigation, route }) {
                             onPress={() => setModal(true)}
                         />
                     </View>
-                    {/* <Gap marginBottom={normalize(24)}/>
+                    <Gap marginBottom={normalize(24)}/>
                     <SectionForm
                         input={input}
                         setInput={setInput}
@@ -162,7 +162,7 @@ function EditProfile({ navigation, route }) {
                         isLoading={isLoading}
                         tittle={'Simpan'}
                         onPress={() => handleUpdateEmail()}
-                    /> */}
+                    />
                 </View>
             </ScrollView>
             <ModalPickPhoto

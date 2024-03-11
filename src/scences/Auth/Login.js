@@ -140,7 +140,7 @@ function Login({ navigation }) {
                     <Gap marginBottom={normalize(24)}/>
                     <SectionButton
                         isLoading={isLoading}
-                        onPressLogin={() => handleLogin()}
+                        onPressLogin={() => navigation.navigate('DashboardNavigation')}
                         onPressForgot={() => navigation.navigate("ForgotPassword")}
                     />
                     <Gap marginBottom={normalize(24)}/>

@@ -36,11 +36,11 @@ function Account({ navigation }) {
     }
 
     let profile_menu = [
-        // {
-        //     tittle: 'Ubah Profil',
-        //     ic: require('assets/images/ic_edit_account.png'),
-        //     navigation: 'EditProfile'
-        // },
+        {
+            tittle: 'Ubah Profil',
+            ic: require('assets/images/ic_edit_account.png'),
+            navigation: 'EditProfile'
+        },
         {
             tittle: 'Ganti Password',
             ic: require('assets/images/ic_password.png'),

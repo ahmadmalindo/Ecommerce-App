@@ -1,59 +1,20 @@
 import { useFocusEffect } from "@react-navigation/native"
-import { CardTransaction, Container, Gap, HeaderProfile, HeaderSection, Input, ModalInbox } from "components/global"
-import { Nontification, statusDashboard } from "helper/FunctionGlobal"
-import { currencyFloat } from "helper"
+import { Container, Gap, HeaderSection, Input } from "components/global"
 import { storage } from "helper/storage"
-import moment from "moment"
 import React, { useState } from "react"
-import { FlatList, Image, ImageBackground, InteractionManager, ScrollView, StyleSheet, Text, TouchableOpacity, View, RefreshControl } from "react-native"
+import { Image, InteractionManager, ScrollView, StyleSheet, View, RefreshControl } from "react-native"
 import normalize from "react-native-normalize"
-import mySalon from "utils/MySalonUtils"
 import { colors, fonts, justifyContent, radius, stylesFonts } from "utils/index"
 
 function Inbox({ navigation }) {
 
     const [isLoading, setIsLoading] = useState(false)
     const [inputSearch, setInputSearch] = useState("")
-    const [dataMember, setDataMember] = useState([])
-    const [dataInbox, setDataInbox] = useState([])
-    const [modal, setModal] = useState(false)
-    const [selectInbox, setSelectInbox] = useState("")
-
-    const storePhoneNumber = storage.getString("storePhoneNumber")
-
-    const getDashboardMember = async () => {
-
-        let params = {
-            hpUser: storePhoneNumber
-        }
-
-        const res = await mySalon.DashboardMember(params)
-
-        if (statusDashboard.includes(res.status)) {
-            setDataMember(res)
-        }
-        else {
-            Nontification(res.response)
-        }
-    }
-
-    const getInbox = async () => {
-        let resInbox = [200, 201, 202]
-        const res = await mySalon.Inbox({NoHP: storage.getString('storePhoneNumber')})
-
-        if (resInbox.includes(res.status)) {
-            setDataInbox(res.responsedata)
-        }
-        else {
-            Nontification(res.response)
-        }
-    }
 
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
-            getDashboardMember()
-            getInbox()
+
           });
       
           return () => task.cancel();
@@ -62,8 +23,7 @@ function Inbox({ navigation }) {
 
     const onRefresh = React.useCallback(() => {
         setIsLoading(true);
-        getDashboardMember()
-        getInbox()
+
         setTimeout(() => {
             setIsLoading(false);
         }, 2000);
@@ -72,11 +32,7 @@ function Inbox({ navigation }) {
     return (
         <Container backgroundColor={'white'}>
             <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16)}}>
-                <HeaderProfile
-                    username={dataMember?.NamaMember}
-                    photo={dataMember?.fotoFile}
-                    adminNumber={dataMember?.waCS}
-                />
+
             </View>
             <ScrollView 
                 refreshControl={
@@ -94,54 +50,9 @@ function Inbox({ navigation }) {
                     <Gap marginBottom={normalize(24)}/>
                     <HeaderSection tittle={'Pemberitahuan Terbaru'}/>
                     <Gap marginBottom={normalize(24)}/>
-                    <FlatList
-                        data={dataInbox}
-                        renderItem={(({item}) => {
-                            let jam= item?.Hari?.split(" ")
-
-                            return (
-                                <SectionList
-                                    tittle={item?.Judul}
-                                    desc={item?.Deskripsi}
-                                    time={jam[3]}
-                                    item={item}
-                                    onPress={() => {
-                                        console.log(item);
-                                        setSelectInbox(item)
-                                        setModal(true)
-                                    }}
-                                />
-                            )
-                        })}
-                    />
                 </View>
             </ScrollView>
-            <ModalInbox
-                isVisible={modal}
-                onBackdropPress={() => setModal(false)}
-                tittle={selectInbox?.Judul}
-                detail_message={selectInbox?.Deskripsi}
-            />
         </Container>
-    )
-}
-
-function SectionList ({
-    item,
-    tittle = '',
-    desc = '',
-    time = moment().format('LT'),
-    onPress
-}) {
-    return (
-        <TouchableOpacity style={[styles.viewCard, justifyContent.space_beetwen, {backgroundColor: item.isRead ? colors.secondary_2 : 'white', borderColor: item.isRead ? colors.primary : colors.grey_2}]} onPress={onPress}>
-            <Image source={item.isRead ? require('assets/images/ic_notif_fill.png') : require('assets/images/ic_notif.png')} style={[styles.icon, {marginRight: normalize(12)}]}/>
-            <View style={{width: '65%'}}>
-                <Text style={stylesFonts.Subtittle_2_Bold}>{tittle}</Text>
-                <Text style={stylesFonts.Subtittle_2_Regular} numberOfLines={1}>{desc}</Text>
-            </View>
-            <Text style={stylesFonts.Subtittle_2_Regular} numberOfLines={1}>{time}</Text>
-        </TouchableOpacity>
     )
 }
 
