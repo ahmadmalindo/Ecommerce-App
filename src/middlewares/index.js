@@ -1,23 +1,21 @@
-import axios from 'axios';
-import MMKVStorage from 'react-native-mmkv-storage';
+import { storage } from "helper/storage"
 
-export default async () => {
+export function headersFlexible (payload) {
+    const token = storage.getString("token")
+    
+    let config = {
+        'Content-Type': 'application/json',
+    }
 
-    const storage = new MMKVStorage.Loader().initialize();
+    if (payload instanceof FormData) {
+        config["Content-Type"] = 'multipart/form-data'
+    }
+    
+    if (token !== null) {
+        config.Authorization = `Basic ${token}`
+    }
 
-    axios.interceptors.request.use(
-        async config => {
-            const token = storage.getString("token");
-            console.log('token', token);
-            if (token !== null) {
-                config.headers['Authorization'] = `Bearer ${token}`;
-                config.headers['Content-Type']  = 'application/json';
-            } else {
-                config.headers['Content-Type']  = 'application/json';
-            }
+    console.log(JSON.stringify(config))
 
-            return config;
-        },
-        err => Promise.reject(err),
-    );
-};
+    return config
+}
