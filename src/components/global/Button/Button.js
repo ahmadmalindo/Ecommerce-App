@@ -24,7 +24,7 @@ const Button = ({
     isLoading,
     customColor = error,
     customColorActivityIndicator = error,
-    customColorText = colors.primary,
+    customColorText = 'white',
     buttonRadius = normalize(10)
 }) => {
 
@@ -62,7 +62,7 @@ const Button = ({
                     }
                     <Text 
                         style={[styles.tittle, {
-                            color: transparent ? primary : border ? disabled ? grey : any_color ? customColorText :  primary : 'white',
+                            color: transparent ? primary : border ? disabled ? grey : any_color ? customColorText :  primary : customColorText,
                             marginHorizontal: normalize(10)
                         }]}
                     >
