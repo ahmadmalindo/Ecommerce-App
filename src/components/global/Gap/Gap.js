@@ -9,7 +9,9 @@ const Gap = ({
     marginLeft,
     paddingHorizontal,
     paddingTop,
-    customStyle
+    customStyle,
+    marginHorizontal,
+    marginVertical
 }) => {
     return (
         <View 
@@ -20,6 +22,8 @@ const Gap = ({
                 marginLeft: marginLeft,
                 paddingHorizontal: paddingHorizontal,
                 paddingTop: paddingTop,
+                marginHorizontal: marginHorizontal,
+                marginVertical: marginVertical
             }]}
         >
             {children}
