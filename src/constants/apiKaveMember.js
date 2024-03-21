@@ -6,4 +6,4 @@ import { headersFlexible } from "middlewares";
 
 export const getLogin                   =   payload   => Axios.post(`${base_uri}/login.php`, payload, {headers: headersFlexible(payload)});
 export const getSiginUp                 =   payload   => Axios.post(`${base_uri}/signUp.php`, payload, {headers: headersFlexible(payload)});
-export const getBank                    =   payload   => Axios.get(`${base_uri}/bank`, {headers: headersFormData(payload)});
+export const getBank                    =   payload   => Axios.get(`${base_uri}/bank`, {headers: headersFlexible(payload)});
