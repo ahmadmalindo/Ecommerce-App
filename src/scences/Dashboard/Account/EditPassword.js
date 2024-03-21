@@ -4,7 +4,7 @@ import { storage } from "helper/storage"
 import React, { useState } from "react"
 import { Alert, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import normalize from "react-native-normalize"
-import mySalon from "utils/MySalonUtils"
+import kaveMember from "utils/KaveMemberUtils"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
 
 function EditPassword({ navigation }) {
@@ -20,31 +20,31 @@ function EditPassword({ navigation }) {
     const [isLoading, setIsLoading] = useState(false)
 
     const handleChangePassword = async () => {
-        setIsLoading(true)
-        let params = {
-            NoHP: storage.getString("storePhoneNumber"),
-            nPIN: input.password2
-        }
+        // setIsLoading(true)
+        // let params = {
+        //     NoHP: storage.getString("storePhoneNumber"),
+        //     nPIN: input.password2
+        // }
 
-        const res = await mySalon.ChangePassword(params)
+        // const res = await mySalon.ChangePassword(params)
 
-        setIsLoading(false)
+        // setIsLoading(false)
 
-        if (res.status === 200) {
-            Alert.alert("Perhatian", "Berhasil merubah password silahkan login ulang", [
-                {
-                    text: 'Ok',
-                    onPress: () => {
-                        storage.clearMemoryCache()
-                        storage.clearStore()
-                        navigation.replace('Onboard')
-                    }
-                }
-            ])
-        }
-        else {
-            Nontification(res.response)
-        }
+        // if (res.status === 200) {
+        //     Alert.alert("Perhatian", "Berhasil merubah password silahkan login ulang", [
+        //         {
+        //             text: 'Ok',
+        //             onPress: () => {
+        //                 storage.clearMemoryCache()
+        //                 storage.clearStore()
+        //                 navigation.replace('Onboard')
+        //             }
+        //         }
+        //     ])
+        // }
+        // else {
+        //     Nontification(res.response)
+        // }
     }
 
     return (

@@ -4,7 +4,7 @@ import { storage } from "helper"
 import React, { useState } from "react"
 import { Image, InteractionManager, ScrollView, StyleSheet, Text, View } from "react-native"
 import normalize from "react-native-normalize"
-import mySalon from "utils/MySalonUtils"
+import kaveMember from "utils/KaveMemberUtils"
 import { colors } from "utils/colors"
 import { stylesFonts } from "utils/fonts"
 import MMKVStorage from "react-native-mmkv-storage"
@@ -27,58 +27,58 @@ function Register({ navigation }) {
     })
  
     const getAuthentification = async () => {
-        let params = {
-            NamaUser: 'LAYANA',
-            pwdUser: 'qsv5hVTQFE6QYOf',
-            grant_type: "password"
-        }
+        // let params = {
+        //     NamaUser: 'LAYANA',
+        //     pwdUser: 'qsv5hVTQFE6QYOf',
+        //     grant_type: "password"
+        // }
 
-        const res = await mySalon.Authentification(params)
+        // const res = await mySalon.Authentification(params)
 
-        if (res.status === 200) {
-            storage.setString("token",res.access_token)
-        }
+        // if (res.status === 200) {
+        //     storage.setString("token",res.access_token)
+        // }
     }
 
     const handleRegister = async () => {
-        if (input.numberPhone === "") {
-            Nontification("Nomor Handphone Wajib di Isi")
-        }
-        else if (input.fullname === "") {
-            Nontification("Nama Lengkap Wajib di Isi")
-        }
-        else if (input.email === "") {
-            Nontification("Email Wajib di Isi")
-        }
-        else if (input.email === "") {
-            Nontification("Email Wajib di Isi")
-        }
-        else if (input.password === "") {
-            Nontification("Password Wajib di Isi")
-        }
-        else if (input.password === "123456") {
-            Nontification("Password yang anda masukkan tidak aman")
-        }
-        else if (input.password !== input.password2) {
-            Nontification("Kata Sandi dan Konfimasi Kata Sandi Harus Sama")
-        }
-        else {
-            setIsloading(true)
+        // if (input.numberPhone === "") {
+        //     Nontification("Nomor Handphone Wajib di Isi")
+        // }
+        // else if (input.fullname === "") {
+        //     Nontification("Nama Lengkap Wajib di Isi")
+        // }
+        // else if (input.email === "") {
+        //     Nontification("Email Wajib di Isi")
+        // }
+        // else if (input.email === "") {
+        //     Nontification("Email Wajib di Isi")
+        // }
+        // else if (input.password === "") {
+        //     Nontification("Password Wajib di Isi")
+        // }
+        // else if (input.password === "123456") {
+        //     Nontification("Password yang anda masukkan tidak aman")
+        // }
+        // else if (input.password !== input.password2) {
+        //     Nontification("Kata Sandi dan Konfimasi Kata Sandi Harus Sama")
+        // }
+        // else {
+        //     setIsloading(true)
 
-            let isFormat62 = input.numberPhone.slice(0, 2) === "62"
-            let numberPhone = input.numberPhone.slice(2)
+        //     let isFormat62 = input.numberPhone.slice(0, 2) === "62"
+        //     let numberPhone = input.numberPhone.slice(2)
     
-            let params = {
-                NoHP: input.numberPhone,
-                Nama: input.fullname,
-                Email: input.email,
-                nPIN: input.password,
-            }
+        //     let params = {
+        //         NoHP: input.numberPhone,
+        //         Nama: input.fullname,
+        //         Email: input.email,
+        //         nPIN: input.password,
+        //     }
 
-            navigation.navigate('VerificationOtp', params)
+        //     navigation.navigate('VerificationOtp', params)
     
-            setIsloading(false)
-        }
+        //     setIsloading(false)
+        // }
     }
 
     useFocusEffect(

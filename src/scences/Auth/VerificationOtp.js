@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react"
 import { Alert, Image, InteractionManager, Platform, ScrollView, StyleSheet, Text, View } from "react-native"
 import normalize from "react-native-normalize"
 import { radius } from "utils/radius"
-import mySalon from "utils/MySalonUtils"
+import kaveMember from "utils/KaveMemberUtils"
 import { colors } from "utils/colors"
 import { stylesFonts } from "utils/fonts"
 import { justifyContent } from "utils/justifyContent"
@@ -32,52 +32,52 @@ function VerificationOtp({ navigation, route }) {
     })
 
     const getOtp = async () => {
-        const res = await mySalon.Otp({NoHP})
+        // const res = await mySalon.Otp({NoHP})
         
-        if (res.status === 200) {
-            setOtp({
-                ...otp,
-                otpFromApi: res.responseOTP
-            })
-        }
-        else {
-            Nontification(res.response)
-        }
+        // if (res.status === 200) {
+        //     setOtp({
+        //         ...otp,
+        //         otpFromApi: res.responseOTP
+        //     })
+        // }
+        // else {
+        //     Nontification(res.response)
+        // }
     }
 
     const handleVerificationOtp = async () => {
-        if (otp.otp === otp.otpFromApi) {
-            handleRegister()
-        }
-        else {
-            Nontification('Kode Otp Tidak Valid')
-        }
+        // if (otp.otp === otp.otpFromApi) {
+        //     handleRegister()
+        // }
+        // else {
+        //     Nontification('Kode Otp Tidak Valid')
+        // }
     }
 
     const handleRegister = async () => {
-        setIsloading(true)
+        // setIsloading(true)
 
-        let params = {
-            NoHP,
-            Nama,
-            Email,
-            nPIN
-        }
+        // let params = {
+        //     NoHP,
+        //     Nama,
+        //     Email,
+        //     nPIN
+        // }
 
-        const res = await mySalon.SiginUp(params)
+        // const res = await mySalon.SiginUp(params)
 
-        setIsloading(false)
+        // setIsloading(false)
 
-        if (res.status === 200) {
-            setModal(true)
-            setTimeout(() => {
-                setModal(false)
-                navigation.navigate('Login')
-            }, 2500)
-        }
-        else {
-            Nontification(res.response)
-        }
+        // if (res.status === 200) {
+        //     setModal(true)
+        //     setTimeout(() => {
+        //         setModal(false)
+        //         navigation.navigate('Login')
+        //     }, 2500)
+        // }
+        // else {
+        //     Nontification(res.response)
+        // }
     }
 
     useFocusEffect(

@@ -6,7 +6,7 @@ import normalize from "react-native-normalize"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
 import { storage } from "helper/storage"
 import { base_uri } from "constants/BASE_URL"
-import mySalon from "utils/MySalonUtils"
+import kaveMember from "utils/KaveMemberUtils"
 
 function DeleteAccount({ navigation, route }) {
 

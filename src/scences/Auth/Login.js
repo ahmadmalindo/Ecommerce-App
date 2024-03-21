@@ -4,7 +4,7 @@ import { storage } from "helper"
 import React, { useState } from "react"
 import { Image, InteractionManager, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import normalize from "react-native-normalize"
-import mySalon from "utils/MySalonUtils"
+import kaveMember from "utils/KaveMemberUtils"
 import { colors } from "utils/colors"
 import { fonts, stylesFonts } from "utils/fonts"
 import MMKVStorage from "react-native-mmkv-storage"
@@ -43,74 +43,74 @@ function Login({ navigation }) {
     }
  
     const getAuthentification = async () => {
-        let params = {
-            NamaUser: 'LAYANA',
-            pwdUser: 'qsv5hVTQFE6QYOf',
-            grant_type: "password"
-        }
+        // let params = {
+        //     NamaUser: 'LAYANA',
+        //     pwdUser: 'qsv5hVTQFE6QYOf',
+        //     grant_type: "password"
+        // }
 
-        const res = await mySalon.Authentification(params)
+        // const res = await mySalon.Authentification(params)
 
-        if (res.status === 200) {
-            storage.setString("token",res.access_token)
-        }
+        // if (res.status === 200) {
+        //     storage.setString("token",res.access_token)
+        // }
     }
 
     const handleLogin = async () => {
-        setIsloading(true)
+        // setIsloading(true)
 
-        let isFormat62 = input.numberPhone.slice(0, 2) === "62"
-        let numberPhone = input.numberPhone.slice(2)
+        // let isFormat62 = input.numberPhone.slice(0, 2) === "62"
+        // let numberPhone = input.numberPhone.slice(2)
 
-        let params = {
-            hpUser: input.numberPhone,
-            pwdUser: input.password,
-            perangkatID: deviceUniqueId
-        }
+        // let params = {
+        //     hpUser: input.numberPhone,
+        //     pwdUser: input.password,
+        //     perangkatID: deviceUniqueId
+        // }
 
-        const res = await mySalon.Login(params)
+        // const res = await mySalon.Login(params)
 
-        setIsloading(false)
+        // setIsloading(false)
 
-        if (res.status === 200) {
-            getDashboardMember()
-        }
-        else {
-            Nontification(res.response)
-        }
+        // if (res.status === 200) {
+        //     getDashboardMember()
+        // }
+        // else {
+        //     Nontification(res.response)
+        // }
     }
 
     const getDashboardMember = async () => {
-        setIsloading(true)
+        // setIsloading(true)
 
-        let params = {
-            hpUser: input.numberPhone
-        }
+        // let params = {
+        //     hpUser: input.numberPhone
+        // }
 
-        const res = await mySalon.DashboardMember(params)
+        // const res = await mySalon.DashboardMember(params)
 
-        setIsloading(false)
+        // setIsloading(false)
 
-        if (statusDashboard.includes(res.status)) {
-            if (res.TanggalLahir !== null) {
-                storage.setBool('isLogin', true)
-                storage.setString('storePhoneNumber', params.hpUser)
-                navigation.navigate('DashboardNavigation')
-            }
-            else {
-                if (res.response !== 'OK') {
-                    storage.setBool('isLogin', true)
-                    storage.setString('storePhoneNumber', params.hpUser)
-                    navigation.navigate('DashboardNavigation')
-                }
-                else {
-                    navigation.navigate('FromUser', {data: res})
-                }
-            }
-        }
-        else {
-            Nontification(res.response)
-        }
+        // if (statusDashboard.includes(res.status)) {
+        //     if (res.TanggalLahir !== null) {
+        //         storage.setBool('isLogin', true)
+        //         storage.setString('storePhoneNumber', params.hpUser)
+        //         navigation.navigate('DashboardNavigation')
+        //     }
+        //     else {
+        //         if (res.response !== 'OK') {
+        //             storage.setBool('isLogin', true)
+        //             storage.setString('storePhoneNumber', params.hpUser)
+        //             navigation.navigate('DashboardNavigation')
+        //         }
+        //         else {
+        //             navigation.navigate('FromUser', {data: res})
+        //         }
+        //     }
+        // }
+        // else {
+        //     Nontification(res.response)
+        // }
     }
 
 

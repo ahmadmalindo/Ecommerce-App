@@ -4,7 +4,7 @@ import { storage } from "helper/storage"
 import React, { useState } from "react"
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
 import normalize from "react-native-normalize"
-import mySalon from "utils/MySalonUtils"
+import kaveMember from "utils/KaveMemberUtils"
 import { colors } from "utils/colors"
 import { stylesFonts } from "utils/fonts"
 
@@ -16,20 +16,20 @@ function ForgotPassword({ navigation }) {
     const [modal, setModal] = useState(false)
 
     const handleForgotPassword = async () => {
-        const res = await mySalon.ForgetPwdMember({hpUser: input.numberPhone})
+        // const res = await mySalon.ForgetPwdMember({hpUser: input.numberPhone})
 
-        if (res.status === 200) {
-            setModal(true)
-            setTimeout(() => {
-                setModal(false)
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 500)
-            }, 2500)
-        }
-        else {
-            Nontification(res.response)
-        }
+        // if (res.status === 200) {
+        //     setModal(true)
+        //     setTimeout(() => {
+        //         setModal(false)
+        //         setTimeout(() => {
+        //             navigation.goBack()
+        //         }, 500)
+        //     }, 2500)
+        // }
+        // else {
+        //     Nontification(res.response)
+        // }
     }
 
     return (

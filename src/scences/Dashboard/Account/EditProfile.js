@@ -8,7 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Axios from "axios";
 import { storage } from "helper/storage"
 import { base_uri } from "constants/BASE_URL"
-import mySalon from "utils/MySalonUtils"
+import kaveMember from "utils/KaveMemberUtils"
 
 const AxiosFrom = Axios.create()
 
@@ -27,39 +27,39 @@ function EditProfile({ navigation, route }) {
 
     const getDashboardMember = async () => {
 
-        let params = {
-            hpUser: storage.getString("storePhoneNumber")
-        }
+        // let params = {
+        //     hpUser: storage.getString("storePhoneNumber")
+        // }
 
-        const res = await mySalon.DashboardMember(params)
+        // const res = await mySalon.DashboardMember(params)
 
-        if (res.status === 200) {
-            setInput({
-                fullname: res?.NamaMember,
-                email: res?.emailMember,
-                numberPhone: res?.TelpMember,
-                photo: res?.fotoFile
-            })
-        }
-        else {
-            Nontification(res.response)
-        }
+        // if (res.status === 200) {
+        //     setInput({
+        //         fullname: res?.NamaMember,
+        //         email: res?.emailMember,
+        //         numberPhone: res?.TelpMember,
+        //         photo: res?.fotoFile
+        //     })
+        // }
+        // else {
+        //     Nontification(res.response)
+        // }
     }
 
     const handleUpdateEmail = async () => {
-        setIsLoading(true)
-        let params = {
-            NoHP: storage.getString("storePhoneNumber"),
-            Email: input.email
-        }
+        // setIsLoading(true)
+        // let params = {
+        //     NoHP: storage.getString("storePhoneNumber"),
+        //     Email: input.email
+        // }
 
-        const res = await mySalon.SimpanEmail(params)
+        // const res = await mySalon.SimpanEmail(params)
 
-        setIsLoading(false)
+        // setIsLoading(false)
 
-        if (res.status !== 200) {
-            Nontification(res.response)
-        }
+        // if (res.status !== 200) {
+        //     Nontification(res.response)
+        // }
     }
 
     const takeImage = async () => {
@@ -95,44 +95,44 @@ function EditProfile({ navigation, route }) {
     };
 
     const updatePhotoProfile = async(photo) => {
-        setIsLoading(true)
+        // setIsLoading(true)
 
-        const formData = new FormData()
+        // const formData = new FormData()
 
-        formData.append("image_data", {
-            uri: photo,
-            type: 'image/png',
-            name: 'image.png'
-        })
+        // formData.append("image_data", {
+        //     uri: photo,
+        //     type: 'image/png',
+        //     name: 'image.png'
+        // })
 
-        formData.append("NoHP", storage.getString("storePhoneNumber"))
+        // formData.append("NoHP", storage.getString("storePhoneNumber"))
 
-        let api = `${base_uri}APICabang/fotUpload.php`
+        // let api = `${base_uri}APICabang/fotUpload.php`
 
-        AxiosFrom.post(api, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${storage.getString("token")}`
-            },
-            transformRequest: (data,headers) => {
-                return formData
-            }
-        })
-        .then(response => {
-            setIsLoading(false)
-            const res = response.data
+        // AxiosFrom.post(api, formData, {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //         'Authorization': `Bearer ${storage.getString("token")}`
+        //     },
+        //     transformRequest: (data,headers) => {
+        //         return formData
+        //     }
+        // })
+        // .then(response => {
+        //     setIsLoading(false)
+        //     const res = response.data
 
-            if (res.status == 200) {
-                getDashboardMember()
-            }
-            else {
-                Nontification(res.response)
-            }
-        })
-        .catch(err => {
-            setIsLoading(false)
-            Nontification(err.response)
-        })    
+        //     if (res.status == 200) {
+        //         getDashboardMember()
+        //     }
+        //     else {
+        //         Nontification(res.response)
+        //     }
+        // })
+        // .catch(err => {
+        //     setIsLoading(false)
+        //     Nontification(err.response)
+        // })    
     }
 
     return (

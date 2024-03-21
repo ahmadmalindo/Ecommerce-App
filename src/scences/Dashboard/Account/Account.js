@@ -5,7 +5,7 @@ import { storage } from "helper/storage"
 import React, { useState } from "react"
 import { ActivityIndicator, Alert, FlatList, Image, InteractionManager, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
-import mySalon from "utils/MySalonUtils"
+import kaveMember from "utils/KaveMemberUtils"
 import { colors, justifyContent, radius, stylesFonts } from "utils/index"
 import * as ImagePicker from 'expo-image-picker';
 import Axios from "axios";
@@ -21,18 +21,18 @@ function Account({ navigation }) {
 
     const getDashboardMember = async () => {
 
-        let params = {
-            hpUser: storage.getString("storePhoneNumber")
-        }
+        // let params = {
+        //     hpUser: storage.getString("storePhoneNumber")
+        // }
 
-        const res = await mySalon.DashboardMember(params)
+        // const res = await mySalon.DashboardMember(params)
 
-        if (statusDashboard.includes(res.status)) {
-            setDataMember(res)
-        }
-        else {
-            Nontification(res.response)
-        }
+        // if (statusDashboard.includes(res.status)) {
+        //     setDataMember(res)
+        // }
+        // else {
+        //     Nontification(res.response)
+        // }
     }
 
     let profile_menu = [
@@ -64,16 +64,16 @@ function Account({ navigation }) {
     ]
 
     const handleLogout = async () => {
-        const res = await mySalon.Logout({NoHp: storage.getString("storePhoneNumber")})
+        // const res = await mySalon.Logout({NoHp: storage.getString("storePhoneNumber")})
 
-        if (res.status === 200) {
-            storage.clearMemoryCache()
-            storage.clearStore()
-            navigation.replace('Onboard')
-        }
-        else {
-            Nontification(res.response)
-        }
+        // if (res.status === 200) {
+        //     storage.clearMemoryCache()
+        //     storage.clearStore()
+        //     navigation.replace('Onboard')
+        // }
+        // else {
+        //     Nontification(res.response)
+        // }
     }
 
     const takeImage = async () => {
@@ -110,54 +110,54 @@ function Account({ navigation }) {
 
     const updatePhotoProfile = async(photo) => {
 
-        const formData = new FormData()
+        // const formData = new FormData()
 
-        formData.append("image_data", {
-            uri: photo,
-            type: 'image/png',
-            name: 'image.png'
-        })
+        // formData.append("image_data", {
+        //     uri: photo,
+        //     type: 'image/png',
+        //     name: 'image.png'
+        // })
 
-        formData.append("NoHP", storage.getString("storePhoneNumber"))
+        // formData.append("NoHP", storage.getString("storePhoneNumber"))
 
-        let api = `${base_uri}APICabang/fotUpload.php`
+        // let api = `${base_uri}APICabang/fotUpload.php`
 
-        setIsLoading(true)
+        // setIsLoading(true)
 
-        AxiosFrom.post(api, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${storage.getString("token")}`
-            },
-            transformRequest: (data,headers) => {
-                return formData
-            }
-        })
-        .then(response => {
-            setIsLoading(false)
-            const res = response.data
+        // AxiosFrom.post(api, formData, {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //         'Authorization': `Bearer ${storage.getString("token")}`
+        //     },
+        //     transformRequest: (data,headers) => {
+        //         return formData
+        //     }
+        // })
+        // .then(response => {
+        //     setIsLoading(false)
+        //     const res = response.data
 
-            if (res.status == 200) {
-                getDashboardMember()
-            }
-            else {
-                Nontification(res.response)
-            }
-        })
-        .catch(err => {
-            setIsLoading(false)
-            Nontification(err.response)
-        })    
+        //     if (res.status == 200) {
+        //         getDashboardMember()
+        //     }
+        //     else {
+        //         Nontification(res.response)
+        //     }
+        // })
+        // .catch(err => {
+        //     setIsLoading(false)
+        //     Nontification(err.response)
+        // })    
     }
 
     const handleDeleteAccount = async () => {
-        const res = await mySalon.DeleteAccount({NoHP: storage.getString("storePhoneNumber")})
+        // const res = await mySalon.DeleteAccount({NoHP: storage.getString("storePhoneNumber")})
 
-        Nontification("Akun anda sedang dalam proses penghapusan")
+        // Nontification("Akun anda sedang dalam proses penghapusan")
         
-        storage.clearMemoryCache()
-        storage.clearStore()
-        navigation.replace('Onboard')
+        // storage.clearMemoryCache()
+        // storage.clearStore()
+        // navigation.replace('Onboard')
     }
 
     useFocusEffect(
