@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "starcom-starter",
-    "slug": "starcom-starter",
+    "name": "KaveMember",
+    "slug": "KaveMember",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "scheme": "kavemember",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -16,14 +17,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.starcom.starter"
+      "bundleIdentifier": "com.layana.kavemember"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.starcom.starter"
+      "package": "com.layana.kavemember"
     },
     "web": {
       "favicon": "./assets/favicon.png"

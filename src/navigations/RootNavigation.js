@@ -5,13 +5,28 @@ import AuthNavigation from "./AuthNavigation";
 import DashboardNavigation from "./DashboardNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import SplashScreen from "scences/SplashScreen";
+import { ActivityIndicator } from "react-native";
+
+const linking = {
+    prefixes: ['kavemember://'],
+    config: {
+        initialRouteName: 'SplashScreen',
+        screens: {
+            DashboardNavigation: {
+                screens: {
+                    EditPassword: 'forget-password/:id'
+                }
+            }
+        }
+    }
+};
 
 function RootNavigation() {
 
     const Stack = createNativeStackNavigator()
 
     return (
-        <NavigationContainer>
+        <NavigationContainer linking={linking} fallback={<ActivityIndicator/>}>
             <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="SplashScreen">
                 <Stack.Screen name="SplashScreen" component={SplashScreen}/>
                 <Stack.Screen name="Onboard" component={Onboard}/>
