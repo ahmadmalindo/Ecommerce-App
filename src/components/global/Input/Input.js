@@ -1,28 +1,20 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import Icon2 from "react-native-vector-icons/AntDesign";
-import { Gap } from "../Gap";
-import { colors, fonts } from "utils/index";
-import normalize from "react-native-normalize";
+import { colors, fonts, responsive, stylesFonts } from "utils/index";
 import { Feather } from "@expo/vector-icons";
 
-//change base color & font
-const grey = colors.grey
-const grey_2 = colors.grey_2
-const black = colors.black
-const primary = colors.primary
-const secondary = colors.secondary_2
-const error = "#F43F5E"
-const error_2 = "#FFF1F2"
-const fontFamily = fonts.regular
-
 const Input = ({ 
+    tittle,
+    fontFamilyTittle = fonts.regular,
+    customHeight = responsive(44),
+    customBackgroundColor = 'white',
+    customBorderColor = colors.grey_2,
+    customBorderRadius = responsive(10),
+    customPaddingHorizontal = responsive(12),
     ref,
     multiline,
-    paragraph,
     value,
     onChangeText,
-    tittle,
     placeholder,
     secureTextEntry,
     editable,
@@ -31,14 +23,12 @@ const Input = ({
     maxLength,
     onKeyPress,
     onPress,
-    isError,
-    errorMessage,
-    left,
-    costumIcon,
-    children,
+    customIconLeft,
+    customIconRight,
     password,
     iconPasswordClose = <Feather name="eye-off" size={24} color={colors.grey_2} />,
-    iconPasswordOpen = <Feather name="eye" size={24} color={colors.grey_2} />
+    iconPasswordOpen = <Feather name="eye" size={24} color={colors.grey_2} />,
+    onSubmitEditing
 }) => {
 
     const [focus, setFocus] = useState(false)
@@ -46,30 +36,36 @@ const Input = ({
     return (
         <>
             {tittle &&
-            <Text style={[styles.tittle, {marginBottom: normalize(10)}]}>{tittle}</Text>
+            <Text style={[stylesFonts.Subtittle_2_Medium, {marginBottom: responsive(10), fontFamily: fontFamilyTittle}]}>{tittle}</Text>
             }
             <View 
-                style={[styles.viewInput, {
-                    height: paragraph ? normalize(124) : normalize(44),
-                    borderColor: focus ? primary : isError ? error : grey_2, 
-                    backgroundColor: focus ? secondary : isError ? error_2 : 'white',
+                style={[{
+                    width: '100%',
+                    height: customHeight,
+                    borderWidth: 1,
+                    backgroundColor: focus ? colors.primary_2 : customBackgroundColor,
+                    borderColor: focus ? colors.primary : customBorderColor,
+                    borderRadius: customBorderRadius,
+                    justifyContent: 'center',
+                    paddingHorizontal: customPaddingHorizontal,
+                    zIndex: 1
                 }]}
             >
                 <TextInput
-                    multiline={multiline}
                     ref={ref}
                     value={value}
                     onChangeText={onChangeText}
                     style={{
-                        fontSize: normalize(14), 
-                        color: focus ? black : black, 
-                        fontFamily: fontFamily,
-                        marginLeft: left ? normalize(25) : 0,
-                        textAlignVertical: paragraph ? 'top' : 'auto',
-                        height: paragraph ? normalize(104) : 'auto',
+                        fontSize: responsive(14), 
+                        color: colors.black, 
+                        fontFamily: fonts.regular,
+                        marginLeft: customIconLeft ? responsive(24) : 0,
+                        textAlignVertical: multiline ? 'top' : 'auto',
+                        height: multiline ? customHeight : 'auto',
                     }}
+                    multiline={multiline}
                     placeholder={placeholder}
-                    placeholderTextColor={grey}
+                    placeholderTextColor={colors.grey}
                     secureTextEntry={secureTextEntry}
                     editable={editable}
                     onFocus={() => setFocus(true)}
@@ -78,9 +74,17 @@ const Input = ({
                     keyboardType={keyboardType}
                     maxLength={maxLength}
                     onKeyPress={(e) => onKeyPress?.(e.nativeEvent.key)}
+                    onSubmitEditing={onSubmitEditing}
                 />
                 {password &&
-                <TouchableOpacity style={styles.contentIcon} onPress={onPress}>
+                <TouchableOpacity 
+                    style={{
+                        position: 'absolute',
+                        right: responsive(8),
+                        top: responsive(10)
+                    }} 
+                    onPress={onPress}
+                >
                     {secureTextEntry ?
                     <View>
                         {iconPasswordClose}
@@ -93,20 +97,30 @@ const Input = ({
                 </TouchableOpacity>
                 }
 
-                {costumIcon &&
-                <TouchableOpacity style={left ? styles.contentIconLeft : styles.contentIcon} onPress={onPress}>
-                    {costumIcon}
-                </TouchableOpacity>
+                {customIconLeft &&
+                <View 
+                    style={{
+                        position: 'absolute',
+                        left: responsive(8),
+                        top: responsive(10)
+                    }}
+                >
+                    {customIconLeft}
+                </View> 
+                }
+
+                {customIconRight &&
+                <View 
+                    style={{
+                        position: 'absolute',
+                        right: responsive(8),
+                        top: responsive(10)
+                    }}
+                >
+                    {customIconRight}
+                </View> 
                 }
             </View>
-            {isError &&
-            <Gap marginTop={normalize(10)}>
-                <View style={{flexDirection: 'row', justifyContent: "flex-start", alignItems: 'center'}}>
-                    <Icon2 name="exclamationcircleo" size={normalize(18)} color={error}/>
-                    <Text style={styles.textError}>{errorMessage}</Text>
-                </View>
-            </Gap>
-            }
         </>
     )
 }
@@ -114,52 +128,4 @@ const Input = ({
 export default React.memo(Input)
 
 const styles = StyleSheet.create({
-    viewInput: {
-      width: '100%',
-      height: normalize(48),
-      backgroundColor: 'white',
-      borderWidth: 1,
-      borderColor: grey_2,
-      borderRadius: normalize(10),
-      justifyContent: 'center',
-      paddingHorizontal: normalize(12),
-      zIndex: 1
-    },
-    tittle: {
-        color: colors.black,
-        fontSize: normalize(14),
-        fontFamily: fontFamily,
-    },
-    contentIcon: {
-        position: 'absolute',
-        right: normalize(10),
-        top: normalize(10),
-    },
-    contentIconLeft: {
-        position: 'absolute',
-        left: normalize(8),
-        top: normalize(10)
-    },
-    textError: {
-        fontFamily: 'Inter-Regular',
-        color: error,
-        fontSize: normalize(11),
-        marginLeft: normalize(5)
-    },
-    viewOpen: {
-        width: '100%',
-        height: normalize(200),
-        backgroundColor: 'white',
-        borderWidth: 1,
-        borderColor: grey_2,
-        borderRadius: normalize(10),
-        justifyContent: 'center',
-        paddingHorizontal: normalize(12),
-        marginTop: normalize(-44)
-    },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-    }
 })

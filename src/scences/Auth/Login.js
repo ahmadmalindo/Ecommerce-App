@@ -2,123 +2,28 @@ import { useFocusEffect } from "@react-navigation/native"
 import { Button, Container, Gap, Header, Input } from "components/global"
 import { storage } from "helper"
 import React, { useState } from "react"
-import { Image, InteractionManager, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
-import normalize from "react-native-normalize"
-import kaveMember from "utils/KaveMemberUtils"
+import { InteractionManager, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import { colors } from "utils/colors"
-import { fonts, stylesFonts } from "utils/fonts"
-import MMKVStorage from "react-native-mmkv-storage"
-import { statusDashboard, Nontification } from "helper/FunctionGlobal"
-import DeviceInfo from 'react-native-device-info';
+import { stylesFonts } from "utils/fonts"
+import { responsive } from "utils"
 
 function Login({ navigation }) {
 
-    const storage = new MMKVStorage.Loader().initialize()
-
     const [isLoading, setIsloading] = useState(false)
-    const [deviceUniqueId, setDeviceUniqueId] = useState("")
-    //081366886666
-    //567928
-    //087854402772
-    //112233
-    //085795515906 platinum
-    //652278 pw platinum
-    //082251434434 gold
-    //020501 pw gold
-    //085236468718 no member
-    //787181
-    //567928 deviceId
-
     const [input, setInput] = useState({
-        numberPhone: "",
-        password: "",
+        username: __DEV__ ? "storemanager" : "",
+        password: __DEV__ ? "storemanager" : "",
         isOpen: true
     })
 
-    const getDeviceUniqueId = async () => {
-        DeviceInfo.getUniqueId().then((uniqueId) => {
-            console.log(uniqueId);
-            setDeviceUniqueId(uniqueId)
-        });
-    }
- 
-    const getAuthentification = async () => {
-        // let params = {
-        //     NamaUser: 'LAYANA',
-        //     pwdUser: 'qsv5hVTQFE6QYOf',
-        //     grant_type: "password"
-        // }
-
-        // const res = await mySalon.Authentification(params)
-
-        // if (res.status === 200) {
-        //     storage.setString("token",res.access_token)
-        // }
-    }
-
     const handleLogin = async () => {
-        // setIsloading(true)
-
-        // let isFormat62 = input.numberPhone.slice(0, 2) === "62"
-        // let numberPhone = input.numberPhone.slice(2)
-
-        // let params = {
-        //     hpUser: input.numberPhone,
-        //     pwdUser: input.password,
-        //     perangkatID: deviceUniqueId
-        // }
-
-        // const res = await mySalon.Login(params)
-
-        // setIsloading(false)
-
-        // if (res.status === 200) {
-        //     getDashboardMember()
-        // }
-        // else {
-        //     Nontification(res.response)
-        // }
+        navigation.navigate("DashboardNavigation")
     }
-
-    const getDashboardMember = async () => {
-        // setIsloading(true)
-
-        // let params = {
-        //     hpUser: input.numberPhone
-        // }
-
-        // const res = await mySalon.DashboardMember(params)
-
-        // setIsloading(false)
-
-        // if (statusDashboard.includes(res.status)) {
-        //     if (res.TanggalLahir !== null) {
-        //         storage.setBool('isLogin', true)
-        //         storage.setString('storePhoneNumber', params.hpUser)
-        //         navigation.navigate('DashboardNavigation')
-        //     }
-        //     else {
-        //         if (res.response !== 'OK') {
-        //             storage.setBool('isLogin', true)
-        //             storage.setString('storePhoneNumber', params.hpUser)
-        //             navigation.navigate('DashboardNavigation')
-        //         }
-        //         else {
-        //             navigation.navigate('FromUser', {data: res})
-        //         }
-        //     }
-        // }
-        // else {
-        //     Nontification(res.response)
-        // }
-    }
-
 
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
-            getDeviceUniqueId()
-            getAuthentification()
+            
           });
       
           return () => task.cancel();
@@ -126,27 +31,30 @@ function Login({ navigation }) {
       );
 
     return (
-        <Container backgroundColor={'white'}>
+        <Container backgroundColor={'#F8FAFC'}>
             <ScrollView>
-                <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
-                    <Header onPress={() => navigation.goBack()}/>
-                    <Gap marginBottom={normalize(32)}/>
+                <View style={{paddingTop: responsive(24), paddingHorizontal: responsive(16)}}>
+                    <Gap marginBottom={responsive(32)}/>
                     <SectionTittle/>
-                    <Gap marginBottom={normalize(24)}/>
+                    <Gap marginBottom={responsive(56)}/>
                     <SectionFormInput
                         input={input}
                         setInput={setInput}
                     />
-                    <Gap marginBottom={normalize(24)}/>
+                    <Gap marginBottom={responsive(8)}/>
+                    <Text 
+                        style={[stylesFonts.Subtittle_2_Regular, {color: colors.primary, textAlign: 'right'}]}
+                        onPress={() => {
+                            navigation.navigate("ForgotPassword")
+                        }}
+                    >
+                        Lupa Kata Sandi?
+                    </Text>
+                    <Gap marginBottom={responsive(24)}/>
                     <SectionButton
                         isLoading={isLoading}
-                        onPressLogin={() => navigation.navigate('DashboardNavigation')}
-                        onPressForgot={() => navigation.navigate("ForgotPassword")}
+                        onPressLogin={() => handleLogin()}
                     />
-                    <Gap marginBottom={normalize(24)}/>
-                    <Pressable onPress={() => navigation.navigate('Register')}>
-                        <Text style={[stylesFonts.Body_2_Regular, {textAlign: 'center'}]}>Tidak Punya Akun ? <Text style={{color: colors.primary, fontFamily: fonts.bold}}>Register</Text></Text>
-                    </Pressable>
                 </View>
             </ScrollView>
         </Container>
@@ -155,11 +63,10 @@ function Login({ navigation }) {
 
 function SectionTittle () {
     return (
-        <>
-            <Text style={stylesFonts.Body_1_Bold}>Selamat datang kembali. Silahkan masuk ke Akun Anda</Text>
-            <Gap marginBottom={normalize(8)}/>
-            <Text style={[stylesFonts.Subtittle_2_Regular, {color: colors.grey}]}>Lengkapi data Anda</Text>
-        </>
+        <View style={{alignItems: 'center'}}>
+            <Text style={stylesFonts.Subtittle_1_SemiBold}>Masuk Akun</Text>
+            <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>Silahkan masuk dengan username</Text>
+        </View>
     )
 }
 
@@ -170,23 +77,19 @@ function SectionFormInput ({
     return (
         <>
             <Input
-                tittle={'No. Telepon'}
-                placeholder={'0878123...'}
-                left
-                costumIcon={<Image source={require('assets/images/ic_electronicdevices.png')} style={styles.icon}/>}
-                keyboardType={'numeric'}
-                value={input.numberPhone}
+                tittle={'Username'}
+                placeholder={'Masukkan username anda'}
+                value={input.username}
                 onChangeText={(val) => setInput({
                     ...input,
-                    numberPhone: val
+                    username: val
                 })}
             />
-            <Gap marginBottom={normalize(16)}/>
+            <Gap marginBottom={responsive(16)}/>
             <Input
                 tittle={'Kata Sandi'}
                 placeholder={'Masukkan kata sandi'}
                 password
-                keyboardType={'numeric'}
                 secureTextEntry={input.isOpen}
                 onPress={() => setInput({
                     ...input,
@@ -204,7 +107,6 @@ function SectionFormInput ({
 
 function SectionButton({
     onPressLogin,
-    onPressForgot,
     isLoading
 }) {
 
@@ -215,15 +117,6 @@ function SectionButton({
                 tittle={"Masuk"}
                 onPress={() => onPressLogin()}
             />
-            <Gap marginBottom={normalize(8)}/>
-            <Button
-                any_color
-                border
-                customColor="white"
-                customColorText={colors.primary}
-                tittle={"Lupa Kata Sandi"}
-                onPress={() => onPressForgot()}
-            />
         </>
     )
 }
@@ -231,8 +124,4 @@ function SectionButton({
 export default Login
 
 const styles = StyleSheet.create({
-    icon: {
-        width: normalize(24),
-        height: normalize(24)
-    }
 })

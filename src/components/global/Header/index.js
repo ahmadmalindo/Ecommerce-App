@@ -1,7 +1,7 @@
-import Header from "./Header";
+import HeaderBack from "./HeaderBack";
 import HeaderSection from "./HeaderSection";
 
 export {
-    Header,
-    HeaderSection
+    HeaderBack,
+    HeaderSection,
 }

@@ -1,11 +1,8 @@
 import { LogBox, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import RootNavigation from 'navigations/RootNavigation';
-import middlewares from 'middlewares';
 import moment from 'moment';
 import { useFonts } from 'expo-font';
-
-middlewares()
 
 moment.locale("id")
 

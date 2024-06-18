@@ -3,21 +3,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from "scences/Dashboard/Home/Home";
 import Account from "scences/Dashboard/Account/Account";
-import Inbox from "scences/Dashboard/Inbox/Inbox";
-import ArtWork from "scences/Dashboard/Artwork/Artwork";
-import { Ionicons } from "@expo/vector-icons";
 import { colors } from "utils/colors";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import normalize from "react-native-normalize";
 import { fonts } from "utils/fonts";
 import EditProfile from "scences/Dashboard/Account/EditProfile";
 import EditPassword from "scences/Dashboard/Account/EditPassword";
 import { Gap } from "components/global";
 import DeleteAccount from "scences/Dashboard/Account/DeleteAccount";
+import Notifications from "scences/Dashboard/Notifications";
+import { responsive } from "utils";
 
 function MyTabBar({ state, descriptors, navigation }) {
     return (
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', position: 'absolute', bottom: 0, backgroundColor: 'white'}}>
         {state.routes.map((route, index) => {
           const { options } = descriptors[route.key];
           const label =
@@ -37,20 +35,10 @@ function MyTabBar({ state, descriptors, navigation }) {
                     ? require('assets/images/bottomBar/ic_home_fill.png')
                     : require('assets/images/bottomBar/ic_home.png');
             } 
-            else if (route.name === 'Inbox') {
-            iconName = isFocused 
-                ? require('assets/images/bottomBar/ic_inbox_fill.png') 
-                : require('assets/images/bottomBar/ic_inbox.png');
-            }
-            else if (route.name === 'ArtWork') {
-                iconName = isFocused 
-                    ? require('assets/images/bottomBar/ic_artwork_fill.png') 
-                    : require('assets/images/bottomBar/ic_artwork.png');
-            }
             else if (route.name === 'Account') {
-                iconName = isFocused 
-                    ? require('assets/images/bottomBar/ic_account_fill.png') 
-                    : require('assets/images/bottomBar/ic_account.png');
+              iconName = isFocused 
+                  ? require('assets/images/bottomBar/ic_question_fill.png') 
+                  : require('assets/images/bottomBar/ic_question.png');
             }
   
           const onPress = () => {
@@ -80,11 +68,11 @@ function MyTabBar({ state, descriptors, navigation }) {
               testID={options.tabBarTestID}
               onPress={onPress}
               onLongPress={onLongPress}
-              style={{ flex: 1, height: normalize(84), alignItems: 'center', justifyContent: 'center', backgroundColor: 'white',  borderTopWidth: 0.2, borderTopColor: colors.grey_2 }}
+              style={{ flex: 1, height: responsive(84), alignItems: 'center', justifyContent: 'center', backgroundColor: 'white',  borderTopWidth: 0.2, borderTopColor: colors.grey_2 }}
             >
-                <Image source={iconName} style={{width: normalize(24), height: normalize(24)}}/>
-                <Gap marginBottom={normalize(6)}/>
-                <Text style={{ color: isFocused ? colors.primary : colors.grey, fontFamily: fonts.regular, fontSize: normalize(12) }}>
+                <Image source={iconName} style={{width: responsive(24), height: responsive(24)}}/>
+                <Gap marginBottom={responsive(6)}/>
+                <Text style={{ color: isFocused ? colors.primary : colors.grey, fontFamily: fonts.regular, fontSize: responsive(12) }}>
                     {label}
                 </Text>
             </TouchableOpacity>
@@ -100,8 +88,6 @@ function DashboardTabs () {
     return (
         <Tab.Navigator tabBar={props => <MyTabBar {...props} />} screenOptions={{headerShown: false}}>
             <Tab.Screen options={{title: 'Beranda'}} name="Home" component={Home} />
-            <Tab.Screen options={{title: 'Pesan'}} name="Inbox" component={Inbox} />
-            <Tab.Screen options={{title: 'ArtWorks'}} name="ArtWork" component={ArtWork} />
             <Tab.Screen options={{title: 'Akun'}} name="Account" component={Account} />
         </Tab.Navigator>
     )
@@ -115,9 +101,12 @@ function DashboardNavigation() {
     return (
         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
             <Stack.Screen name="Home" component={DashboardTabs}/>
+
             <Stack.Screen name="EditProfile" component={EditProfile}/>
             <Stack.Screen name="DeleteAccount" component={DeleteAccount}/>
             <Stack.Screen name="EditPassword" component={EditPassword}/>
+
+            <Stack.Screen name="Notifications" component={Notifications}/>
         </Stack.Navigator>
     )
 }

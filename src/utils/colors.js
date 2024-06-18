@@ -1,18 +1,22 @@
 export const colors = {
     grey: "#9CA3AF",
     grey_2: "#CBD5E1",
-    grey_3: "#F9FAFB",
+    grey_3: "#EBF0F5",
+    grey_4: "#64748B",
+    grey_5: "#F8FAFC",
     black: "#0f172a",
-    primary: "#EA258E",
+    primary: "#02426D",
+    primary_2: "#E5EBFF",
     secondary: "#F3D09F",
-    secondary_2: "#FDE9F4",
+    secondary_2: "#0A1329",
     green: "#14B8A6",
     green_2: "#F0FDFA",
     yellow: "#FEFCE8",
     yellow_2: "#EAB308",
     red: "#FFF1F2",
     red_2: "#F43F5E",
-    orange: '#FFB03A33',
+    orange: '#FFA62A',
     purple: '#9474FF',
-    blue:'#0EA5E9'
+    blue:'#0EA5E9',
+    white_2: "#F8FAFC"
 }

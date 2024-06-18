@@ -12,7 +12,7 @@ export function headersFlexible (payload) {
     }
     
     if (token !== null) {
-        config.Authorization = `Basic ${token}`
+        config.Authorization = `Bearer ${token}`
     }
 
     console.log(JSON.stringify(config))

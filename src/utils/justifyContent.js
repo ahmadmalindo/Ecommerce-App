@@ -24,5 +24,9 @@ export const justifyContent = StyleSheet.create({
     view_center: {
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    flex_wrap: {
+        flexDirection: 'row', 
+        flexWrap: 'wrap'
     }
 })

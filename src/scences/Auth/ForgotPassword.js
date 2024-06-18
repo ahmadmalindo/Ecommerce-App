@@ -1,69 +1,61 @@
-import { Button, Container, Gap, Header, Input, ModalToast } from "components/global"
+import { Button, Container, Gap, HeaderBack, Input } from "components/global"
 import { Nontification } from "helper"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native"
-import normalize from "react-native-normalize"
-import kaveMember from "utils/KaveMemberUtils"
+import { responsive } from "utils"
+import eagleVisionPro from "utils/ApiUtils"
 import { colors } from "utils/colors"
-import { stylesFonts } from "utils/fonts"
+import { fonts, stylesFonts } from "utils/fonts"
 
 function ForgotPassword({ navigation }) {
 
+    const [isLoading, setIsloading] = useState(false)
     const [input, setInput] = useState({
-        numberPhone: "",
+        email: __DEV__ ? "aldirifaiemail@mail.com" : "",
     })
-    const [modal, setModal] = useState(false)
 
     const handleForgotPassword = async () => {
-        // const res = await mySalon.ForgetPwdMember({hpUser: input.numberPhone})
-
-        // if (res.status === 200) {
-        //     setModal(true)
-        //     setTimeout(() => {
-        //         setModal(false)
-        //         setTimeout(() => {
-        //             navigation.goBack()
-        //         }, 500)
-        //     }, 2500)
-        // }
-        // else {
-        //     Nontification(res.response)
-        // }
+        navigation.navigate("VerificationOtp", {data: input})
     }
 
     return (
         <Container backgroundColor={'white'}>
             <ScrollView>
-                <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16)}}>
-                    <Header onPress={() => navigation.goBack()}/>
-                    <Gap marginBottom={normalize(32)}/>
+                <View style={{paddingTop: responsive(24), paddingHorizontal: responsive(16)}}>
+                    <HeaderBack onBack={() => navigation.goBack()}/>
+                    <Gap marginBottom={responsive(32)}/>
                     <SectionTittle/>
-                    <Gap marginBottom={normalize(24)}/>
+                    <Gap marginBottom={responsive(24)}/>
                     <SectionFormInput
                         input={input}
                         setInput={setInput}
                     />
-                    <Gap marginBottom={normalize(24)}/>
+                    <Gap marginBottom={responsive(34)}/>
                     <SectionButton
-                        onPress={() => handleForgotPassword()}
+                        isLoading={isLoading}
+                        onPress={() => {
+                           handleForgotPassword()
+                        }}
+                        onBack={() => {
+                            navigation.goBack()
+                        }}
                     />
                 </View>
             </ScrollView>
-            <ModalToast
-                message={'Kata sandi berhasil terkirim, silahkan cek email anda.'}
-                isVisible={modal}
-                onSwipeComplete={() => setModal(false)}
-            />
         </Container>
     )
 }
 
+export default ForgotPassword
+
 function SectionTittle () {
     return (
-        <>
-            <Text style={stylesFonts.Body_1_Regular}>Masukkan no. telepon Anda yang telah terdaftar di MySalon</Text>
-        </>
+        <View style={{alignItems: 'center'}}>
+            <Text style={[stylesFonts.Heading_2]}>Atur ulang kata sandi</Text>
+            <Gap marginBottom={responsive(4)}/>
+            <Text style={[stylesFonts.Subtittle_2_Medium, {color: colors.grey, textAlign: 'center'}]}>Silahkan masukan email anda kami akan mengirimkan kode OTP melalui email anda</Text>
+        </View>
     )
 }
 
@@ -74,15 +66,13 @@ function SectionFormInput ({
     return (
         <>
             <Input
-                tittle={'No. Telepon'}
-                placeholder={'0878123...'}
-                left
-                costumIcon={<Image source={require('assets/images/ic_electronicdevices.png')} style={styles.icon}/>}
+                tittle={'Email'}
+                placeholder={'Masukkan email anda...'}
                 keyboardType={'numeric'}
-                value={input.numberPhone}
+                value={input.email}
                 onChangeText={(val) => setInput({
                     ...input,
-                    numberPhone: val
+                    email: val
                 })}
             />
         </>
@@ -90,24 +80,25 @@ function SectionFormInput ({
 }
 
 function SectionButton({
+    isLoading,
     onPress,
+    onBack
 }) {
 
     return (
         <>
             <Button
-                tittle={"Lanjutkan"}
+                isLoading={isLoading}
+                tittle={"Kirim Kode"}
                 onPress={onPress}
             />
+            <Gap
+                marginBottom={responsive(16)}
+            />
+            <Text onPress={onBack} style={[stylesFonts.Subtittle_2_Regular, {color: colors.grey, textAlign: 'center'}]}>Anda ingat kata sandi anda? <Text style={{fontFamily: fonts.medium, color: colors.primary}}>Masuk</Text></Text>
         </>
     )
 }
 
-export default ForgotPassword
-
 const styles = StyleSheet.create({
-    icon: {
-        width: normalize(24),
-        height: normalize(24)
-    }
 })

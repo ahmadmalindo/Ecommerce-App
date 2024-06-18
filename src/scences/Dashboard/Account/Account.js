@@ -1,169 +1,43 @@
+import { Feather } from "@expo/vector-icons"
 import { useFocusEffect } from "@react-navigation/native"
-import { Container, Gap, ModalPickPhoto } from "components/global"
-import { Nontification, statusDashboard } from "helper/FunctionGlobal"
+import { Container, Gap } from "components/global"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
-import { ActivityIndicator, Alert, FlatList, Image, InteractionManager, Linking, Pressable, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
+import { FlatList, Image, InteractionManager, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import normalize from "react-native-normalize"
-import kaveMember from "utils/KaveMemberUtils"
-import { colors, justifyContent, radius, stylesFonts } from "utils/index"
-import * as ImagePicker from 'expo-image-picker';
-import Axios from "axios";
-import { base_uri } from "constants/BASE_URL"
-
-const AxiosFrom = Axios.create()
+import { colors, justifyContent, radius, responsive, stylesFonts } from "utils/index"
 
 function Account({ navigation }) {
 
-    const [modal, setModal] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
-    const [dataMember, setDataMember] = useState([])
-
-    const getDashboardMember = async () => {
-
-        // let params = {
-        //     hpUser: storage.getString("storePhoneNumber")
-        // }
-
-        // const res = await mySalon.DashboardMember(params)
-
-        // if (statusDashboard.includes(res.status)) {
-        //     setDataMember(res)
-        // }
-        // else {
-        //     Nontification(res.response)
-        // }
-    }
 
     let profile_menu = [
         {
             tittle: 'Ubah Profil',
-            ic: require('assets/images/ic_edit_account.png'),
+            ic: '',
             navigation: 'EditProfile'
         },
         {
             tittle: 'Ganti Password',
-            ic: require('assets/images/ic_password.png'),
+            ic: '',
             navigation: 'EditPassword'
         },
         {
-            tittle: 'Privacy & Policy',
-            ic: require('assets/images/ic_privacy.png'),
-            navigation: 'privacy'
-        },
-        {
             tittle: 'Hapus Akun',
-            ic: require('assets/images/ic_trash_menu.png'),
-            navigation: 'delete'
+            ic: '',
+            navigation: 'DeleteAccount'
         },
         {
             tittle: 'Logout',
-            ic: require('assets/images/ic_logout.png'),
+            ic: '',
             navigation: 'logout'
         }
     ]
 
-    const handleLogout = async () => {
-        // const res = await mySalon.Logout({NoHp: storage.getString("storePhoneNumber")})
-
-        // if (res.status === 200) {
-        //     storage.clearMemoryCache()
-        //     storage.clearStore()
-        //     navigation.replace('Onboard')
-        // }
-        // else {
-        //     Nontification(res.response)
-        // }
-    }
-
-    const takeImage = async () => {
-        let result = await ImagePicker.launchCameraAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          aspect: [4, 3],
-          quality: 1,
-        });
-
-        console.log(result);
-    
-        if (!result.canceled) {
-            setModal(false)
-            updatePhotoProfile(result.assets[0].uri)
-        }
-    };
-
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: false,
-          aspect: [4, 3],
-          quality: 1,
-        });
-    
-        console.log(result);
-    
-        if (!result.canceled) {
-            setModal(false)
-            updatePhotoProfile(result.assets[0].uri)
-        }
-    };
-
-    const updatePhotoProfile = async(photo) => {
-
-        // const formData = new FormData()
-
-        // formData.append("image_data", {
-        //     uri: photo,
-        //     type: 'image/png',
-        //     name: 'image.png'
-        // })
-
-        // formData.append("NoHP", storage.getString("storePhoneNumber"))
-
-        // let api = `${base_uri}APICabang/fotUpload.php`
-
-        // setIsLoading(true)
-
-        // AxiosFrom.post(api, formData, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //         'Authorization': `Bearer ${storage.getString("token")}`
-        //     },
-        //     transformRequest: (data,headers) => {
-        //         return formData
-        //     }
-        // })
-        // .then(response => {
-        //     setIsLoading(false)
-        //     const res = response.data
-
-        //     if (res.status == 200) {
-        //         getDashboardMember()
-        //     }
-        //     else {
-        //         Nontification(res.response)
-        //     }
-        // })
-        // .catch(err => {
-        //     setIsLoading(false)
-        //     Nontification(err.response)
-        // })    
-    }
-
-    const handleDeleteAccount = async () => {
-        // const res = await mySalon.DeleteAccount({NoHP: storage.getString("storePhoneNumber")})
-
-        // Nontification("Akun anda sedang dalam proses penghapusan")
-        
-        // storage.clearMemoryCache()
-        // storage.clearStore()
-        // navigation.replace('Onboard')
-    }
-
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
-            getDashboardMember()
+
           });
       
           return () => task.cancel();
@@ -172,7 +46,6 @@ function Account({ navigation }) {
 
     const onRefresh = React.useCallback(() => {
         setIsLoading(true);
-        getDashboardMember()
         setTimeout(() => {
             setIsLoading(false);
         }, 2000);
@@ -186,23 +59,6 @@ function Account({ navigation }) {
                 }
             >
                 <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16), alignItems: 'center'}}>
-                    <SectionProfile
-                        isLoading={isLoading}
-                        onPress={async () =>  {
-                            const permisionCamera = await ImagePicker.requestCameraPermissionsAsync()
-
-                            if (permisionCamera.granted) {
-                                setModal(true)
-                            }
-                            else {
-                                Nontification("Izinkan kamera untuk mengupdate profil kamu")
-                            }
-                        }}
-                        photo={dataMember?.fotoFile}
-                        name={dataMember?.NamaMember}
-                        phone={dataMember?.TelpMember}
-                    />
-                    <Gap marginBottom={normalize(32)}/>
                     <FlatList
                         style={{width: '100%'}}
                         data={profile_menu}
@@ -212,90 +68,27 @@ function Account({ navigation }) {
                                     item={item}
                                     index={index}
                                     onPress={() => {
-                                        if (item.navigation === "logout") {
-                                            handleLogout()
-                                        }
-                                        else if (item.navigation === "privacy") {
-                                            Linking.openURL("https://mysalon.id/privacy/").then(() => {
-
-                                            })
-                                            .catch(() => {
-                                                Nontification("Tidak dapat Membuka Url Privacy Policy")
-                                            })
-                                        }
-                                        else if (item.navigation === "delete") {
-                                            Alert.alert("Alert", "Are you sure to delete your account?", [
-                                                {
-                                                    text: 'Delete Account',
-                                                    onPress: () => handleDeleteAccount()
-                                                },
-                                                {
-                                                    text: 'No'
-                                                }
-                                                
-                                            ])
-                                        }
-                                        else {
-                                            navigation.navigate(item.navigation, {data: dataMember})
-                                        }
+                                        navigation.navigate(item.navigation)
                                     }}
                                 />
                             )
                         })}
                     />
                 </View>
+                <Gap marginBottom={normalize(296)}/>
             </ScrollView>
-            <ModalPickPhoto
-                isVisible={modal}
-                onBackdropPress={() => setModal(false)}
-                onSwipeComplete={() => setModal(false)}
-                onPress={(index) => {
-                    if (index == 0) {
-                        takeImage()
-                    }
-                    else {
-                        pickImage()
-                    }
-                }}
-            />
         </Container>
     )
 }
 
-function SectionProfile ({
-    isLoading,
-    photo,
-    name = '',
-    phone = '',
-    onPress
-}){
-    return (
-        <View style={{alignItems: 'center'}}>
-            <Pressable style={{alignItems: 'center'}} onPress={onPress}>
-                {isLoading ?
-                <View style={[{width: normalize(80), height: normalize(80), borderRadius: normalize(80), backgroundColor: colors.grey_2}, justifyContent.view_center]}>
-                    <ActivityIndicator />
-                </View>
-                :
-                <Image source={{uri: photo}} resizeMethod="scale" resizeMode="cover" style={{width: normalize(80), height: normalize(80), borderRadius: normalize(80), backgroundColor: colors.grey}}/>
-                }
-                <Image source={require('assets/images/ic_edit.png')} style={styles.icon}/>
-            </Pressable>
-            <Gap marginBottom={normalize(12)}/>
-            <Text style={stylesFonts.Body_1_Bold}>{name}</Text>
-            <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>{phone}</Text>
-        </View>
-    )
-}
-
-function SectionListMenu ({item,index, onPress}) {
+function SectionListMenu ({item, index, onPress}) {
     return (
         <TouchableOpacity onPress={onPress} style={[styles.card, justifyContent.space_beetwen]} >
             <View style={justifyContent.flex_start}>
                 <Image source={item.ic} style={{width: normalize(32), height: normalize(32), marginRight: normalize(12)}}/>
-                <Text style={[stylesFonts.Subtittle_2_Regular, {color: index === 3 ? colors.red_2 : colors.black}]}>{item.tittle}</Text>
+                <Text style={[stylesFonts.Subtittle_2_Regular, {color: colors.black}]}>{item.tittle}</Text>
             </View>
-            <Image source={require('assets/images/ic_circle_right.png')} style={{width: normalize(32), height: normalize(32)}}/>
+            <Feather name="chevron-right" size={responsive(20)} color={colors.black} />
         </TouchableOpacity>
     )
 }
@@ -310,12 +103,5 @@ const styles = StyleSheet.create({
         backgroundColor: colors.grey_3,
         paddingHorizontal: normalize(8),
         marginBottom: normalize(12)
-    },
-    icon: {
-        width: normalize(32),
-        height: normalize(32),
-        position: 'absolute',
-        right: 0,
-        bottom: 0
     },
 })

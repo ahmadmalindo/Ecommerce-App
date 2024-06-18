@@ -3,16 +3,16 @@ import {StyleSheet, StatusBar, KeyboardAvoidingView, Platform} from 'react-nativ
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Container = ({
-    barStyle, 
-    children, 
+    keyboardVerticalOffset,
     backgroundColor, 
-    keyboardVerticalOffset
+    barStyle, 
+    customBarColor = backgroundColor,
+    children, 
 }) => {
-
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} enabled={true} style={styles.container} keyboardVerticalOffset={keyboardVerticalOffset}>
             <SafeAreaView style={[styles.container, {backgroundColor: backgroundColor}]}>
-                <StatusBar barStyle={barStyle} backgroundColor={backgroundColor}/>
+                <StatusBar barStyle={barStyle} backgroundColor={customBarColor}/>
                 {children}
             </SafeAreaView>
         </KeyboardAvoidingView>
@@ -23,6 +23,6 @@ export default React.memo(Container);
 
 export const styles = StyleSheet.create({
   container: {
-    height: '101%'
+    flex: 1
   },
 });

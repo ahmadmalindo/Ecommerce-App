@@ -3,7 +3,6 @@ import { Button, Container, Gap } from "components/global"
 import React, { useLayoutEffect } from "react"
 import { Image, InteractionManager, ScrollView, StyleSheet, Text, View } from "react-native"
 import MMKVStorage from "react-native-mmkv-storage"
-import normalize from "react-native-normalize"
 import { fonts, stylesFonts } from "utils/fonts"
 
 function SplashScreen({ navigation }) {
@@ -19,7 +18,7 @@ function SplashScreen({ navigation }) {
                 navigation.navigate('DashboardNavigation')
             }
             else {
-                navigation.navigate("Onboard")
+                navigation.navigate("AuthNavigation")
             }
           });
       

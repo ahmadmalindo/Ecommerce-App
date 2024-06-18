@@ -1,48 +1,71 @@
-import React, { memo, useState } from "react";
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import Icon2 from "react-native-vector-icons/AntDesign";
-import { Gap } from "../Gap";
-import { colors, fonts } from "utils/index";
-import normalize from "react-native-normalize";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors, fonts, justifyContent, responsive, stylesFonts } from "utils/index";
 import { Entypo } from "@expo/vector-icons";
-
-//change base color & font
-const grey = colors.grey
-const grey_2 = colors.grey_2
-const black = colors.black
-const primary = colors.primary
-const secondary = colors.secondary_2
-const error = "#F43F5E"
-const error_2 = "#FFF1F2"
-const fontFamily = fonts.regular
 
 const Selection = ({ 
     tittle,
+    fontFamilyTittle = fonts.regular,
+    customHeight = responsive(44),
+    customBackgroundColor = 'white',
+    customBorderColor = colors.grey_2,
+    customBorderRadius = responsive(10),
+    customPaddingHorizontal = responsive(12),
     placeHolder,
     onPress,
-    costumIcon
+    costumIconLeft,
+    customIconRight = <Entypo name={"chevron-small-down"} size={responsive(24)} color={colors.grey} />,
+    customTextColor = colors.grey,
+    customStyleSelected
 }) => {
 
     return (
         <>
             {tittle &&
-            <Text style={[styles.tittle, {marginBottom: normalize(10)}]}>{tittle}</Text>
+            <Text style={[stylesFonts.Subtittle_2_Medium, {marginBottom: responsive(10), fontFamily: fontFamilyTittle}]}>{tittle}</Text>
             }
             <TouchableOpacity 
-                style={styles.viewInput}
+                style={[
+                    justifyContent.space_beetwen,
+                    {
+                        width: '100%',
+                        height: customHeight,
+                        borderWidth: 1,
+                        backgroundColor: customBackgroundColor,
+                        borderColor: customBorderColor, 
+                        borderRadius: customBorderRadius,
+                        paddingHorizontal: customPaddingHorizontal,
+                        zIndex: 1
+                    }
+                ]}
                 onPress={onPress}
             >
-                <View style={{flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
-                    {costumIcon &&
-                    <View style={{marginRight: normalize(8)}}>
-                        {costumIcon}
+                <View style={justifyContent.flex_start}>
+                    {costumIconLeft &&
+                    <View>
+                        {costumIconLeft}
                     </View>
                     }
                     {placeHolder &&
-                    <Text style={styles.tittle}>{placeHolder}</Text>
+                    <Text style={[stylesFonts.Subtittle_2_Regular, {color: customTextColor}]}>{placeHolder}</Text>
+                    }
+                    {customStyleSelected &&
+                    <View>
+                        {customStyleSelected}
+                    </View>
                     }
                 </View>
-                <Entypo name="chevron-small-down" size={24} color="#4F4F4F" />
+                {customIconRight &&
+                <View 
+                    style={{
+                        position: 'absolute',
+                        right: responsive(8),
+                        top: responsive(10)
+                    }}
+                >
+                    {customIconRight}
+                </View> 
+                }
             </TouchableOpacity>
         </>
     )
@@ -51,28 +74,5 @@ const Selection = ({
 export default React.memo(Selection)
 
 const styles = StyleSheet.create({
-    viewInput: {
-      width: '100%',
-      height: normalize(49),
-      backgroundColor: 'white',
-      borderWidth: 1,
-      borderColor: grey_2,
-      borderRadius: normalize(10),
-      paddingHorizontal: normalize(10),
-      zIndex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    tittle: {
-        color: colors.black,
-        fontSize: normalize(14),
-        fontFamily: fontFamily,
-    },
-    tittle: {
-        fontSize: normalize(14),
-        lineHeight: normalize(20),
-        fontFamily: fonts.regular,
-        color: colors.black
-     },
+
 })

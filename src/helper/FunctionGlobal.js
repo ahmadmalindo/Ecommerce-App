@@ -1,7 +1,7 @@
 import { Alert } from "react-native";
 
-export const Nontification = (val) => {
-    Alert.alert("Perhatian", val)
+export const Nontification = (val, action) => {
+    Alert.alert("Perhatian", val, action)
 }
 
 export const inputNominal = (angka, prefix) => {
@@ -69,3 +69,41 @@ export const formatCountDown = (time) => {
     return `${minute_time} : ${seconds_time}`
 }
 
+export const formatCountDownHour = (time) => {
+    var hours = parseInt(time / (60 * 60), 10) % 24;
+    var minutes = parseInt(time / 60, 10) % 60;
+    var seconds = Math.floor(time % 60);
+
+    let hour_time = 0
+
+    if (hours < 10) {
+        hour_time = `0${hours}`
+    }
+    else {
+        hour_time = hours
+    }
+
+    let minute_time = 0
+
+    if (minutes < 10) {
+        minute_time = `0${minutes}`
+    }
+    else {
+        minute_time = minutes
+    }
+
+    let seconds_time = 0
+
+    if (seconds < 10) {
+        seconds_time = `0${seconds}`
+    }
+    else {
+        seconds_time = seconds
+    }
+
+    return {
+        hour_time,
+        minute_time,
+        seconds_time
+    }
+}
