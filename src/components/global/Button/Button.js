@@ -8,9 +8,11 @@ const Button = ({
     disabled,
     onPress,
     cutomBackgroundColor = colors.primary,
+    cutomBackgroundColorDisabled = colors.grey,
     customHeight = responsive(44),
-    customBorder = 0,
+    customBorderWidth = 0,
     customBorderColor = 'white',
+    customBorderColorDisabled = colors.grey,
     customBorderRadius = responsive(10),
     custumColorLoadingIndicator = 'white',
     customJustifyContent = 'center',
@@ -18,6 +20,7 @@ const Button = ({
     customIconLeft,
     customIconRight,
     customColorText = 'white',
+    customColorTextDisabled = 'white',
     customFontFamily = fonts.medium,
     customTextMarginHorizontal = responsive(10),
 }) => {
@@ -30,9 +33,9 @@ const Button = ({
                 flexDirection: 'row',
                 alignItems: 'center',
                 height: customHeight,
-                backgroundColor: cutomBackgroundColor,
-                borderWidth: customBorder,
-                borderColor: customBorderColor,
+                backgroundColor: disabled ? cutomBackgroundColorDisabled : cutomBackgroundColor,
+                borderWidth: customBorderWidth,
+                borderColor: disabled ? customBorderColorDisabled : customBorderColor,
                 borderRadius: customBorderRadius,
                 justifyContent: customJustifyContent,
                 paddingHorizontal: customPaddingHorizontal
@@ -52,7 +55,7 @@ const Button = ({
                     style={[
                         stylesFonts.Body_1_Medium, 
                         {
-                            color: customColorText,
+                            color: disabled ? customColorTextDisabled : customColorText,
                             marginHorizontal: customTextMarginHorizontal,
                             fontFamily: customFontFamily
                         }
