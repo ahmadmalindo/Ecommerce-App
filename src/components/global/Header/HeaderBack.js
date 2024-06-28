@@ -6,14 +6,16 @@ import { colors, fonts, justifyContent, responsive, stylesFonts } from "utils/in
 const HeaderBack = ({
     tittle,
     onBack,
+    customColorIcon = colors.black,
+    customColorText = colors.black,
     customViewStyle = <View style={{width: responsive(24), height: responsive(24)}}/>
 }) => {
     return (
         <View style={justifyContent.space_beetwen}>
             <TouchableOpacity onPress={onBack}>
-                <AntDesign name="arrowleft" size={responsive(24)} color={colors.black} />
+                <AntDesign name="arrowleft" size={responsive(24)} color={customColorIcon} />
             </TouchableOpacity>
-            <Text style={stylesFonts.Body_1_SemiBold} numberOfLines={1}>{tittle}</Text>
+            <Text style={[stylesFonts.Body_1_SemiBold, {color: customColorText}]} numberOfLines={1}>{tittle}</Text>
             {customViewStyle}
         </View>
     )
