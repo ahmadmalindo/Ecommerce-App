@@ -11,6 +11,7 @@ import { Input } from '../Input';
 const ModalInput = ({ 
     tittle,
     inputTitle,
+    placeholder,
     isVisible, 
     onSwipeComplete, 
     onBackdropPress, 
@@ -39,7 +40,7 @@ const ModalInput = ({
                 <Gap marginBottom={responsive(16)}/>
                 <Input
                     tittle={inputTitle}
-                    placeholder={`Masukkan ${tittle}`}
+                    placeholder={placeholder}
                     value={input}
                     onChangeText={(val) => {
                         setInput(val)
@@ -50,6 +51,7 @@ const ModalInput = ({
                     tittle={'Simpan'}
                     onPress={() => {
                         onConfrim?.(input)
+                        setInput("")
                     }}
                 />
                 <Gap marginBottom={responsive(32)}/>
