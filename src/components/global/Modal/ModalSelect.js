@@ -17,6 +17,7 @@ const ModalSelect = ({
     onBackdropPress, 
     onConfirm,
     tittle,
+    placeholder = 'Search',
     desc,
     searchable,
     image,
@@ -40,7 +41,10 @@ const ModalSelect = ({
     return (
         <Modal 
             isVisible={isVisible} 
-            onSwipeComplete={onSwipeComplete} 
+            onSwipeComplete={() => {
+                onSwipeComplete?.()
+                setSelect(null)
+            }} 
             swipeDirection="down" 
             onBackdropPress={() => {
                 onBackdropPress?.()
@@ -57,17 +61,18 @@ const ModalSelect = ({
                 <View style={justifyContent.space_beetwen}>
                     <Text style={stylesFonts.Body_1_SemiBold}>{tittle}</Text>
                     <Gap marginBottom={responsive(36)}/>
-                    <Ionicons name="close-circle" size={24} color={colors.grey} onPress={onBackdropPress}/>
+                    <Ionicons name="close-circle" size={responsive(24)} color={colors.grey} onPress={onBackdropPress}/>
                 </View>
                 {searchable &&
                 <>
                     <Gap marginBottom={responsive(16)}/>
                     <Input
-                        placeholder={'Search'}
+                        placeholder={placeholder}
                         value={input}
                         onChangeText={(val) => {
                             setInput(val)
                         }}
+                        customIconRight={<Ionicons name="search" size={responsive(24)} color={colors.grey} />}
                     />
                 </>
                 }
@@ -79,10 +84,10 @@ const ModalSelect = ({
                             <TouchableOpacity 
                                 onPress={() => {
                                     if (isConfirmation) {
-                                        onConfirm(item)
+                                        onConfirm?.(item)
                                     }
                                     if (isMultiSelect) {
-                                        onMultiSelect(item)
+                                        onMultiSelect?.(item)
                                     }
                                     setSelect(item)
                                 }} 
@@ -145,7 +150,7 @@ const ModalSelect = ({
                                 Nontification(`Pilih ${tittle}`)
                             }
                             else {
-                                onConfirm(select)
+                                onConfirm?.(select)
                             }
                         }}
                     />
