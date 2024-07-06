@@ -1,6 +1,6 @@
 import { Feather, Ionicons } from "@expo/vector-icons"
 import { useFocusEffect } from "@react-navigation/native"
-import { Container } from "components/global"
+import { Container, Gap } from "components/global"
 import React, { useEffect, useState } from "react"
 import { InteractionManager, RefreshControl, ScrollView, StyleSheet, View } from "react-native"
 import { SCREEN_HEIGHT } from "react-native-normalize"
