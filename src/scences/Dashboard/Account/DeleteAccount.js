@@ -1,25 +1,39 @@
-import { Container, HeaderBack } from "components/global"
-import { Nontification } from "helper"
+import { Container, Gap, HeaderBack } from "components/global"
 import React, { useState } from "react"
-import { ActivityIndicator, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
-import { colors, justifyContent, radius, responsive, stylesFonts } from "utils/index"
+import { ScrollView, StyleSheet } from "react-native"
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "react-native-normalize"
+import { responsive } from "utils/index"
 
 function DeleteAccount({ navigation, route }) {
 
     return (
+        <>
         <Container backgroundColor={'white'}>
-            <View style={{paddingTop: responsive(16), paddingHorizontal: responsive(16)}}>
+            <Gap
+                paddingHorizontal={responsive(16)}
+                paddingTop={responsive(16)}
+                marginBottom={responsive(16)}
+            >
                 <HeaderBack
                     tittle={'Hapus Akun'}
                     onBack={() => navigation.goBack()}
                 />
-            </View>
-            <ScrollView>
-                <View style={{paddingTop: responsive(42), paddingHorizontal: responsive(16)}}>
+            </Gap>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={{
+                    minHeight: SCREEN_HEIGHT,
+                }}
+            >
+                <Gap paddingTop={responsive(16)}>
+                <Gap>
 
-                </View>
+                    <Gap marginBottom={responsive(296)}/>
+                </Gap>
+                </Gap>
             </ScrollView>
         </Container>
+        </>
     )
 }
 

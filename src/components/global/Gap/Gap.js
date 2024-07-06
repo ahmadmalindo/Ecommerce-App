@@ -8,7 +8,9 @@ const Gap = ({
     marginRight,
     marginLeft,
     paddingHorizontal,
+    paddingVertical,
     paddingTop,
+    paddingBottom,
     customStyle,
     marginHorizontal,
     marginVertical
@@ -21,7 +23,9 @@ const Gap = ({
                 marginRight: marginRight, 
                 marginLeft: marginLeft,
                 paddingHorizontal: paddingHorizontal,
+                paddingVertical: paddingVertical,
                 paddingTop: paddingTop,
+                paddingBottom: paddingBottom,
                 marginHorizontal: marginHorizontal,
                 marginVertical: marginVertical
             }]}

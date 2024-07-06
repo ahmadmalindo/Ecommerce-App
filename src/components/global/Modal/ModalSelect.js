@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react
 import Modal from "react-native-modal";
 import { colors, justifyContent, responsive, stylesFonts } from 'utils/index';
 import { Gap } from '../Gap';
-import { Button } from '../Button';
+import { Button, ButtonDots } from '../Button';
 import { Nontification } from 'helper';
 import { Input } from '../Input';
 import { customStyle } from 'utils/customStyle';
@@ -22,6 +22,9 @@ const ModalSelect = ({
     searchable,
     image,
     customStyleImageItem = {width: responsive(48), height: responsive(48)},
+    customBorderCircle,
+    customBorderDots,
+    customBorderDots2,
     isConfirmation,
     isMultiSelect,
     onMultiSelect,
@@ -106,43 +109,19 @@ const ModalSelect = ({
                                         }
                                     </View>
                                 </View>
-                                <View 
-                                    style={
-                                        [
-                                            justifyContent.view_center, customStyle.box,
-                                            {
-                                                borderWidth: isMultiSelect ? item?.isChecked ?  2 : 1 : select?.name == item?.name ? 2 : 1,
-                                                borderColor: isMultiSelect ? item?.isChecked ?  colors.primary : colors.grey_3 : select?.name == item?.name ? colors.primary : colors.grey_2,
-                                            }
-                                        ]
-                                    }
-                                    >
-                                    <View 
-                                        style={[
-                                            justifyContent.view_center, 
-                                            customStyle.box2, 
-                                            {
-                                                backgroundColor: isMultiSelect ? item?.isChecked ?  colors.primary : colors.grey_3
-                                                : select?.name == item?.name ? colors.primary : colors.grey_3
-                                            }
-                                        ]}
-                                    >
-                                        {item?.isChecked ?
-                                        <Octicons name="check" size={responsive(13)} color={'white'} />
-                                        : select?.name == item?.name ?
-                                        <Octicons name="check" size={responsive(13)} color={'white'} />
-                                        :
-                                        null
-                                        }
-                                    </View>
-                                </View>
+                                <ButtonDots
+                                    circle={customBorderCircle}
+                                    borderRadius={customBorderDots}
+                                    borderRadius2={customBorderDots2}
+                                    isChecked={isMultiSelect ? item?.isChecked ? true : false : select?.name == item?.name ? true : false}
+                                />
                             </TouchableOpacity>
                         )
                     })}
                 />
                 <Gap marginBottom={responsive(72)}/>
                 {!isConfirmation &&
-                <View style={[customStyle.absolute, {paddingHorizontal: responsive(16), bottom: responsive(34)}]}>
+                <View style={[customStyle.absolute, {bottom: responsive(34), alignSelf: 'center'}]}>
                     <Button
                         tittle={'Konfirmasi'}
                         onPress={() => {

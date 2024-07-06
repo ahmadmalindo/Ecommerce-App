@@ -8,9 +8,14 @@ const Input = ({
     fontFamilyTittle = fonts.regular,
     customHeight = responsive(44),
     customBackgroundColor = 'white',
+    customBackgroundColorFocus = 'white',
     customBorderColor = colors.grey_2,
+    customBorderColorFocus = colors.primary,
     customBorderRadius = responsive(10),
     customPaddingHorizontal = responsive(12),
+    customPaddingLeft,
+    customPaddingRight,
+    customMarginTop,
     ref,
     multiline,
     value,
@@ -43,12 +48,15 @@ const Input = ({
                     width: '100%',
                     height: customHeight,
                     borderWidth: 1,
-                    backgroundColor: focus ? colors.primary_2 : customBackgroundColor,
-                    borderColor: focus ? colors.primary : customBorderColor,
+                    backgroundColor: focus ? customBackgroundColorFocus : customBackgroundColor,
+                    borderColor: focus ? customBorderColorFocus: customBorderColor,
                     borderRadius: customBorderRadius,
                     justifyContent: 'center',
                     paddingHorizontal: customPaddingHorizontal,
-                    zIndex: 1
+                    paddingLeft: customPaddingLeft,
+                    paddingRight: customPaddingRight,
+                    zIndex: 1,
+                    overflow: 'hidden'
                 }]}
             >
                 <TextInput
@@ -59,6 +67,7 @@ const Input = ({
                         fontSize: responsive(14), 
                         color: colors.black, 
                         fontFamily: fonts.regular,
+                        marginTop: customMarginTop,
                         marginLeft: customIconLeft ? responsive(24) : 0,
                         textAlignVertical: multiline ? 'top' : 'auto',
                         height: multiline ? customHeight : 'auto',
@@ -101,8 +110,8 @@ const Input = ({
                 <View 
                     style={{
                         position: 'absolute',
-                        left: responsive(8),
-                        top: responsive(10)
+                        left: 0,
+                        top: 0
                     }}
                 >
                     {customIconLeft}
@@ -113,8 +122,8 @@ const Input = ({
                 <View 
                     style={{
                         position: 'absolute',
-                        right: responsive(8),
-                        top: responsive(10)
+                        right: 0,
+                        top: 0
                     }}
                 >
                     {customIconRight}

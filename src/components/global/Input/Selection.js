@@ -59,8 +59,8 @@ const Selection = ({
                 <View 
                     style={{
                         position: 'absolute',
-                        right: responsive(8),
-                        top: responsive(10)
+                        right: 0,
+                        top: 0
                     }}
                 >
                     {customIconRight}

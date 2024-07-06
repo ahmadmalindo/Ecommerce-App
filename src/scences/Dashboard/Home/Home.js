@@ -34,18 +34,26 @@ function Home({ navigation }) {
 
     return (
         <Container backgroundColor={'white'}>
-            <View style={{paddingTop: responsive(16), paddingHorizontal: responsive(16)}}>
+             <Gap
+                paddingHorizontal={responsive(16)}
+                paddingTop={responsive(16)}
+                marginBottom={responsive(16)}
+            >
 
-            </View>
+            </Gap>
             <ScrollView 
                 showsVerticalScrollIndicator={false}
                 refreshControl={
                     <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
                 }
+                style={{
+                    minHeight: SCREEN_HEIGHT,
+                }}
             >
-                <View style={{paddingTop: responsive(24), paddingHorizontal: responsive(16), minHeight: SCREEN_HEIGHT, backgroundColor: 'white'}}>
+                <Gap>
 
-                </View>
+                    <Gap marginBottom={responsive(296)}/>
+                </Gap>
             </ScrollView>
         </Container>
     )

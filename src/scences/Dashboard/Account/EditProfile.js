@@ -1,44 +1,43 @@
-import { Button, Container, Gap, HeaderBack, ModalPickPhoto } from "components/global"
-import { Nontification } from "helper"
+import { Container, Gap, HeaderBack } from "components/global"
 import React, { useState } from "react"
-import { InteractionManager, ScrollView, StyleSheet, View } from "react-native"
-import { responsive } from "utils/index"
-import { useFocusEffect } from "@react-navigation/native"
+import { ScrollView, StyleSheet } from "react-native"
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "react-native-normalize"
+import { responsive} from "utils/index"
 
-function EditProfile({ navigation }) {
-
-    const [isLoading, setIsloading] = useState(false)
-
-    useFocusEffect(
-        React.useCallback(() => {
-          const task = InteractionManager.runAfterInteractions(() => {
-
-          });
-      
-          return () => task.cancel();
-        }, [navigation])
-    );
+function EditProfile({ navigation, route }) {
 
     return (
+        <>
         <Container backgroundColor={'white'}>
-            <View style={{paddingTop: responsive(16), paddingHorizontal: responsive(16)}}>
+            <Gap
+                paddingHorizontal={responsive(16)}
+                paddingTop={responsive(16)}
+                marginBottom={responsive(16)}
+            >
                 <HeaderBack
-                    tittle={'Edit Profil'}
+                    tittle={'Edit Profile'}
                     onBack={() => navigation.goBack()}
                 />
-                <Gap marginBottom={responsive(16)}/>
-            </View>
-            <ScrollView>
-                <View style={{paddingTop: responsive(42), paddingHorizontal: responsive(16), backgroundColor: 'white'}}>
-                    
-                </View>
+            </Gap>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={{
+                    minHeight: SCREEN_HEIGHT,
+                }}
+            >
+                <Gap paddingTop={responsive(16)}>
+                <Gap>
+
+                    <Gap marginBottom={responsive(296)}/>
+                </Gap>
+                </Gap>
             </ScrollView>
         </Container>
+        </>
     )
 }
 
 export default EditProfile
 
 const styles = StyleSheet.create({
-
 })
