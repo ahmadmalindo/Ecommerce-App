@@ -8,51 +8,64 @@ import { Button, ButtonDots } from '../Button';
 import { Nontification } from 'helper';
 import { Input } from '../Input';
 import { customStyle } from 'utils/customStyle';
+import { useModal } from 'context/modalContext';
 
 const ModalSelect = ({ 
+    modalId = "",
     data = [],
+    schemeData = {
+        id: 'id',
+        image: null,
+        name: 'name',
+        desc: null
+    },
+    onBackdropPress,
+    onSwipeComplete,
     selectedValue = null,
-    isVisible, 
-    onSwipeComplete, 
-    onBackdropPress, 
     onConfirm,
-    tittle,
+    tittle = "",
     placeholder = 'Search',
-    desc,
     searchable,
-    image,
     customStyleImageItem = {width: responsive(48), height: responsive(48)},
-    customBorderCircle,
+    customBorderCircle = true,
     customBorderDots,
-    customBorderDots2,
+    isMultiSelect = false,
+    onMultiSelect = {},
     isConfirmation,
-    isMultiSelect,
-    onMultiSelect,
 }) => {
 
-    const [select, setSelect] = useState(null)
+    const { modals, hideModal } = useModal();
+    const modalState = modals[modalId] || { isVisible: false, props: {} };
+
+    const handleBackdropPress = () => {
+        onBackdropPress?.()
+        hideModal(modalId);
+    };
+
+    const handleSwipeComplete = () => {
+        onSwipeComplete?.()
+        hideModal(modalId);
+    };
+
+    const [select, setSelect] = useState({id: null})
     const [input, setInput] = useState("")
 
-    const filterSearch = data?.filter(item => item?.name?.includes(input))
+    const filterSearch = data?.filter(item => item[schemeData.name]?.toLowerCase()?.includes(input?.toLocaleLowerCase()))
 
     useEffect(() => {
         if (selectedValue != null) {
             setSelect(selectedValue)
         }
-    }, [isVisible])
+        setSelect({id: null})
+    }, [modalState.isVisible])
+
 
     return (
         <Modal 
-            isVisible={isVisible} 
-            onSwipeComplete={() => {
-                onSwipeComplete?.()
-                setSelect(null)
-            }} 
+            isVisible={modalState.isVisible} 
             swipeDirection="down" 
-            onBackdropPress={() => {
-                onBackdropPress?.()
-                setSelect(null)
-            }}
+            onSwipeComplete={handleSwipeComplete} 
+            onBackdropPress={handleBackdropPress}
             style={{
                 justifyContent: 'flex-end', 
                 margin: 0
@@ -64,7 +77,7 @@ const ModalSelect = ({
                 <View style={justifyContent.space_beetwen}>
                     <Text style={stylesFonts.Body_1_SemiBold}>{tittle}</Text>
                     <Gap marginBottom={responsive(36)}/>
-                    <Ionicons name="close-circle" size={responsive(24)} color={colors.grey} onPress={onBackdropPress}/>
+                    <Ionicons name="close-circle" size={responsive(24)} color={colors.grey} onPress={handleBackdropPress}/>
                 </View>
                 {searchable &&
                 <>
@@ -75,7 +88,16 @@ const ModalSelect = ({
                         onChangeText={(val) => {
                             setInput(val)
                         }}
-                        customIconRight={<Ionicons name="search" size={responsive(24)} color={colors.grey} />}
+                        customIconRight={
+                            <View style={{
+                                width: responsive(36),
+                                height: responsive(44),
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
+                                <Ionicons name="search" size={responsive(24)} color={colors.grey} />
+                            </View>
+                        }
                     />
                 </>
                 }
@@ -86,49 +108,50 @@ const ModalSelect = ({
                         return (
                             <TouchableOpacity 
                                 onPress={() => {
+                                    setSelect(item)
                                     if (isConfirmation) {
+                                        handleBackdropPress?.()
                                         onConfirm?.(item)
                                     }
                                     if (isMultiSelect) {
                                         onMultiSelect?.(item)
                                     }
-                                    setSelect(item)
                                 }} 
                                 style={[justifyContent.space_beetwen, {marginBottom: responsive(16)}]}
                             >
                                 <View style={justifyContent.flex_start}>
-                                    {image &&
+                                    {item[schemeData?.image] != null &&
                                     <Gap marginRight={responsive(16)}>
-                                        <Image source={{uri: item?.image}} resizeMethod='scale' resizeMode='contain' style={customStyleImageItem}/>
+                                        <Image source={{uri: item[schemeData?.image]}} resizeMethod='scale' resizeMode='contain' style={customStyleImageItem}/>
                                     </Gap>
                                     }
                                     <View>
-                                        <Text style={[stylesFonts.Subtittle_2_SemiBold]}>{item.name}</Text>
-                                        {desc &&
-                                        <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>{item.desc}</Text>
+                                        <Text style={[stylesFonts.Subtittle_2_SemiBold]}>{item[schemeData?.name]}</Text>
+                                        {item[schemeData?.desc != null] &&
+                                        <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>{item[schemeData?.desc]}</Text>
                                         }
                                     </View>
                                 </View>
                                 <ButtonDots
                                     circle={customBorderCircle}
                                     borderRadius={customBorderDots}
-                                    borderRadius2={customBorderDots2}
-                                    isChecked={isMultiSelect ? item?.isChecked ? true : false : select?.name == item?.name ? true : false}
+                                    isChecked={isMultiSelect ? item?.isChecked ? true : false :  select[schemeData.id] == item[schemeData.id] ? true : false}
                                 />
                             </TouchableOpacity>
                         )
                     })}
                 />
-                <Gap marginBottom={responsive(72)}/>
+                <Gap marginBottom={isConfirmation ? responsive(24) : responsive(72)}/>
                 {!isConfirmation &&
-                <View style={[customStyle.absolute, {bottom: responsive(34), alignSelf: 'center'}]}>
+                <View style={[customStyle.absolute, {bottom: responsive(30), alignSelf: 'center'}]}>
                     <Button
                         tittle={'Konfirmasi'}
                         onPress={() => {
-                            if (select === null) {
-                                Nontification(`Pilih ${tittle}`)
+                            if (select.id == null) {
+                                Nontification("Wajib Memilih Salah Satu")
                             }
                             else {
+                                handleBackdropPress?.()
                                 onConfirm?.(select)
                             }
                         }}
@@ -146,6 +169,7 @@ const styles = StyleSheet.create({
     contentModal: {
         backgroundColor: 'white', 
         minHeight: 100,
+        maxHeight: 500,
         borderTopRightRadius: responsive(16),
         borderTopLeftRadius: responsive(16),
         paddingHorizontal: responsive(16),
