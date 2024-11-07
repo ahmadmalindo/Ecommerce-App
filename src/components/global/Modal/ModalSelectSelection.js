@@ -4,33 +4,53 @@ import { Image, ImageBackground, StyleSheet, Text, View, TouchableOpacity, FlatL
 import Modal from "react-native-modal";
 import { colors, fonts, justifyContent, radius, responsive, stylesFonts } from 'utils/index';
 import { Gap } from '../Gap';
+import { useModal } from 'context/modalContext';
+import { ButtonDots } from '../Button';
 
 const ModalSelectSelection = ({ 
+    modalId,
+    schemeData = {
+        id: 'id',
+        image: null,
+        name: 'name',
+        desc: null
+    },
     data,
     tittle,
-    isConfirmation,
-    isVisible, 
     onSwipeComplete, 
     onBackdropPress, 
     onConfirm,
-    image,
     customStyleImageItem = {width: responsive(48), height: responsive(48)},
-    desc
+    customBorderCircle = 100,
+    customBorderDots
 }) => {
 
-    const [select, setSelect] = useState(null)
+    const { modals, hideModal } = useModal();
+    const modalState = modals[modalId] || { isVisible: false, props: {} };
+
+    const handleBackdropPress = () => {
+        onBackdropPress?.()
+        hideModal(modalId);
+    };
+
+    const handleSwipeComplete = () => {
+        onSwipeComplete?.()
+        hideModal(modalId);
+    };
+
+    const [select, setSelect] = useState({id: null})
     const [input, setInput] = useState("")
 
     return (
         <Modal 
-            isVisible={isVisible} 
+            isVisible={modalState.isVisible} 
             onSwipeComplete={() => {
-                onSwipeComplete?.()
+                handleSwipeComplete?.()
                 setSelect(null)
             }} 
             swipeDirection="down" 
             onBackdropPress={() => {
-                onBackdropPress?.()
+                handleBackdropPress?.()
                 setSelect(null)
             }}
             style={{
@@ -43,7 +63,7 @@ const ModalSelectSelection = ({
             <View style={styles.contentModal}>
                 <View style={justifyContent.space_beetwen}>
                     <Text style={stylesFonts.Body_1_SemiBold}>{tittle}</Text>
-                    <Ionicons name="close-circle" size={responsive(24)} color={colors.grey} onPress={onBackdropPress}/>
+                    <Ionicons name="close-circle" size={responsive(24)} color={colors.grey} onPress={handleBackdropPress}/>
                 </View>
                 <Gap marginBottom={responsive(16)}/>
                 <SectionList
@@ -53,30 +73,29 @@ const ModalSelectSelection = ({
                             <TouchableOpacity 
                                 onPress={() => {
                                     setSelect(item)
-                                    if (isConfirmation) {
-                                        onConfirm?.(item)
-                                    }
+                                    onConfirm?.(item)
+                                    handleBackdropPress?.()
                                 }} 
                                 style={[justifyContent.space_beetwen, {marginBottom: responsive(16)}]}
                             >
                                 <View style={justifyContent.flex_start}>
-                                    {image &&
+                                    {item[schemeData.image] != null &&
                                     <Gap marginRight={responsive(16)}>
-                                        <Image source={{uri: item?.image}} resizeMethod='scale' resizeMode='contain' style={customStyleImageItem}/>
+                                        <Image source={{uri: item[schemeData.image]}} resizeMethod='scale' resizeMode='contain' style={customStyleImageItem}/>
                                     </Gap>
                                     }
                                     <View>
-                                        <Text style={[stylesFonts.Subtittle_2_SemiBold]}>{item.name}</Text>
-                                        {desc &&
-                                        <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>{item.desc}</Text>
+                                        <Text style={[stylesFonts.Subtittle_2_SemiBold]}>{item[schemeData.name]}</Text>
+                                        {item[schemeData.desc] != null &&
+                                        <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>{item[schemeData.desc]}</Text>
                                         }
                                     </View>
                                 </View>
-                                {select == item ?
-                                <Octicons name="check-circle-fill" size={responsive(16)} color={colors.primary} />
-                                :
-                                <Entypo name="chevron-small-right" size={responsive(16)} color={colors.black} />
-                                }
+                                <ButtonDots
+                                    circle={customBorderCircle}
+                                    borderRadius={customBorderDots}
+                                    isChecked={select[schemeData.id] == item[schemeData.id] ? true : false}
+                                />
                             </TouchableOpacity>
                         )
                     })}
