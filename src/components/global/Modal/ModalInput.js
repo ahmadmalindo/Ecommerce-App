@@ -7,25 +7,39 @@ import { Gap } from '../Gap';
 import moment from 'moment';
 import { Button } from '../Button';
 import { Input } from '../Input';
+import { useModal } from 'context/modalContext';
 
 const ModalInput = ({ 
-    tittle,
-    inputTitle,
-    placeholder,
-    isVisible, 
+    modalId = "",
+    tittle = "",
+    inputTitle = "",
+    placeholder= "",
     onSwipeComplete, 
     onBackdropPress, 
     onConfrim
 }) => {
 
+    const { modals, hideModal } = useModal();
+    const modalState = modals[modalId] || { isVisible: false, props: {} };
+
+    const handleBackdropPress = () => {
+        onBackdropPress?.()
+        hideModal(modalId);
+    };
+
+    const handleSwipeComplete = () => {
+        onSwipeComplete?.()
+        hideModal(modalId);
+    };
+
     const [input, setInput] = useState("")
 
     return (
         <Modal 
-            isVisible={isVisible} 
-            onSwipeComplete={onSwipeComplete} 
+            isVisible={modalState.isVisible} 
+            onSwipeComplete={handleSwipeComplete} 
             swipeDirection="down" 
-            onBackdropPress={onBackdropPress}
+            onBackdropPress={handleBackdropPress}
             style={{
                 justifyContent: 'flex-end', 
                 margin: 0
@@ -35,7 +49,7 @@ const ModalInput = ({
             <View style={[styles.contentModal]}>
                 <View style={justifyContent.space_beetwen}>
                     <Text style={stylesFonts.Body_1_SemiBold}>{tittle}</Text>
-                    <Ionicons name="close" size={responsive(24)} color={colors.grey} onPress={onBackdropPress}/>
+                    <Ionicons name="close" size={responsive(24)} color={colors.grey} onPress={handleBackdropPress}/>
                 </View>
                 <Gap marginBottom={responsive(16)}/>
                 <Input
@@ -52,6 +66,7 @@ const ModalInput = ({
                     onPress={() => {
                         onConfrim?.(input)
                         setInput("")
+                        handleBackdropPress()
                     }}
                 />
                 <Gap marginBottom={responsive(32)}/>
