@@ -3,6 +3,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import RootNavigation from 'navigations/RootNavigation';
 import moment from 'moment';
 import { useFonts } from 'expo-font';
+import { ModalProvider } from 'context/modalContext';
 
 moment.locale("id")
 
@@ -22,9 +23,11 @@ export default function App() {
   }
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <RootNavigation/>
-    </GestureHandlerRootView>
+    <ModalProvider>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <RootNavigation/>
+      </GestureHandlerRootView>
+    </ModalProvider>
   );
 }
 
