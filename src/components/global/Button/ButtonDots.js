@@ -6,8 +6,8 @@ import { colors, customStyle, fonts, justifyContent, responsive, stylesFonts } f
 const ButtonDots = ({
     isChecked,
     circle,
+    borderColor = colors.grey_3,
     borderRadius = responsive(6),
-    borderRadius2 = responsive(4),
     onPress
 }) => {
 
@@ -20,7 +20,7 @@ const ButtonDots = ({
                     {
                         borderRadius: circle ? 100 : borderRadius,
                         borderWidth: 2,
-                        borderColor: isChecked ?  colors.primary : colors.grey_3,
+                        borderColor: isChecked ?  colors.primary : borderColor,
                     }
                 ]
             }
@@ -30,7 +30,7 @@ const ButtonDots = ({
                     justifyContent.view_center, 
                     customStyle.box2, 
                     {
-                        borderRadius: circle ? 100 : borderRadius2,
+                        borderRadius: circle ? 100 : responsive(borderRadius - 2),
                         backgroundColor: isChecked ?  colors.primary : colors.grey_3
                     }
                 ]}
@@ -53,7 +53,7 @@ const ButtonDots = ({
                 :
                 <>
                     {isChecked ?
-                    <Octicons name="check" size={responsive(13)} color={'white'} />
+                    <Octicons name="check" size={responsive(10)} color={'white'} />
                     :
                     null
                     }
