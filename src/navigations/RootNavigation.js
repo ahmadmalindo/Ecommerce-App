@@ -6,6 +6,7 @@ import DashboardNavigation from "./DashboardNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import SplashScreen from "scences/SplashScreen";
 import { ActivityIndicator } from "react-native";
+import ExampleComponents from "scences/ExampleComponents";
 
 const linking = {
     prefixes: ['kavemember://'],
@@ -32,6 +33,7 @@ function RootNavigation() {
                 <Stack.Screen name="Onboard" component={Onboard}/>
                 <Stack.Screen name="AuthNavigation" component={AuthNavigation}/>
                 <Stack.Screen name="DashboardNavigation" component={DashboardNavigation}/>
+                <Stack.Screen name="ExampleComponents" component={ExampleComponents}/>
             </Stack.Navigator>
         </NavigationContainer>
     )
