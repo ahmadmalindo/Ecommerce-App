@@ -54,6 +54,7 @@ function Login({ navigation }) {
                     <SectionButton
                         isLoading={isLoading}
                         onPressLogin={() => handleLogin()}
+                        onPress={() => navigation.navigate("ExampleComponents")}
                     />
                 </View>
             </ScrollView>
@@ -107,6 +108,7 @@ function SectionFormInput ({
 
 function SectionButton({
     onPressLogin,
+    onPress,
     isLoading
 }) {
 
@@ -116,6 +118,11 @@ function SectionButton({
                 isLoading={isLoading}
                 tittle={"Masuk"}
                 onPress={() => onPressLogin()}
+            />
+            <Gap marginBottom={responsive(16)}/>
+            <Button
+                tittle={"Example Components"}
+                onPress={onPress}
             />
         </>
     )
