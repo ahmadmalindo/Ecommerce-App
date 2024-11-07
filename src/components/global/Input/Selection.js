@@ -7,16 +7,24 @@ const Selection = ({
     tittle,
     fontFamilyTittle = fonts.regular,
     customHeight = responsive(44),
-    customBackgroundColor = 'white',
+    customBackgroundColor = 'transparent',
     customBorderColor = colors.grey_2,
     customBorderRadius = responsive(10),
     customPaddingHorizontal = responsive(12),
     placeHolder,
     onPress,
-    costumIconLeft,
-    customIconRight = <Entypo name={"chevron-small-down"} size={responsive(24)} color={colors.grey} />,
+    customIconLeft,
+    customIconRight = <View style={{
+        width: responsive(36),
+        height: responsive(44),
+        alignItems: 'center',
+        justifyContent: 'center'
+    }}>
+            <Entypo name={"chevron-small-down"} size={responsive(24)} color={colors.grey} />
+        </View>,
     customTextColor = colors.grey,
-    customStyleSelected
+    customTextFont = fonts.regular,
+    customStyleSelected,
 }) => {
 
     return (
@@ -41,13 +49,13 @@ const Selection = ({
                 onPress={onPress}
             >
                 <View style={justifyContent.flex_start}>
-                    {costumIconLeft &&
+                    {customIconLeft &&
                     <View>
-                        {costumIconLeft}
+                        {customIconLeft}
                     </View>
                     }
                     {placeHolder &&
-                    <Text style={[stylesFonts.Subtittle_2_Regular, {color: customTextColor}]}>{placeHolder}</Text>
+                    <Text style={[stylesFonts.Subtittle_2_Regular, {color: customTextColor, fontFamily: customTextFont}]}>{placeHolder}</Text>
                     }
                     {customStyleSelected &&
                     <View>
