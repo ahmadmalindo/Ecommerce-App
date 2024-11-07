@@ -3,7 +3,7 @@ import React from "react";
 import { ActivityIndicator, TouchableOpacity, View, Text } from "react-native";
 import { colors, fonts, justifyContent, responsive, stylesFonts } from "utils/index";
 
-const Button = ({
+const ButtonSum = ({
     disabled,
     onPress,
     iconName = 'plus'
@@ -34,4 +34,4 @@ const Button = ({
     )
 } 
 
-export default React.memo(Button)
+export default React.memo(ButtonSum)
