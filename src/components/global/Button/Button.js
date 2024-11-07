@@ -22,6 +22,7 @@ const Button = ({
     customColorText = 'white',
     customColorTextDisabled = 'white',
     customFontFamily = fonts.medium,
+    customFontSize = responsive(16),
     customTextMarginHorizontal = responsive(10),
 }) => {
 
@@ -57,7 +58,8 @@ const Button = ({
                         {
                             color: disabled ? customColorTextDisabled : customColorText,
                             marginHorizontal: customTextMarginHorizontal,
-                            fontFamily: customFontFamily
+                            fontFamily: customFontFamily,
+                            fontSize: customFontSize
                         }
                     ]}
                 >
