@@ -8,10 +8,11 @@ const Container = ({
     barStyle, 
     customBarColor = backgroundColor,
     children, 
+    edges = ["top"]
 }) => {
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} enabled={true} style={styles.container} keyboardVerticalOffset={keyboardVerticalOffset}>
-            <SafeAreaView style={[styles.container, {backgroundColor: backgroundColor}]}>
+            <SafeAreaView edges={edges} style={[styles.container, {backgroundColor: backgroundColor}]}>
                 <StatusBar barStyle={barStyle} backgroundColor={customBarColor}/>
                 {children}
             </SafeAreaView>
