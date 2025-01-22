@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Container = ({
     keyboardVerticalOffset,
-    backgroundColor, 
+    backgroundColor = 'transparent', 
     barStyle, 
     customBarColor = backgroundColor,
     children, 
@@ -13,7 +13,7 @@ const Container = ({
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} enabled={true} style={styles.container} keyboardVerticalOffset={keyboardVerticalOffset}>
             <SafeAreaView edges={edges} style={[styles.container, {backgroundColor: backgroundColor}]}>
-                <StatusBar barStyle={barStyle} backgroundColor={customBarColor}/>
+                <StatusBar translucent barStyle={barStyle} backgroundColor={customBarColor}/>
                 {children}
             </SafeAreaView>
         </KeyboardAvoidingView>
