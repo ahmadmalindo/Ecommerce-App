@@ -1,29 +1,68 @@
 import { useFocusEffect } from "@react-navigation/native"
-import { Button, Container, Gap, HeaderBack, Input } from "components/global"
+import { Button, Container, Gap, Header, HeaderBack, Input } from "components/global"
+import { storage } from "helper"
 import React, { useState } from "react"
-import { Image, InteractionManager, ScrollView, StyleSheet, Text, View } from "react-native"
+import { InteractionManager, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import { colors } from "utils/colors"
 import { stylesFonts } from "utils/fonts"
 import { responsive } from "utils"
+import { supabase } from "helper/supabase"
+import { Nontification } from "helper"
 
 function Register({ navigation }) {
 
     const [isLoading, setIsloading] = useState(false)
-
     const [input, setInput] = useState({
-        fullname: "",
-        email: "",
-        password: "",
-        isOpen: true,
+        fullname: __DEV__ ? "INDO" : "",
+        email: __DEV__ ? "ahmadmalindo05@gmail.com" : "",
+        password: __DEV__ ? "123456" : "",
+        isOpen: true
     })
- 
+
     const handleRegister = async () => {
+        setIsloading(true)
+        let params = {
+            fullname: input?.fullname,
+            email: input?.email,
+            password: input?.password,
+        }
+
+        let { data, error } = await supabase.auth.signUp(params)
+
+        if (error) {
+            Nontification(error.message)
+        }
+
+        let { data : users, error: error_users } = await supabase
+        .from('users')
+        .insert([
+            {...params, user_id: data.user.id}
+        ])
+        .select()
+
+        setIsloading(false)
+              
+        if (error_users) {
+            Nontification(error_users.message)
+        }
+        
+        if (users) {
+            Nontification("Register anda berhasil, silahkan cek email anda", [
+                {
+                    text: 'Ok',
+                    onPress: () => {
+                        navigation.goBack()
+                    }
+                }
+            ])
+        }
+
     }
 
     useFocusEffect(
         React.useCallback(() => {
           const task = InteractionManager.runAfterInteractions(() => {
-
+            
           });
       
           return () => task.cancel();
@@ -32,21 +71,32 @@ function Register({ navigation }) {
 
     return (
         <Container backgroundColor={'white'}>
+            <Gap paddingHorizontal={responsive(16)} paddingTop={responsive(16)}>
+                <HeaderBack onBack={() => navigation.goBack()}/>
+            </Gap>
             <ScrollView>
-                <View style={{paddingTop: responsive(24), paddingHorizontal: responsive(16)}}>
-                    <HeaderBack onBack={() => navigation.goBack()}/>
-                    <Gap marginBottom={responsive(32)}/>
+                <View style={{paddingTop: responsive(8), paddingHorizontal: responsive(16)}}>
+                    <Gap marginBottom={responsive(66)}/>
                     <SectionTittle/>
-                    <Gap marginBottom={responsive(24)}/>
+                    <Gap marginBottom={responsive(56)}/>
                     <SectionFormInput
                         input={input}
                         setInput={setInput}
                     />
-                    <Gap marginBottom={responsive(24)}/>
+                    <Gap marginBottom={responsive(16)}/>
+                    <Text 
+                        style={[stylesFonts.Subtittle_2_Regular, {color: colors.black, textAlign: 'right'}]}
+                        onPress={() => {
+                            navigation.navigate("ForgotPassword")
+                        }}
+                    >
+                        Lupa Kata Sandi?
+                    </Text>
+                    <Gap marginBottom={responsive(36)}/>
                     <SectionButton
                         isLoading={isLoading}
-                        onPressLogin={() => handleRegister()}
-                        onPressForgot={() => navigation.navigate("ForgotPassword")}
+                        onPressLogin={() => handleLogin()}
+                        onPressRegister={() => handleRegister()}
                     />
                 </View>
             </ScrollView>
@@ -56,11 +106,10 @@ function Register({ navigation }) {
 
 function SectionTittle () {
     return (
-        <>
-            <Text style={stylesFonts.Body_1_Bold}>Ayo bergabung ke MySalon. Silahkan daftarkan Akun Anda</Text>
-            <Gap marginBottom={responsive(8)}/>
-            <Text style={[stylesFonts.Subtittle_2_Regular, {color: colors.grey}]}>Lengkapi data Anda</Text>
-        </>
+        <View style={{alignItems: 'center'}}>
+            <Text style={stylesFonts.Display_2}>Register</Text>
+            <Text style={[stylesFonts.Subtittle_2_Regular]}>Create Your Account Now</Text>
+        </View>
     )
 }
 
@@ -71,8 +120,8 @@ function SectionFormInput ({
     return (
         <>
             <Input
-                tittle={'Nama Lengkap'}
-                placeholder={'Ketikan nama lengkap anda'}
+                tittle={'Fullname'}
+                placeholder={'Masukkan fullname anda'}
                 value={input.fullname}
                 onChangeText={(val) => setInput({
                     ...input,
@@ -82,9 +131,7 @@ function SectionFormInput ({
             <Gap marginBottom={responsive(16)}/>
             <Input
                 tittle={'Email'}
-                placeholder={'Ketikan email aktif'}
-                autoCapitalize={"none"}
-                keyboardType={'email-address'}
+                placeholder={'Masukkan email anda'}
                 value={input.email}
                 onChangeText={(val) => setInput({
                     ...input,
@@ -93,12 +140,10 @@ function SectionFormInput ({
             />
             <Gap marginBottom={responsive(16)}/>
             <Input
-                tittle={'Buat Kata Sandi'}
+                tittle={'Kata Sandi'}
                 placeholder={'Masukkan kata sandi'}
                 password
-                keyboardType={'numeric'}
                 secureTextEntry={input.isOpen}
-                maxLength={6}
                 onPress={() => setInput({
                     ...input,
                     isOpen: !input.isOpen
@@ -114,7 +159,7 @@ function SectionFormInput ({
 }
 
 function SectionButton({
-    onPressLogin,
+    onPressRegister,
     isLoading
 }) {
 
@@ -122,8 +167,8 @@ function SectionButton({
         <>
             <Button
                 isLoading={isLoading}
-                tittle={"Daftar"}
-                onPress={() => onPressLogin()}
+                tittle={"Register"}
+                onPress={() => onPressRegister()}
             />
         </>
     )
