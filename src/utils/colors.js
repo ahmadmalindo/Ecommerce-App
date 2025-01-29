@@ -5,7 +5,7 @@ export const colors = {
     grey_4: "#64748B",
     grey_5: "#F8FAFC",
     black: "#0f172a",
-    primary: "#02426D",
+    primary: "#E2B190",
     primary_2: "#E5EBFF",
     secondary: "#F3D09F",
     secondary_2: "#0A1329",
