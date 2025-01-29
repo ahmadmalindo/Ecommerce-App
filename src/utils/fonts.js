@@ -3,10 +3,10 @@ import { colors } from "./colors"
 import { responsive } from "./responsive"
 
 export const fonts = {
-    regular: "PlusJakartaSans-Regular",
-    bold: "PlusJakartaSans-Bold",
-    semi_bold: "PlusJakartaSans-SemiBold",
-    medium: "PlusJakartaSans-Medium"
+    regular: "Poppins-Regular",
+    bold: "Poppins-Bold",
+    semi_bold: "Poppins-SemiBold",
+    medium: "Poppins-Medium"
 }
 
 export const stylesFonts = StyleSheet.create({

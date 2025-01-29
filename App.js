@@ -12,10 +12,10 @@ LogBox.ignoreAllLogs()
 export default function App() {
 
   const [fontsLoaded] = useFonts({
-    'PlusJakartaSans-Bold': require('./src/assets/fonts/PlusJakartaSans-Bold.ttf'),
-    'PlusJakartaSans-Medium': require('./src/assets/fonts/PlusJakartaSans-Medium.ttf'),
-    'PlusJakartaSans-Regular': require('./src/assets/fonts/PlusJakartaSans-Regular.ttf'),
-    'PlusJakartaSans-SemiBold': require('./src/assets/fonts/PlusJakartaSans-SemiBold.ttf'),
+    'Poppins-Bold': require('./src/assets/fonts/Poppins-Bold.ttf'),
+    'Poppins-Medium': require('./src/assets/fonts/Poppins-Medium.ttf'),
+    'Poppins-Regular': require('./src/assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-SemiBold': require('./src/assets/fonts/Poppins-SemiBold.ttf'),
   });
 
   if (!fontsLoaded) {
