@@ -1,23 +1,57 @@
 import { useFocusEffect } from "@react-navigation/native"
 import { Button, Container, Gap, Header, Input } from "components/global"
-import { storage } from "helper"
-import React, { useState } from "react"
+import { storage } from "helper/storage"
+import React, { use, useState } from "react"
 import { InteractionManager, Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 import { colors } from "utils/colors"
 import { stylesFonts } from "utils/fonts"
 import { responsive } from "utils"
+import { supabase } from "helper/supabase"
+import { Nontification } from "helper"
 
 function Login({ navigation }) {
 
     const [isLoading, setIsloading] = useState(false)
     const [input, setInput] = useState({
-        username: __DEV__ ? "storemanager" : "",
-        password: __DEV__ ? "storemanager" : "",
+        email: __DEV__ ? "ahmadmalindo05@gmail.com" : "",
+        password: __DEV__ ? "123456" : "",
         isOpen: true
     })
 
     const handleLogin = async () => {
-        navigation.navigate("DashboardNavigation")
+        setIsloading(true)
+
+        let params = {
+            email: input?.email,
+            password: input?.password,
+        }
+
+        let { error } = await supabase.auth.signInWithPassword(params)
+
+        setIsloading(false)
+
+        if (error) {
+            Nontification(error.message)
+        }
+        
+        let { data: { user } } = await supabase.auth.getUser()
+        
+        let { data, error: error_users } = await supabase
+        .from("users")
+        .select("*")
+        .eq("user_id", user.id)
+        .limit(1)
+        .single()
+
+        if (error_users) {
+            Nontification(error_users.message)
+        }
+
+        if (data) {
+            storage.setBool("isLogin", true)
+            storage.setMap("storageUser", data)   
+            navigation.navigate("DashboardNavigation")
+        }
     }
 
     useFocusEffect(
@@ -31,30 +65,30 @@ function Login({ navigation }) {
       );
 
     return (
-        <Container backgroundColor={'#F8FAFC'}>
+        <Container backgroundColor={'white'}>
             <ScrollView>
                 <View style={{paddingTop: responsive(24), paddingHorizontal: responsive(16)}}>
-                    <Gap marginBottom={responsive(32)}/>
+                    <Gap marginBottom={responsive(66)}/>
                     <SectionTittle/>
                     <Gap marginBottom={responsive(56)}/>
                     <SectionFormInput
                         input={input}
                         setInput={setInput}
                     />
-                    <Gap marginBottom={responsive(8)}/>
+                    <Gap marginBottom={responsive(16)}/>
                     <Text 
-                        style={[stylesFonts.Subtittle_2_Regular, {color: colors.primary, textAlign: 'right'}]}
+                        style={[stylesFonts.Subtittle_2_Regular, {color: colors.black, textAlign: 'right'}]}
                         onPress={() => {
                             navigation.navigate("ForgotPassword")
                         }}
                     >
                         Lupa Kata Sandi?
                     </Text>
-                    <Gap marginBottom={responsive(24)}/>
+                    <Gap marginBottom={responsive(36)}/>
                     <SectionButton
                         isLoading={isLoading}
                         onPressLogin={() => handleLogin()}
-                        onPress={() => navigation.navigate("ExampleComponents")}
+                        onPressRegister={() => navigation.navigate("Register")}
                     />
                 </View>
             </ScrollView>
@@ -65,8 +99,8 @@ function Login({ navigation }) {
 function SectionTittle () {
     return (
         <View style={{alignItems: 'center'}}>
-            <Text style={stylesFonts.Subtittle_1_SemiBold}>Masuk Akun</Text>
-            <Text style={[stylesFonts.Body_2_Regular, {color: colors.grey}]}>Silahkan masuk dengan username</Text>
+            <Text style={stylesFonts.Display_2}>Login</Text>
+            <Text style={[stylesFonts.Subtittle_2_Regular]}>Welcome Back Shoppers!</Text>
         </View>
     )
 }
@@ -78,12 +112,12 @@ function SectionFormInput ({
     return (
         <>
             <Input
-                tittle={'Username'}
-                placeholder={'Masukkan username anda'}
-                value={input.username}
+                tittle={'Email'}
+                placeholder={'Masukkan email anda'}
+                value={input.email}
                 onChangeText={(val) => setInput({
                     ...input,
-                    username: val
+                    email: val
                 })}
             />
             <Gap marginBottom={responsive(16)}/>
@@ -108,7 +142,7 @@ function SectionFormInput ({
 
 function SectionButton({
     onPressLogin,
-    onPress,
+    onPressRegister,
     isLoading
 }) {
 
@@ -121,8 +155,12 @@ function SectionButton({
             />
             <Gap marginBottom={responsive(16)}/>
             <Button
-                tittle={"Example Components"}
-                onPress={onPress}
+                tittle={"Register"}
+                cutomBackgroundColor="white"
+                customBorderColor={colors.primary}
+                customBorderWidth={1.5}
+                customColorText={colors.primary}
+                onPress={onPressRegister}
             />
         </>
     )
