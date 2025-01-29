@@ -18,7 +18,7 @@ function SplashScreen({ navigation }) {
                 navigation.navigate('DashboardNavigation')
             }
             else {
-                navigation.navigate("AuthNavigation")
+                navigation.navigate("Onboarding")
             }
           });
       

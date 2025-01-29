@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "starter",
-    "slug": "starter",
+    "name": "Ecommerce App",
+    "slug": "ecommerce",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "starter",
+    "scheme": "ecommerce",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -17,14 +17,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.starter"
+      "bundleIdentifier": "com.ahmadmalindo.ecommerce"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.starter"
+      "package": "com.ahmadmalindo.ecommerce"
     },
     "web": {
       "favicon": "./assets/favicon.png"
