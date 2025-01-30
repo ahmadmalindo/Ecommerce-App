@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons"
 import { useFocusEffect } from "@react-navigation/native"
 import { Container, Gap } from "components/global"
+import { Nontification } from "helper"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
 import { FlatList, Image, InteractionManager, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native"
@@ -30,7 +31,7 @@ function Account({ navigation }) {
         {
             tittle: 'Logout',
             ic: '',
-            navigation: 'logout'
+            navigation: null
         }
     ]
 
@@ -68,7 +69,25 @@ function Account({ navigation }) {
                                     item={item}
                                     index={index}
                                     onPress={() => {
-                                        navigation.navigate(item.navigation)
+                                        if (item.navigation == null) { 
+                                            Nontification("Apakah anda ingin keluar?", [
+                                                {
+                                                    text: 'Ya',
+                                                    onPress: () => {
+                                                        storage.clearMemoryCache()
+                                                        storage.clearStore()
+                                                        navigation.replace("Onboard")
+                                                    }
+                                                },
+                                                {
+                                                    text: 'Tidak'
+                                                }
+                                            ])
+
+                                        }
+                                        else {
+                                            navigation.navigate(item.navigation)
+                                        }
                                     }}
                                 />
                             )
