@@ -12,6 +12,7 @@ import { Gap } from "components/global";
 import DeleteAccount from "scences/Dashboard/Account/DeleteAccount";
 import Notifications from "scences/Dashboard/Notifications";
 import { responsive } from "utils";
+import DetailProduct from "scences/Dashboard/Home/DetailProduct";
 
 function MyTabBar({ state, descriptors, navigation }) {
     return (
@@ -101,6 +102,8 @@ function DashboardNavigation() {
     return (
         <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}>
             <Stack.Screen name="Home" component={DashboardTabs}/>
+
+            <Stack.Screen name="DetailProduct" component={DetailProduct}/>
 
             <Stack.Screen name="EditProfile" component={EditProfile}/>
             <Stack.Screen name="DeleteAccount" component={DeleteAccount}/>
