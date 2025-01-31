@@ -106,7 +106,7 @@ function Home({ navigation }) {
                     <SectionListsProduk
                         data={listsProduk}
                         onSelect={(item) => {
-                            alert(JSON.stringify(item))
+                            navigation.navigate("DetailProduct", {data: item})
                         }}
                     />
                     <Gap marginBottom={responsive(296)}/>
