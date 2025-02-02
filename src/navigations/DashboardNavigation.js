@@ -19,6 +19,7 @@ import AddAddress from "scences/Dashboard/Account/Address/AddAddress";
 import History from "scences/Dashboard/History/History";
 import DetailHistory from "scences/Dashboard/History/DetailHistory";
 import Address from "scences/Dashboard/Account/Address/Address";
+import { Entypo, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
 function MyTabBar({ state, descriptors, navigation }) {
     return (
@@ -35,19 +36,6 @@ function MyTabBar({ state, descriptors, navigation }) {
   
           const isFocused = state.index === index;
 
-            let iconName;
-
-            if (route.name === 'Home') {
-                iconName = isFocused
-                    ? require('assets/images/bottomBar/ic_home_fill.png')
-                    : require('assets/images/bottomBar/ic_home.png');
-            } 
-            else if (route.name === 'Account') {
-              iconName = isFocused 
-                  ? require('assets/images/bottomBar/ic_question_fill.png') 
-                  : require('assets/images/bottomBar/ic_question.png');
-            }
-  
           const onPress = () => {
             const event = navigation.emit({
               type: 'tabPress',
@@ -77,11 +65,18 @@ function MyTabBar({ state, descriptors, navigation }) {
               onLongPress={onLongPress}
               style={{ flex: 1, height: responsive(84), alignItems: 'center', justifyContent: 'center', backgroundColor: 'white',  borderTopWidth: 0.2, borderTopColor: colors.grey_2 }}
             >
-                <Image source={iconName} style={{width: responsive(24), height: responsive(24)}}/>
-                <Gap marginBottom={responsive(6)}/>
-                <Text style={{ color: isFocused ? colors.primary : colors.grey, fontFamily: fonts.regular, fontSize: responsive(12) }}>
-                    {label}
-                </Text>
+                {route?.name == "Home" ?
+                <Entypo name="home" size={responsive(28)} color={isFocused ? colors.primary : colors.grey} />
+                : route?.name == "Cart" ?
+                <FontAwesome5 name="shopping-bag" size={responsive(28)} color={isFocused ? colors.primary : colors.grey} />
+                : route?.name == "History" ?
+                <MaterialIcons name="history" size={responsive(34)} color={isFocused ? colors.primary : colors.grey} />
+                : route?.name == "Account" ?
+                <MaterialIcons name="account-circle" size={responsive(34)} color={isFocused ? colors.primary : colors.grey} />
+                :
+                null
+                }
+                <Gap marginBottom={responsive(12)}/>
             </TouchableOpacity>
           );
         })}
