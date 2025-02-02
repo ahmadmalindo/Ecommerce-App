@@ -13,6 +13,11 @@ import DeleteAccount from "scences/Dashboard/Account/DeleteAccount";
 import Notifications from "scences/Dashboard/Notifications";
 import { responsive } from "utils";
 import DetailProduct from "scences/Dashboard/Home/DetailProduct";
+import Cart from "scences/Dashboard/Cart/Cart";
+import Checkout from "scences/Dashboard/Cart/Checkout";
+import AddAddress from "scences/Dashboard/Account/Address/AddAddress";
+import History from "scences/Dashboard/History/History";
+import DetailHistory from "scences/Dashboard/History/DetailHistory";
 
 function MyTabBar({ state, descriptors, navigation }) {
     return (
@@ -89,6 +94,8 @@ function DashboardTabs () {
     return (
         <Tab.Navigator tabBar={props => <MyTabBar {...props} />} screenOptions={{headerShown: false}}>
             <Tab.Screen options={{title: 'Beranda'}} name="Home" component={Home} />
+            <Tab.Screen options={{title: 'Keranjang'}} name="Cart" component={Cart} />
+            <Tab.Screen options={{title: 'History'}} name="History" component={History} />
             <Tab.Screen options={{title: 'Akun'}} name="Account" component={Account} />
         </Tab.Navigator>
     )
@@ -104,6 +111,12 @@ function DashboardNavigation() {
             <Stack.Screen name="Home" component={DashboardTabs}/>
 
             <Stack.Screen name="DetailProduct" component={DetailProduct}/>
+
+            <Stack.Screen name="Checkout" component={Checkout}/>
+
+            <Stack.Screen name="DetailHistory" component={DetailHistory}/>
+
+            <Stack.Screen name="AddAddress" component={AddAddress}/>
 
             <Stack.Screen name="EditProfile" component={EditProfile}/>
             <Stack.Screen name="DeleteAccount" component={DeleteAccount}/>
