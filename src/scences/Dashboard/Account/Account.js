@@ -1,6 +1,7 @@
 import { Feather } from "@expo/vector-icons"
 import { useFocusEffect } from "@react-navigation/native"
 import { Container, Gap } from "components/global"
+import HeaderApp from "components/global/Header/HeaderApp"
 import { Nontification } from "helper"
 import { storage } from "helper/storage"
 import React, { useState } from "react"
@@ -10,18 +11,25 @@ import { colors, justifyContent, radius, responsive, stylesFonts } from "utils/i
 
 function Account({ navigation }) {
 
+    const storageUser = storage.getMap("storageUser")
+
     const [isLoading, setIsLoading] = useState(false)
 
     let profile_menu = [
+        // {
+        //     tittle: 'Ubah Profil',
+        //     ic: '',
+        //     navigation: 'EditProfile'
+        // },
+        // {
+        //     tittle: 'Ganti Password',
+        //     ic: '',
+        //     navigation: 'EditPassword'
+        // },
         {
-            tittle: 'Ubah Profil',
+            tittle: 'Alamat Saya',
             ic: '',
-            navigation: 'EditProfile'
-        },
-        {
-            tittle: 'Ganti Password',
-            ic: '',
-            navigation: 'EditPassword'
+            navigation: 'Address'
         },
         {
             tittle: 'Hapus Akun',
@@ -54,12 +62,24 @@ function Account({ navigation }) {
 
     return (
         <Container backgroundColor={'white'}>
+            <HeaderApp
+                customColorIconBack="white"
+                title={"Account"}
+                onPress={() => {
+                    navigation.navigate("Cart")
+                }}
+            />
             <ScrollView
                 refreshControl={
                     <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
                 }
             >
-                <View style={{paddingTop: normalize(24), paddingHorizontal: normalize(16), alignItems: 'center'}}>
+                <View style={{paddingTop: normalize(16), paddingHorizontal: normalize(16), alignItems: 'center'}}>
+                    <SectionNama
+                        fullname={storageUser?.fullname}
+                        email={storageUser?.email}
+                    />
+                    <Gap marginBottom={responsive(24)}/>
                     <FlatList
                         style={{width: '100%'}}
                         data={profile_menu}
@@ -100,11 +120,23 @@ function Account({ navigation }) {
     )
 }
 
+function SectionNama ({
+    fullname,
+    email
+}) {
+    return (
+        <View style={{alignItems: 'center'}}>
+            <Text style={[stylesFonts.Body_1_SemiBold]}>{fullname}</Text>
+            <Text style={[stylesFonts.Subtittle_2_Regular]}>{email}</Text>
+        </View>
+    )
+}
+
 function SectionListMenu ({item, index, onPress}) {
     return (
         <TouchableOpacity onPress={onPress} style={[styles.card, justifyContent.space_beetwen]} >
             <View style={justifyContent.flex_start}>
-                <Image source={item.ic} style={{width: normalize(32), height: normalize(32), marginRight: normalize(12)}}/>
+                {/* <Image source={item.ic} style={{width: normalize(32), height: normalize(32), marginRight: normalize(12)}}/> */}
                 <Text style={[stylesFonts.Subtittle_2_Regular, {color: colors.black}]}>{item.tittle}</Text>
             </View>
             <Feather name="chevron-right" size={responsive(20)} color={colors.black} />
@@ -119,8 +151,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: normalize(48),
         borderRadius: radius.r_16,
-        backgroundColor: colors.grey_3,
-        paddingHorizontal: normalize(8),
+        backgroundColor: 'white',
+        paddingHorizontal: normalize(12),
         marginBottom: normalize(12)
     },
 })
