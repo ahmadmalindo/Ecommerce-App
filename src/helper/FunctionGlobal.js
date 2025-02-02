@@ -107,3 +107,14 @@ export const formatCountDownHour = (time) => {
         seconds_time
     }
 }
+
+export const listsStatus = {
+    'pending': '1',
+    'processing': '2',
+    'shipped': '3',
+    'delivered': '4',
+    'cancelled': '5',
+    'unpaid': '6',
+    'paid': '7',
+    'refunded': '8'
+  };
