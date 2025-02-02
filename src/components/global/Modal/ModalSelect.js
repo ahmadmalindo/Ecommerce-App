@@ -1,6 +1,6 @@
 import { Ionicons, Octicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
+import { Image, StyleSheet, Text, View, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
 import Modal from "react-native-modal";
 import { colors, justifyContent, responsive, stylesFonts } from 'utils/index';
 import { Gap } from '../Gap';
@@ -11,6 +11,7 @@ import { customStyle } from 'utils/customStyle';
 import { useModal } from 'context/modalContext';
 
 const ModalSelect = ({ 
+    isLoading,
     modalId = "",
     data = [],
     schemeData = {
@@ -29,6 +30,9 @@ const ModalSelect = ({
     customStyleImageItem = {width: responsive(48), height: responsive(48)},
     customBorderCircle = true,
     customBorderDots,
+    customEmptyComponent = <Gap marginBottom={responsive(16)}>
+        <Text style={[stylesFonts.Subtittle_2_Medium, {textAlign: 'center'}]}>No Data</Text>
+    </Gap>,
     isMultiSelect = false,
     onMultiSelect = {},
     isConfirmation,
@@ -140,6 +144,9 @@ const ModalSelect = ({
                             </TouchableOpacity>
                         )
                     })}
+                    ListEmptyComponent={
+                        isLoading ? <ActivityIndicator/> : customEmptyComponent
+                    }
                 />
                 <Gap marginBottom={isConfirmation ? responsive(24) : responsive(72)}/>
                 {!isConfirmation &&
