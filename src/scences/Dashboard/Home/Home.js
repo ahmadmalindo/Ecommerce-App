@@ -82,7 +82,7 @@ function Home({ navigation }) {
                 customColorIconBack="white"
                 title={"New Product"}
                 onPress={() => {
-
+                    navigation.navigate("Cart")
                 }}
             />
             <SectionFilterKategori
