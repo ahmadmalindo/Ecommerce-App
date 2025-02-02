@@ -18,6 +18,7 @@ import Checkout from "scences/Dashboard/Cart/Checkout";
 import AddAddress from "scences/Dashboard/Account/Address/AddAddress";
 import History from "scences/Dashboard/History/History";
 import DetailHistory from "scences/Dashboard/History/DetailHistory";
+import Address from "scences/Dashboard/Account/Address/Address";
 
 function MyTabBar({ state, descriptors, navigation }) {
     return (
@@ -116,6 +117,7 @@ function DashboardNavigation() {
 
             <Stack.Screen name="DetailHistory" component={DetailHistory}/>
 
+            <Stack.Screen name="Address" component={Address}/>
             <Stack.Screen name="AddAddress" component={AddAddress}/>
 
             <Stack.Screen name="EditProfile" component={EditProfile}/>
