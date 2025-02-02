@@ -33,24 +33,25 @@ function Login({ navigation }) {
         if (error) {
             Nontification(error.message)
         }
-        
-        let { data: { user } } = await supabase.auth.getUser()
-        
-        let { data, error: error_users } = await supabase
-        .from("users")
-        .select("*")
-        .eq("user_id", user.id)
-        .limit(1)
-        .single()
-
-        if (error_users) {
-            Nontification(error_users.message)
-        }
-
-        if (data) {
-            storage.setBool("isLogin", true)
-            storage.setMap("storageUser", data)   
-            navigation.navigate("DashboardNavigation")
+        else {
+            let { data: { user } } = await supabase.auth.getUser()
+            
+            let { data, error: error_users } = await supabase
+            .from("users")
+            .select("*")
+            .eq("user_id", user.id)
+            .limit(1)
+            .single()
+    
+            if (error_users) {
+                Nontification(error_users.message)
+            }
+    
+            if (data) {
+                storage.setBool("isLogin", true)
+                storage.setMap("storageUser", data)   
+                navigation.navigate("DashboardNavigation")
+            }
         }
     }
 
