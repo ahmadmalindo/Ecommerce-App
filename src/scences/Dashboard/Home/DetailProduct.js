@@ -79,7 +79,7 @@ function DetailProduct({ navigation, route }) {
                 {
                     text: "Ok",
                     onPress: () => {
-                        // navigation.navigate("cart")
+                        navigation.navigate("Cart")
                     }
                 }
             ])
@@ -122,7 +122,7 @@ function DetailProduct({ navigation, route }) {
             <HeaderApp
                 title={"Detail Product"}
                 onPress={() => {
-
+                    navigation.navigate("Cart")
                 }}
                 onBack={() => {
                     navigation.goBack()
